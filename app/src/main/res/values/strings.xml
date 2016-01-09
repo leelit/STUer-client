@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">STUer</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="carpool">拼车</string>
+    <string name="sell">转让</string>
+    <string name="treehole">树洞</string>
+    <string name="about">关于</string>
+    <string name="date">约</string>
+    <string name="others">其他</string>
+    <string name="function">功能</string>
+    <string name="stu">校内</string>
+
+    <string name="mine">我的</string>
+    <string name="title_activity_carpooling">CarpoolingActivity</string>
+    <string name="carpooling_title">发布</string>
+    <string name="title_activity_mine">MineActivity</string>
+    <string name="mine_title">我的发布</string>
+</resources>

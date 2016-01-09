@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="route">
+        <item>汕大-潮汕站</item>
+        <item>潮汕站-汕大</item>
+        <item>汕大-飞机场</item>
+        <item>飞机场-汕大</item>
+    </string-array>
+
+    <string-array name="temporaryCount">
+        <item>1人</item>
+        <item>2人</item>
+        <item>3人</item>
+    </string-array>
+</resources>

@@ -1,0 +1,54 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+
+    <group android:checkableBehavior="single">
+        <item android:title="@string/function">
+            <menu>
+                <item
+                    android:id="@+id/nva_carpool"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/carpool"
+                    app:showAsAction="always"/>
+
+                <item
+                    android:id="@+id/nva_date"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/date"
+                    app:showAsAction="always"/>
+
+                <item
+                    android:id="@+id/nav_sell"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/sell"
+                    app:showAsAction="always"/>
+
+                <item
+                    android:id="@+id/nav_treehole"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/treehole"
+                    app:showAsAction="always"/>
+
+                <item
+                    android:id="@+id/nav_stu"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/stu"
+                    app:showAsAction="always"/>
+
+            </menu>
+        </item>
+
+        <item android:title="@string/others">
+            <menu>
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/place_holder_white"
+                    android:title="@string/about"/>
+            </menu>
+        </item>
+
+    </group>
+
+
+</menu>
