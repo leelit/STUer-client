@@ -41,30 +41,34 @@ public abstract class BaseCarpoolFragment extends BaseListFragment {
         OkHttpUtils.get(getQueryUrl(), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        toast("网络出错...");
-                    }
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            toast("网络出错...");
+                        }
+                    });
+                }
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String jsonArray = response.body().string();
-                mList.clear();
-                mList.addAll(GsonUtils.fromJsonArray(jsonArray));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        mAdapter.notifyDataSetChanged();
-                        if (mList.isEmpty()) {
-                            toast("没有数据...");
+                if (getActivity() != null) {
+                    String jsonArray = response.body().string();
+                    mList.clear();
+                    mList.addAll(GsonUtils.fromJsonArray(jsonArray));
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mAdapter.notifyDataSetChanged();
+                            if (mList.isEmpty()) {
+                                toast("没有数据...");
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

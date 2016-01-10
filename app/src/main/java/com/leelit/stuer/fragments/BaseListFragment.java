@@ -20,6 +20,7 @@ import com.leelit.stuer.adapters.BaseListAdapter;
 public abstract class BaseListFragment extends Fragment {
 
     protected RecyclerView mRecyclerView;
+
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected BaseListAdapter mAdapter;
@@ -58,6 +59,12 @@ public abstract class BaseListFragment extends Fragment {
             }
         });
 
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -65,22 +72,10 @@ public abstract class BaseListFragment extends Fragment {
                 refreshTask();
             }
         });
-        return view;
     }
-
 
     void toast(String text) {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 
-    void toastNetErrorOnUiThread() {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    toast("网络出错...");
-                }
-            });
-        }
-    }
 }

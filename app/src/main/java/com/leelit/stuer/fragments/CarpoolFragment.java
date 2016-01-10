@@ -97,6 +97,13 @@ public class CarpoolFragment extends BaseCarpoolFragment {
         });
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
     private void initGuest() {
         guest.setName("");
         guest.setTel("");
@@ -106,11 +113,6 @@ public class CarpoolFragment extends BaseCarpoolFragment {
         guest.setImei(PhoneInfoUtils.getImei());
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 
     private void postInfo() {
         guest.setName(mEtName.getText().toString());
