@@ -6,4 +6,4 @@
     android:layout_gravity="bottom|right"
     android:layout_marginBottom="20dp"
     android:layout_marginRight="20dp"
-    android:src="@drawable/place_holder_white"/>
+    android:src="@drawable/pic1"/>

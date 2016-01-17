@@ -19,6 +19,7 @@ import com.leelit.stuer.utils.GsonUtils;
 import com.leelit.stuer.utils.OkHttpUtils;
 import com.leelit.stuer.utils.PhoneInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -47,6 +48,7 @@ public class CarpoolFragment extends BaseCarpoolFragment {
     Button mBtnPublish;
 
     private CarpoolingInfo guest;
+    private Call mCall;
 
     private static final String[] keys = {"ET_NAME_GUEST", "ET_TEL_GUEST", "ET_SHORT_TEL_GUEST", "ET_WECHAT_GUEST"};
 
@@ -129,10 +131,12 @@ public class CarpoolFragment extends BaseCarpoolFragment {
         progressDialog.setMessage("加入中...");
         progressDialog.show();
 
-        OkHttpUtils.postOnUiThread(NetConstant.CARPOOL_CREATE, GsonUtils.toJson(guest), new Callback() {
+        mCall = OkHttpUtils.postOnUiThread(NetConstant.CARPOOL_CREATE, GsonUtils.toJson(guest), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                toast("网络出错...");
+                if (!mCall.isCanceled()) {
+                    toast("网络出错...");
+                }
                 progressDialog.dismiss();
             }
 
@@ -148,6 +152,14 @@ public class CarpoolFragment extends BaseCarpoolFragment {
                 startActivity(new Intent(getActivity(), MineActivity.class));
             }
         }, getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCall != null) {
+            mCall.cancel();
+        }
     }
 
     private boolean isEmpty(EditText et) {

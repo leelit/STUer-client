@@ -14,4 +14,12 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name"/>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:visibility="gone"
+        app:tabTextColor="#FFFFFF"/>
+
 </android.support.design.widget.AppBarLayout>

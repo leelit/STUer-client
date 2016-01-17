@@ -45,12 +45,15 @@ public abstract class BaseListFragment extends Fragment {
         mAdapter = bindAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                onItemClickEvent(view, position);
-            }
-        });
+
+        if (mAdapter != null) {
+            mAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    onItemClickEvent(view, position);
+                }
+            });
+        }
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -59,12 +62,6 @@ public abstract class BaseListFragment extends Fragment {
             }
         });
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -72,10 +69,15 @@ public abstract class BaseListFragment extends Fragment {
                 refreshTask();
             }
         });
+
+        return view;
     }
 
+
     void toast(String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

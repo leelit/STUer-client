@@ -5,7 +5,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.fragments.CarpoolFragment;
+import com.leelit.stuer.fragments.DatingFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     NavigationView mNavigationView;
     @InjectView(R.id.drawerLayout)
     DrawerLayout mDrawerLayout;
+    @InjectView(R.id.tabLayout)
+    TabLayout mTabLayout;
+
+    private MenuItem mMainMenuItem;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -47,10 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFragment() {
         Fragment carpoolFragment = CarpoolFragment.getInstance();
-        getSupportFragmentManager().
-                beginTransaction().
-                replace(R.id.content, carpoolFragment).
-                commit();
+        replaceFragment(carpoolFragment);
         currentFragment = carpoolFragment;
     }
 
@@ -58,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
         mFabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CarpoolingActivity.class);
-                startActivity(intent);
+                if (currentFragment instanceof CarpoolFragment) {
+                    Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                    intent.putExtra(FragmentIndex.TAG, FragmentIndex.CARPOOL);
+                    startActivity(intent);
+                } else if (currentFragment instanceof DatingFragment){
+                    Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                    intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -73,17 +85,46 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
-                if (menuItem.getTitle().equals(getString(R.string.carpool))) {
-                    mToolbar.setTitle(getString(R.string.carpool));
-                    if (currentFragment instanceof CarpoolFragment) {
-                        return false;
-                    }
-                }
+                switchFragment(menuItem);
                 return false;
             }
         });
     }
 
+    private void switchFragment(MenuItem menuItem) {
+        String title = menuItem.getTitle().toString();
+        mToolbar.setTitle(title);
+        if (title.equals(getString(R.string.carpool))) {
+            if (currentFragment instanceof CarpoolFragment) {
+                return;
+            }
+            mMainMenuItem.setIcon(R.drawable.pic1);
+            mFabBtn.setImageResource(R.drawable.pic1);
+            currentFragment = new CarpoolFragment();
+            mTabLayout.setVisibility(View.GONE);
+        } else if (title.equals(getString(R.string.date))) {
+            if (currentFragment instanceof DatingFragment) {
+                return;
+            }
+            mMainMenuItem.setIcon(R.drawable.pic2);
+            mFabBtn.setImageResource(R.drawable.pic2);
+            currentFragment = new DatingFragment();
+            mTabLayout.setVisibility(View.VISIBLE);
+            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            for (int i = 1; i <= 6; i++) {
+                mTabLayout.addTab(mTabLayout.newTab().setText("Tab" + i));
+            }
+        }
+        replaceFragment(currentFragment);
+
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.content, fragment).
+                commit();
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -101,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mMainMenuItem = menu.getItem(0);
         return true;
     }
 
@@ -113,11 +155,22 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_mine) {
             if (currentFragment instanceof CarpoolFragment) {
-               startActivity(new Intent(MainActivity.this,MineActivity.class));
+                Intent intent = new Intent(MainActivity.this, MineActivity.class);
+                startActivity(intent);
             }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

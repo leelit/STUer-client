@@ -22,6 +22,14 @@ public class NetConstant {
 
     public static final String CARPOOL_EXIT = CARPOOL_BASE + "/delete";
 
+    public static final String DATE_BASE = STUER + "/date";
+
+    public static final String DATE_CREATE = DATE_BASE + "/create";
+
+    public static final String DATE_QUERY = DATE_BASE + "/query";
+
+    public static final String DATE_EXIT = DATE_BASE + "/delete";
+
     public static String getImeiQueryAddress() {
         return CARPOOL_QUERY + "?imei=" + PhoneInfoUtils.getImei();
     }

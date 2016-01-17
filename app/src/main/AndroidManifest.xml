@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CarpoolingActivity"
+            android:name=".PostInfoActivity"
             android:label="@string/title_activity_carpooling" >
         </activity>
         <activity

@@ -3,11 +3,18 @@ package com.leelit.stuer.bean;
 import android.text.TextUtils;
 
 /**
- * Created by Leelit on 2016/1/6.
+ * Created by Leelit on 2016/1/17.
  */
-public class CarpoolingInfo extends BaseInfo {
+public class DatingInfo extends BaseInfo {
+    String type;
 
-    String route;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {
@@ -17,7 +24,7 @@ public class CarpoolingInfo extends BaseInfo {
                 ", tel='" + tel + '\'' +
                 ", shortTel='" + shortTel + '\'' +
                 ", wechat='" + wechat + '\'' +
-                ", route='" + route + '\'' +
+                ", type='" + type + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", temporaryCount='" + temporaryCount + '\'' +
@@ -27,19 +34,9 @@ public class CarpoolingInfo extends BaseInfo {
                 '}';
     }
 
-
-    public String getRoute() {
-        return route;
-    }
-
-    public void setRoute(String route) {
-        this.route = route;
-    }
-
+    @Override
     public boolean completedAllInfo() {
         return super.completedAllInfo() &&
-                !TextUtils.isEmpty(route);
-
+                !TextUtils.isEmpty(type);
     }
-
 }

@@ -1,5 +1,7 @@
 package com.leelit.stuer.fragments;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -7,10 +9,12 @@ import com.leelit.stuer.R;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.MyCarpoolAdapter;
 import com.leelit.stuer.bean.CarpoolingInfo;
+import com.leelit.stuer.common.SharedCreation;
 import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.utils.GsonUtils;
 import com.leelit.stuer.utils.OkHttpUtils;
 import com.leelit.stuer.utils.PhoneInfoUtils;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -25,6 +29,7 @@ import java.util.List;
 public class MyCarpoolFragment extends BaseListFragment {
 
     private List<List<CarpoolingInfo>> mList = new ArrayList<>();
+    private List<Call> mCalls = new ArrayList<>();
 
     public static MyCarpoolFragment getInstance() {
         MyCarpoolFragment myCarpoolFragment = new MyCarpoolFragment();
@@ -43,7 +48,8 @@ public class MyCarpoolFragment extends BaseListFragment {
 
     @Override
     void refreshTask() {
-        OkHttpUtils.get(NetConstant.getImeiQueryAddress(), new Callback() {
+        // 处理数据，这里用同步Utils
+        Call call = OkHttpUtils.get(NetConstant.getImeiQueryAddress(), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 if (getActivity() != null) {
@@ -79,6 +85,15 @@ public class MyCarpoolFragment extends BaseListFragment {
                 }
             }
         });
+        mCalls.add(call);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (int i = 0; i < mCalls.size(); i++) {
+            mCalls.get(i).cancel();
+        }
     }
 
     @Override
@@ -101,37 +116,50 @@ public class MyCarpoolFragment extends BaseListFragment {
     }
 
     private void finishThisOrder(CarpoolingInfo rightInfo, final int position) {
+        final ProgressDialog quickDialog = SharedCreation.createDialog(getActivity(), "结束中...", AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+        quickDialog.show();
         String deleteAddress = getDeleteHostRecord(rightInfo);
-        OkHttpUtils.getOnUiThread(deleteAddress, new Callback() {
+        Call call = OkHttpUtils.getOnUiThread(deleteAddress, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                toast("网络出错...");
+                if (!mCalls.get(0).isCanceled()) {
+                    toast("网络出错...");
+                }
+                quickDialog.dismiss();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 toast("完成");
+                quickDialog.dismiss();
                 mAdapter.removeData(position);
-
             }
         }, getActivity());
+        mCalls.add(call);
     }
 
 
     private void quitThisOrder(CarpoolingInfo rightInfo, final int position) {
+        final ProgressDialog finishDialog = SharedCreation.createDialog(getActivity(), "退出中...");
+        finishDialog.show();
         String deleteAddress = getDeleteGuestRecord(rightInfo);
-        OkHttpUtils.getOnUiThread(deleteAddress, new Callback() {
+        Call call = OkHttpUtils.getOnUiThread(deleteAddress, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                toast("网络出错...");
+                if (!mCalls.get(0).isCanceled()) {
+                    toast("网络出错...");
+                }
+                finishDialog.dismiss();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 toast("退出成功");
+                finishDialog.dismiss();
                 mAdapter.removeData(position);
             }
         }, getActivity());
+        mCalls.add(call);
     }
 
     private String getDeleteHostRecord(CarpoolingInfo rightInfo) {

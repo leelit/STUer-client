@@ -1,13 +1,12 @@
 package com.leelit.stuer.fragments;
 
-import android.widget.Toast;
-
 import com.leelit.stuer.R;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.CarpoolAdapter;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.utils.GsonUtils;
 import com.leelit.stuer.utils.OkHttpUtils;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -23,6 +22,7 @@ public abstract class BaseCarpoolFragment extends BaseListFragment {
 
 
     protected List<CarpoolingInfo> mList = new ArrayList<>();
+    private Call mCall;
 
     abstract String getQueryUrl();
 
@@ -38,7 +38,8 @@ public abstract class BaseCarpoolFragment extends BaseListFragment {
 
     @Override
     void refreshTask() {
-        OkHttpUtils.get(getQueryUrl(), new Callback() {
+        // 因为需要处理response数据，这里使用同步Utils
+        mCall = OkHttpUtils.get(getQueryUrl(), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 if (getActivity() != null) {
@@ -46,7 +47,10 @@ public abstract class BaseCarpoolFragment extends BaseListFragment {
                         @Override
                         public void run() {
                             mSwipeRefreshLayout.setRefreshing(false);
-                            toast("网络出错...");
+                            // 用户退出Fragment，也会触发onFailure，所以要分清是网络还是退出
+                            if (!mCall.isCanceled()) {
+                                toast("网络出错...");
+                            }
                         }
                     });
                 }
@@ -73,9 +77,13 @@ public abstract class BaseCarpoolFragment extends BaseListFragment {
         });
     }
 
-
-    void toast(String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCall != null) {
+            mCall.cancel();
+        }
     }
+
 
 }

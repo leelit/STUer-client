@@ -12,4 +12,12 @@
         <item>2人</item>
         <item>3人</item>
     </string-array>
+    <string-array name="dateType">
+        <item>约运动</item>
+        <item>约吃喝</item>
+        <item>约电影</item>
+        <item>约游戏</item>
+        <item>约泡馆</item>
+        <item>约其他</item>
+    </string-array>
 </resources>
