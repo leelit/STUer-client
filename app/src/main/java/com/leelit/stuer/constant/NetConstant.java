@@ -1,5 +1,6 @@
 package com.leelit.stuer.constant;
 
+import com.leelit.stuer.MainActivity;
 import com.leelit.stuer.utils.PhoneInfoUtils;
 
 /**
@@ -30,8 +31,16 @@ public class NetConstant {
 
     public static final String DATE_EXIT = DATE_BASE + "/delete";
 
-    public static String getImeiQueryAddress() {
+    public static String getCarpoolImeiQueryAddress() {
         return CARPOOL_QUERY + "?imei=" + PhoneInfoUtils.getImei();
+    }
+
+    public static String getDateImeiQueryAddress() {
+        return DATE_QUERY + "?imei=" + PhoneInfoUtils.getImei();
+    }
+
+    public static String getDateTypeQueryAddress() {
+        return DATE_QUERY + "?type=" + MainActivity.mTabValue;
     }
 
 }

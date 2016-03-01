@@ -62,6 +62,12 @@ public abstract class BaseListFragment extends Fragment {
             }
         });
 
+        refresh();
+
+        return view;
+    }
+
+    public void refresh() {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -69,8 +75,6 @@ public abstract class BaseListFragment extends Fragment {
                 refreshTask();
             }
         });
-
-        return view;
     }
 
 

@@ -3,6 +3,7 @@ package com.leelit.stuer.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leelit.stuer.bean.CarpoolingInfo;
+import com.leelit.stuer.bean.DatingInfo;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -40,8 +41,22 @@ public class GsonUtils {
         return gson.fromJson(jsonArray, type);
     }
 
-    public static ArrayList<ArrayList<CarpoolingInfo>> fromJsonArrayArr(String jsonArray) {
+    public static ArrayList<DatingInfo> fromDateJsonArray(String jsonArray) {
+        Type type = new TypeToken<ArrayList<DatingInfo>>() {
+        }.getType();
+        Gson gson = new Gson();
+        return gson.fromJson(jsonArray, type);
+    }
+
+    public static ArrayList<ArrayList<CarpoolingInfo>> fromCarpoolJsonArrayArr(String jsonArray) {
         Type type = new TypeToken<ArrayList<ArrayList<CarpoolingInfo>>>() {
+        }.getType();
+        Gson gson = new Gson();
+        return gson.fromJson(jsonArray, type);
+    }
+
+    public static ArrayList<ArrayList<DatingInfo>> fromDateJsonArrayArr(String jsonArray) {
+        Type type = new TypeToken<ArrayList<ArrayList<DatingInfo>>>() {
         }.getType();
         Gson gson = new Gson();
         return gson.fromJson(jsonArray, type);

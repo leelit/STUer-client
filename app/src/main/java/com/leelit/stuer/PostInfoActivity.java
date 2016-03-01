@@ -23,6 +23,7 @@ import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
+import com.leelit.stuer.constant.MyOrderActivityConstant;
 import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.utils.AppUtils;
 import com.leelit.stuer.utils.GsonUtils;
@@ -71,8 +72,12 @@ public class PostInfoActivity extends AppCompatActivity {
     LinearLayout mSpinnerTemporaryLayout;
     @InjectView(R.id.spinner_type_layout)
     LinearLayout mSpinnerTypeLayout;
+    @InjectView(R.id.et_description)
+    EditText mEtDescription;
+    @InjectView(R.id.spinner_description_layout)
+    LinearLayout mSpinnerDescriptionLayout;
 
-    BaseInfo host;
+    private BaseInfo host;
 
     private Call mCall;
     private static final String[] keys = {"ET_NAME", "ET_TEL", "ET_SHORT_TEL", "ET_WECHAT"};
@@ -154,6 +159,7 @@ public class PostInfoActivity extends AppCompatActivity {
 
 
     private void initDateLayout() {
+        mSpinnerDescriptionLayout.setVisibility(View.VISIBLE);
         mSpinnerTypeLayout.setVisibility(View.VISIBLE);
         mSpinnerDateType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -216,10 +222,12 @@ public class PostInfoActivity extends AppCompatActivity {
             mCall.cancel();
         }
     }
+
     private void postDateInfo() {
         if (commonPostCheckNotOk()) {
             return;
         }
+        ((DatingInfo) host).setDescription(mEtDescription.getText().toString());
 
         final ProgressDialog progressDialog = new ProgressDialog(PostInfoActivity.this);
         progressDialog.setMessage("发布中...");
@@ -232,14 +240,15 @@ public class PostInfoActivity extends AppCompatActivity {
                     Toast.makeText(PostInfoActivity.this, "网络出错...", Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
-
             }
 
             @Override
             public void onResponse(final Response response) throws IOException {
                 saveSP();
                 progressDialog.dismiss();
-                startActivity(new Intent(PostInfoActivity.this, MineActivity.class));
+                Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
+                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
+                startActivity(intent);
                 finish();
             }
         }, this);
@@ -268,7 +277,9 @@ public class PostInfoActivity extends AppCompatActivity {
             public void onResponse(final Response response) throws IOException {
                 saveSP();
                 progressDialog.dismiss();
-                startActivity(new Intent(PostInfoActivity.this, MineActivity.class));
+                Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
+                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.CARPOOL);
+                startActivity(intent);
                 finish();
             }
         }, this);

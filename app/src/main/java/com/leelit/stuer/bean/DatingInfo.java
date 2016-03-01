@@ -7,6 +7,7 @@ import android.text.TextUtils;
  */
 public class DatingInfo extends BaseInfo {
     String type;
+    String description = "";
 
     public String getType() {
         return type;
@@ -14,6 +15,14 @@ public class DatingInfo extends BaseInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

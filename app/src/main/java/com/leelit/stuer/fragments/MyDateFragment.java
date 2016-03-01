@@ -2,13 +2,12 @@ package com.leelit.stuer.fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.adapters.BaseListAdapter;
-import com.leelit.stuer.adapters.MyCarpoolAdapter;
-import com.leelit.stuer.bean.CarpoolingInfo;
+import com.leelit.stuer.adapters.MyDateAdapter;
+import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedCreation;
 import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.utils.GsonUtils;
@@ -24,13 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Leelit on 2016/1/7.
+ * Created by Leelit on 2016/3/1.
  */
-public class MyCarpoolFragment extends BaseListFragment {
-
-    private List<List<CarpoolingInfo>> mList = new ArrayList<>();
+public class MyDateFragment extends BaseListFragment {
+    private List<List<DatingInfo>> mList = new ArrayList<>();
     private List<Call> mCalls = new ArrayList<>();
-
 
     @Override
     int bindInflateRes() {
@@ -39,13 +36,13 @@ public class MyCarpoolFragment extends BaseListFragment {
 
     @Override
     BaseListAdapter bindAdapter() {
-        return new MyCarpoolAdapter(mList);
+        return new MyDateAdapter(mList);
     }
 
     @Override
     void refreshTask() {
         // 处理数据，这里用同步Utils
-        Call call = OkHttpUtils.get(NetConstant.getCarpoolImeiQueryAddress(), new Callback() {
+        Call call = OkHttpUtils.get(NetConstant.getDateImeiQueryAddress(), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 if (getActivity() != null) {
@@ -64,8 +61,8 @@ public class MyCarpoolFragment extends BaseListFragment {
                 if (getActivity() != null) {
                     String jsonArray = response.body().string();
                     mList.clear();
-                    ArrayList<ArrayList<CarpoolingInfo>> lists = GsonUtils.fromCarpoolJsonArrayArr(jsonArray);
-                    for (ArrayList<CarpoolingInfo> list : lists) {
+                    ArrayList<ArrayList<DatingInfo>> lists = GsonUtils.fromDateJsonArrayArr(jsonArray);
+                    for (ArrayList<DatingInfo> list : lists) {
                         mList.add(list);
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -85,19 +82,11 @@ public class MyCarpoolFragment extends BaseListFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        for (int i = 0; i < mCalls.size(); i++) {
-            mCalls.get(i).cancel();
-        }
-    }
-
-    @Override
     void onItemClickEvent(View view, int position) {
-        List<CarpoolingInfo> relativeInfos = mList.get(position);
-        CarpoolingInfo rightInfo = null;
+        List<DatingInfo> relativeInfos = mList.get(position);
+        DatingInfo rightInfo = null;
         for (int i = 0; i < relativeInfos.size(); i++) {
-            CarpoolingInfo current = relativeInfos.get(i);
+            DatingInfo current = relativeInfos.get(i);
             if (current.getImei().equals(PhoneInfoUtils.getImei())) {
                 rightInfo = current;
             }
@@ -111,7 +100,7 @@ public class MyCarpoolFragment extends BaseListFragment {
         }
     }
 
-    private void finishThisOrder(CarpoolingInfo rightInfo, final int position) {
+    private void finishThisOrder(DatingInfo rightInfo, final int position) {
         final ProgressDialog quickDialog = SharedCreation.createDialog(getActivity(), "结束中...", AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         quickDialog.show();
         String deleteAddress = getDeleteHostRecord(rightInfo);
@@ -134,8 +123,7 @@ public class MyCarpoolFragment extends BaseListFragment {
         mCalls.add(call);
     }
 
-
-    private void quitThisOrder(CarpoolingInfo rightInfo, final int position) {
+    private void quitThisOrder(DatingInfo rightInfo, final int position) {
         final ProgressDialog finishDialog = SharedCreation.createDialog(getActivity(), "退出中...");
         finishDialog.show();
         String deleteAddress = getDeleteGuestRecord(rightInfo);
@@ -158,14 +146,11 @@ public class MyCarpoolFragment extends BaseListFragment {
         mCalls.add(call);
     }
 
-    private String getDeleteHostRecord(CarpoolingInfo rightInfo) {
-        return NetConstant.CARPOOL_EXIT + "?uniquecode=" + rightInfo.getUniquecode();
+    private String getDeleteHostRecord(DatingInfo rightInfo) {
+        return NetConstant.DATE_EXIT + "?uniquecode=" + rightInfo.getUniquecode();
     }
 
-    @NonNull
-    private String getDeleteGuestRecord(CarpoolingInfo rightInfo) {
-        return NetConstant.CARPOOL_EXIT + "?uniquecode=" + rightInfo.getUniquecode() + "&id=" + rightInfo.getId();
+    private String getDeleteGuestRecord(DatingInfo rightInfo) {
+        return NetConstant.DATE_EXIT + "?uniquecode=" + rightInfo.getUniquecode() + "&id=" + rightInfo.getId();
     }
-
-
 }

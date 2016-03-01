@@ -17,5 +17,15 @@
     <string name="title_activity_carpooling">CarpoolingActivity</string>
     <string name="carpooling_title">发布</string>
     <string name="title_activity_mine">MineActivity</string>
-    <string name="mine_title">我的拼车</string>
+    <string name="mine_title_1">我的拼车</string>
+    <string name="mine_title_2">我的约</string>
+    <string name="dateDescription">约啥呢？</string>
+
+    <string name="tab_sport">运动</string>
+    <string name="tab_eat">吃喝</string>
+    <string name="tab_film">电影</string>
+    <string name="tab_game">游戏</string>
+    <string name="tab_library">泡馆</string>
+    <string name="tab_others">其他</string>
+
 </resources>

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.leelit.stuer.MineActivity;
+import com.leelit.stuer.MyOrderActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.bean.CarpoolingInfo;
@@ -53,10 +53,7 @@ public class CarpoolFragment extends BaseCarpoolFragment {
     private static final String[] keys = {"ET_NAME_GUEST", "ET_TEL_GUEST", "ET_SHORT_TEL_GUEST", "ET_WECHAT_GUEST"};
 
 
-    public static CarpoolFragment getInstance() {
-        CarpoolFragment carpoolFragment = new CarpoolFragment();
-        return carpoolFragment;
-    }
+
 
 
     @Override
@@ -70,7 +67,7 @@ public class CarpoolFragment extends BaseCarpoolFragment {
         initGuest();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("填写信息");
-        View dialogView = View.inflate(getActivity(), R.layout.dialog_carpool_join, null);
+        View dialogView = View.inflate(getActivity(), R.layout.dialog_join, null);
         ButterKnife.inject(this, dialogView);
         initSP();
         builder.setView(dialogView);
@@ -149,7 +146,7 @@ public class CarpoolFragment extends BaseCarpoolFragment {
                 }
                 saveSP();
                 progressDialog.dismiss();
-                startActivity(new Intent(getActivity(), MineActivity.class));
+                startActivity(new Intent(getActivity(), MyOrderActivity.class));
             }
         }, getActivity());
     }

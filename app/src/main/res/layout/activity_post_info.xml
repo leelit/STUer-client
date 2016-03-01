@@ -40,17 +40,17 @@
                 android:id="@+id/et_wechat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyz-_"
                 android:hint="微信号，别填微信名...无则填无"/>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/spinner_route_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,13 +67,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/spinner_temporary_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,13 +90,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/spinner_type_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,6 +111,30 @@
                     android:layout_height="wrap_content"
                     android:entries="@array/dateType"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/spinner_description_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="说说: "
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="18sp"/>
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dateDescription"/>
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_date_picker"

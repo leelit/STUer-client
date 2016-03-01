@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.leelit.stuer.constant.FragmentIndex;
+import com.leelit.stuer.constant.MyOrderActivityConstant;
+import com.leelit.stuer.constant.TabConstant;
+import com.leelit.stuer.fragments.BaseListFragment;
 import com.leelit.stuer.fragments.CarpoolFragment;
 import com.leelit.stuer.fragments.DatingFragment;
 
@@ -40,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private Fragment currentFragment;
+    private BaseListFragment currentFragment;
+
+    public static int mTabValue = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        Fragment carpoolFragment = CarpoolFragment.getInstance();
+        BaseListFragment carpoolFragment = new CarpoolFragment();
         replaceFragment(carpoolFragment);
         currentFragment = carpoolFragment;
     }
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.CARPOOL);
                     startActivity(intent);
-                } else if (currentFragment instanceof DatingFragment){
+                } else if (currentFragment instanceof DatingFragment) {
                     Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
                     startActivity(intent);
@@ -98,25 +103,64 @@ public class MainActivity extends AppCompatActivity {
             if (currentFragment instanceof CarpoolFragment) {
                 return;
             }
-            mMainMenuItem.setIcon(R.drawable.pic1);
-            mFabBtn.setImageResource(R.drawable.pic1);
-            currentFragment = new CarpoolFragment();
-            mTabLayout.setVisibility(View.GONE);
+            carpoolInit();
         } else if (title.equals(getString(R.string.date))) {
             if (currentFragment instanceof DatingFragment) {
                 return;
             }
-            mMainMenuItem.setIcon(R.drawable.pic2);
-            mFabBtn.setImageResource(R.drawable.pic2);
-            currentFragment = new DatingFragment();
-            mTabLayout.setVisibility(View.VISIBLE);
-            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            for (int i = 1; i <= 6; i++) {
-                mTabLayout.addTab(mTabLayout.newTab().setText("Tab" + i));
-            }
+            dateInit();
         }
         replaceFragment(currentFragment);
 
+    }
+
+    private void dateInit() {
+        mMainMenuItem.setIcon(R.drawable.pic2);
+        mFabBtn.setImageResource(R.drawable.pic2);
+        currentFragment = new DatingFragment();
+        mTabLayout.setVisibility(View.VISIBLE);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        int[] tabs = {R.string.tab_sport, R.string.tab_eat, R.string.tab_film, R.string.tab_game, R.string.tab_library, R.string.tab_others};
+        for (int i = 0; i <= 5; i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(getString(tabs[i])));
+        }
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String text = tab.getText().toString();
+                if (text.equals(getString(R.string.tab_sport))) {
+                    mTabValue = TabConstant.SPORT;
+                } else if (text.equals(getString(R.string.tab_eat))) {
+                    mTabValue = TabConstant.EAT;
+                } else if (text.equals(getString(R.string.tab_film))) {
+                    mTabValue = TabConstant.FILM;
+                } else if (text.equals(getString(R.string.tab_game))) {
+                    mTabValue = TabConstant.GAME;
+                } else if (text.equals(getString(R.string.tab_library))) {
+                    mTabValue = TabConstant.LIBRARY;
+                } else if (text.equals(getString(R.string.tab_others))) {
+                    mTabValue = TabConstant.OTHERS;
+                }
+                currentFragment.refresh();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void carpoolInit() {
+        mMainMenuItem.setIcon(R.drawable.pic1);
+        mFabBtn.setImageResource(R.drawable.pic1);
+        currentFragment = new CarpoolFragment();
+        mTabLayout.setVisibility(View.GONE);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -155,7 +199,11 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_mine) {
             if (currentFragment instanceof CarpoolFragment) {
-                Intent intent = new Intent(MainActivity.this, MineActivity.class);
+                Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
+                startActivity(intent);
+            }else if (currentFragment instanceof DatingFragment) {
+                Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
+                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
                 startActivity(intent);
             }
             return true;

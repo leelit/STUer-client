@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leelit.stuer.R;
-import com.leelit.stuer.bean.CarpoolingInfo;
+import com.leelit.stuer.bean.DatingInfo;
+import com.leelit.stuer.fragments.DatingFragment;
 
 import java.util.List;
 
@@ -26,20 +26,25 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Leelit on 2016/1/8.
+ * Created by Leelit on 2016/3/1.
  */
-public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolder> {
-
+public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
     private Context mContext;
-    private List<List<CarpoolingInfo>> mLists;
+    private List<List<DatingInfo>> mLists;
 
 
-    public MyCarpoolAdapter(List<List<CarpoolingInfo>> lists) {
+    public MyDateAdapter(List<List<DatingInfo>> lists) {
         mLists = lists;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public void removeData(int position) {
+        mLists.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public MyDateAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
             mContext = parent.getContext();
         }
@@ -48,16 +53,16 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final List<CarpoolingInfo> list = mLists.get(position);
+    public void onBindViewHolder(final MyDateAdapter.ViewHolder holder, int position) {
+        final List<DatingInfo> list = mLists.get(position);
 
-        holder.mTextViewRoute.setText(list.get(0).getRoute());
+        holder.mTextViewDateType.setText(DatingFragment.mapType(list.get(0).getType()));
         holder.mTextViewTiming.setText(list.get(0).getDate() + "  " + list.get(0).getTime());
         holder.mLinearLayout.removeAllViews();
 
         // fixed by placeholder //avoid reuse problem
         for (int i = 0; i < list.size(); i++) {
-            CarpoolingInfo info = list.get(i);
+            DatingInfo info = list.get(i);
             TextView textView = getTextView(info, holder.mLinearLayout);
             holder.mLinearLayout.addView(textView);
         }
@@ -73,8 +78,13 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         }
     }
 
-    @NonNull
-    private TextView getTextView(final CarpoolingInfo info, LinearLayout linearLayout) {
+    @Override
+    public int getItemCount() {
+        return mLists.size();
+    }
+
+
+    private TextView getTextView(final DatingInfo info, LinearLayout linearLayout) {
         TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.recycler_mine_order_friends, linearLayout, false);
         if (info.getFlag().equals("host")) {
             String text = "拼主:" + info.getName() + " 已有:" + info.getTemporaryCount();
@@ -126,21 +136,9 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         return textView;
     }
 
-    @Override
-    public int getItemCount() {
-        return mLists.size();
-    }
-
-    @Override
-    public void removeData(int position) {
-        mLists.remove(position);
-        notifyItemRemoved(position);
-    }
-
-
     class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.textView_route)
-        TextView mTextViewRoute;
+        TextView mTextViewDateType;
         @InjectView(R.id.textView_timing)
         TextView mTextViewTiming;
         @InjectView(R.id.control)

@@ -27,7 +27,7 @@
             android:label="@string/title_activity_carpooling" >
         </activity>
         <activity
-            android:name=".MineActivity"
+            android:name=".MyOrderActivity"
             android:label="@string/title_activity_mine" >
         </activity>
     </application>
