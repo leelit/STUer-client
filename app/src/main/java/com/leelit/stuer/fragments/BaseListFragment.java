@@ -16,6 +16,8 @@ import com.leelit.stuer.adapters.BaseListAdapter;
 
 /**
  * Created by Leelit on 2015/12/6.
+ * <p/>
+ * only contains a SwipeRefreshLayout & RecyclerView
  */
 public abstract class BaseListFragment extends Fragment {
 
@@ -24,8 +26,6 @@ public abstract class BaseListFragment extends Fragment {
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected BaseListAdapter mAdapter;
-
-    abstract int bindInflateRes();
 
     abstract BaseListAdapter bindAdapter();
 
@@ -37,7 +37,7 @@ public abstract class BaseListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(bindInflateRes(), container, false);
+        View view = inflater.inflate(R.layout.fragment_base_list, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
@@ -62,12 +62,12 @@ public abstract class BaseListFragment extends Fragment {
             }
         });
 
-        refresh();
+        refreshAfterLoaded();
 
         return view;
     }
 
-    public void refresh() {
+    public void refreshAfterLoaded() {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

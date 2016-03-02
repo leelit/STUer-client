@@ -21,7 +21,7 @@ public class MyOrderActivity extends AppCompatActivity {
     @InjectView(R.id.content)
     FrameLayout mContent;
 
-    private int mConstant;
+    private int mOrderActivityConstant;
     private Fragment mFragment;
 
     @Override
@@ -30,12 +30,12 @@ public class MyOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mine);
         ButterKnife.inject(this);
 
-        mConstant = getIntent().getIntExtra(MyOrderActivityConstant.TAG, 1);
+        mOrderActivityConstant = getIntent().getIntExtra(MyOrderActivityConstant.TAG, 1);
 
-        if (mConstant == MyOrderActivityConstant.CARPOOL) {
+        if (mOrderActivityConstant == MyOrderActivityConstant.CARPOOL) {
             mToolbar.setTitle(getString(R.string.mine_title_1));
             mFragment = new MyCarpoolFragment();
-        }else if (mConstant == MyOrderActivityConstant.DATE) {
+        }else if (mOrderActivityConstant == MyOrderActivityConstant.DATE) {
             mToolbar.setTitle(getString(R.string.mine_title_2));
             mFragment = new MyDateFragment();
         }
@@ -48,8 +48,6 @@ public class MyOrderActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         getSupportFragmentManager().
                 beginTransaction().

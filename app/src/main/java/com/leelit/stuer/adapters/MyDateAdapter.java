@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.fragments.DatingFragment;
 
 import java.util.List;
 
@@ -30,10 +30,10 @@ import butterknife.InjectView;
  */
 public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
     private Context mContext;
-    private List<List<DatingInfo>> mLists;
+    private List<List<? extends BaseInfo>> mLists;
 
 
-    public MyDateAdapter(List<List<DatingInfo>> lists) {
+    public MyDateAdapter(List<List<? extends BaseInfo>> lists) {
         mLists = lists;
     }
 
@@ -54,15 +54,15 @@ public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyDateAdapter.ViewHolder holder, int position) {
-        final List<DatingInfo> list = mLists.get(position);
+        final List<? extends BaseInfo> list = mLists.get(position);
 
-        holder.mTextViewDateType.setText(DatingFragment.mapType(list.get(0).getType()));
+        holder.mTextViewDateType.setText(((DatingInfo) list.get(0)).getType() + ":\n" + ((DatingInfo) list.get(0)).getDescription());
         holder.mTextViewTiming.setText(list.get(0).getDate() + "  " + list.get(0).getTime());
         holder.mLinearLayout.removeAllViews();
 
         // fixed by placeholder //avoid reuse problem
         for (int i = 0; i < list.size(); i++) {
-            DatingInfo info = list.get(i);
+            DatingInfo info = (DatingInfo) list.get(i);
             TextView textView = getTextView(info, holder.mLinearLayout);
             holder.mLinearLayout.addView(textView);
         }

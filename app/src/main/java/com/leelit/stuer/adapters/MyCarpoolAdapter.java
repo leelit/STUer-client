@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 
 import java.util.List;
@@ -31,10 +32,10 @@ import butterknife.InjectView;
 public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<List<CarpoolingInfo>> mLists;
+    private List<List<? extends BaseInfo>> mLists;
 
 
-    public MyCarpoolAdapter(List<List<CarpoolingInfo>> lists) {
+    public MyCarpoolAdapter(List<List<? extends BaseInfo>> lists) {
         mLists = lists;
     }
 
@@ -49,15 +50,15 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final List<CarpoolingInfo> list = mLists.get(position);
+        final List<? extends BaseInfo> list = mLists.get(position);
 
-        holder.mTextViewRoute.setText(list.get(0).getRoute());
+        holder.mTextViewRoute.setText(((CarpoolingInfo) list.get(0)).getRoute());
         holder.mTextViewTiming.setText(list.get(0).getDate() + "  " + list.get(0).getTime());
         holder.mLinearLayout.removeAllViews();
 
         // fixed by placeholder //avoid reuse problem
         for (int i = 0; i < list.size(); i++) {
-            CarpoolingInfo info = list.get(i);
+            CarpoolingInfo info = (CarpoolingInfo) list.get(i);
             TextView textView = getTextView(info, holder.mLinearLayout);
             holder.mLinearLayout.addView(textView);
         }

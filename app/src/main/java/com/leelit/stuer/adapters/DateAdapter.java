@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.DatingInfo;
 
 import java.util.List;
@@ -20,9 +21,9 @@ import butterknife.InjectView;
  */
 public class DateAdapter extends BaseListAdapter<DateAdapter.ViewHolder> {
 
-    private List<DatingInfo> mList;
+    private List<BaseInfo> mList;
 
-    public DateAdapter(List<DatingInfo> list) {
+    public DateAdapter(List<BaseInfo> list) {
         mList = list;
     }
 
@@ -34,7 +35,7 @@ public class DateAdapter extends BaseListAdapter<DateAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        DatingInfo info = mList.get(position);
+        DatingInfo info = (DatingInfo) mList.get(position);
         holder.mTextViewTiming.setText(info.getDate() + "  " + info.getTime());
         holder.mTextViewHost.setText("拼主：" + info.getName());
         holder.mTextViewCount.setText("已有：" + info.getTemporaryCount());

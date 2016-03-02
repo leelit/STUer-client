@@ -92,7 +92,7 @@ public class PostInfoActivity extends AppCompatActivity {
 
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
-        mToolbar.setTitle(getString(R.string.carpooling_title));
+        mToolbar.setTitle(getString(R.string.post_title));
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

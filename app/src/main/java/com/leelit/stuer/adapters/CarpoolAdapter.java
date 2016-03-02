@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 
 import java.util.List;
@@ -20,9 +21,9 @@ import butterknife.InjectView;
  */
 public class CarpoolAdapter extends BaseListAdapter<CarpoolAdapter.ViewHolder> {
 
-    private List<CarpoolingInfo> mList;
+    private List<BaseInfo> mList;
 
-    public CarpoolAdapter(List<CarpoolingInfo> list) {
+    public CarpoolAdapter(List<BaseInfo> list) {
         mList = list;
     }
 
@@ -34,7 +35,7 @@ public class CarpoolAdapter extends BaseListAdapter<CarpoolAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        CarpoolingInfo info = mList.get(position);
+        CarpoolingInfo info = (CarpoolingInfo) mList.get(position);
         holder.mTextViewRoute.setText(info.getRoute());
         holder.mTextViewTiming.setText(info.getDate() + "  " + info.getTime());
         holder.mTextViewHost.setText("拼主：" + info.getName());

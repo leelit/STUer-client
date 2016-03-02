@@ -15,7 +15,7 @@
 
     <string name="mine">我的</string>
     <string name="title_activity_carpooling">CarpoolingActivity</string>
-    <string name="carpooling_title">发布</string>
+    <string name="post_title">发布</string>
     <string name="title_activity_mine">MineActivity</string>
     <string name="mine_title_1">我的拼车</string>
     <string name="mine_title_2">我的约</string>

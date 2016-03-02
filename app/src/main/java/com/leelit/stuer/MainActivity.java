@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFragment() {
         BaseListFragment carpoolFragment = new CarpoolFragment();
-        replaceFragment(carpoolFragment);
+        showFragment(carpoolFragment);
         currentFragment = carpoolFragment;
     }
 
@@ -102,16 +102,17 @@ public class MainActivity extends AppCompatActivity {
         if (title.equals(getString(R.string.carpool))) {
             if (currentFragment instanceof CarpoolFragment) {
                 return;
+            } else {
+                carpoolInit();
             }
-            carpoolInit();
         } else if (title.equals(getString(R.string.date))) {
             if (currentFragment instanceof DatingFragment) {
                 return;
+            } else {
+                dateInit();
             }
-            dateInit();
         }
-        replaceFragment(currentFragment);
-
+        showFragment(currentFragment);
     }
 
     private void dateInit() {
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (text.equals(getString(R.string.tab_others))) {
                     mTabValue = TabConstant.OTHERS;
                 }
-                currentFragment.refresh();
+                currentFragment.refreshAfterLoaded();
             }
 
             @Override
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setVisibility(View.GONE);
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.content, fragment).
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             if (currentFragment instanceof CarpoolFragment) {
                 Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
                 startActivity(intent);
-            }else if (currentFragment instanceof DatingFragment) {
+            } else if (currentFragment instanceof DatingFragment) {
                 Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
                 intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
                 startActivity(intent);
