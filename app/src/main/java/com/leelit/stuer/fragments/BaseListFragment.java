@@ -27,11 +27,11 @@ public abstract class BaseListFragment extends Fragment {
 
     protected BaseListAdapter mAdapter;
 
-    abstract BaseListAdapter bindAdapter();
+    protected abstract BaseListAdapter bindAdapter();
 
-    abstract void refreshTask();
+    protected abstract void refreshTask();
 
-    abstract void onItemClickEvent(View view, int position);
+    protected abstract void onItemClickEvent(View view, int position);
 
 
     @Nullable
@@ -40,6 +40,8 @@ public abstract class BaseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_base_list, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        // 默认布局
         mRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
         mAdapter = bindAdapter();
@@ -78,7 +80,7 @@ public abstract class BaseListFragment extends Fragment {
     }
 
 
-    void toast(String text) {
+    public void toast(String text) {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }

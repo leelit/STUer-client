@@ -22,6 +22,7 @@ import com.leelit.stuer.constant.TabConstant;
 import com.leelit.stuer.fragments.BaseListFragment;
 import com.leelit.stuer.fragments.CarpoolFragment;
 import com.leelit.stuer.fragments.DatingFragment;
+import com.leelit.stuer.stu.StuFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -111,11 +112,18 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 dateInit();
             }
+        } else if (title.equals(getString(R.string.stu))) {
+            if (currentFragment instanceof StuFragment) {
+                return;
+            } else {
+                stuInit();
+            }
         }
         showFragment(currentFragment);
     }
 
     private void dateInit() {
+        mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setIcon(R.drawable.pic2);
         mFabBtn.setImageResource(R.drawable.pic2);
         currentFragment = new DatingFragment();
@@ -158,9 +166,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carpoolInit() {
+        mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setIcon(R.drawable.pic1);
         mFabBtn.setImageResource(R.drawable.pic1);
         currentFragment = new CarpoolFragment();
+        mTabLayout.setVisibility(View.GONE);
+    }
+
+    private void stuInit(){
+        mFabBtn.setVisibility(View.INVISIBLE);
+        mMainMenuItem.setIcon(R.drawable.pic5);
+        mFabBtn.setImageResource(R.drawable.pic1);
+        currentFragment = new StuFragment();
         mTabLayout.setVisibility(View.GONE);
     }
 

@@ -63,7 +63,7 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment {
 
 
     @Override
-    void refreshTask() {
+    protected void refreshTask() {
         // 因为需要处理response数据，这里使用同步Utils
         mCall = OkHttpUtils.get(getQueryAddress(), new Callback() {
             @Override
@@ -97,11 +97,11 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment {
     }
 
     @Override
-    void onItemClickEvent(View view, int position) {
+    protected void onItemClickEvent(View view, int position) {
         guest = mList.get(position);
         initGuest();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("填写信息");
+        builder.setTitle("填写信息，加入后可查看其他成员信息");
         View dialogView = View.inflate(getActivity(), R.layout.dialog_join, null);
         ButterKnife.inject(this, dialogView);
         initSP();

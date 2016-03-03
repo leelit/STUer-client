@@ -94,7 +94,7 @@ public class PostInfoActivity extends AppCompatActivity {
 
         mToolbar.setTitle(getString(R.string.post_title));
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

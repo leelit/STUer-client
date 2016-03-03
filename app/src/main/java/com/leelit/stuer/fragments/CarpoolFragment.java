@@ -15,7 +15,7 @@ public class CarpoolFragment extends BaseInfoBusinessFragment {
 
 
     @Override
-    BaseListAdapter bindAdapter() {
+    protected BaseListAdapter bindAdapter() {
         return new CarpoolAdapter(mList);
     }
 

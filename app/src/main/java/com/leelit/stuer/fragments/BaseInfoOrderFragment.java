@@ -34,7 +34,7 @@ public abstract class BaseInfoOrderFragment extends BaseListFragment {
     protected abstract String getDeleteGuestRecord(BaseInfo rightInfo);
 
     @Override
-    void refreshTask() {
+    protected void refreshTask() {
         // 处理数据，这里用同步Utils
         Call call = OkHttpUtils.get(getImeiQueryAddress(), new Callback() {
             @Override
@@ -73,7 +73,7 @@ public abstract class BaseInfoOrderFragment extends BaseListFragment {
     }
 
     @Override
-    void onItemClickEvent(View view, int position) {
+    protected void onItemClickEvent(View view, int position) {
         List<? extends BaseInfo> relativeInfos = mList.get(position);
         BaseInfo rightInfo = null;
         for (int i = 0; i < relativeInfos.size(); i++) {

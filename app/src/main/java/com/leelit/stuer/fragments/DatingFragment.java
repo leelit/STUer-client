@@ -16,7 +16,7 @@ public class DatingFragment extends BaseInfoBusinessFragment {
 
 
     @Override
-    BaseListAdapter bindAdapter() {
+    protected BaseListAdapter bindAdapter() {
         return new DateAdapter(mList);
     }
 

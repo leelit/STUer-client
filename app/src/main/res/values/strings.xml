@@ -27,5 +27,6 @@
     <string name="tab_game">游戏</string>
     <string name="tab_library">泡馆</string>
     <string name="tab_others">其他</string>
+    <string name="title_activity_stu">StuActivity</string>
 
 </resources>

@@ -16,7 +16,7 @@ public class MyDateFragment extends BaseInfoOrderFragment {
 
 
     @Override
-    BaseListAdapter bindAdapter() {
+    protected BaseListAdapter bindAdapter() {
         return new MyDateAdapter(mList);
     }
 

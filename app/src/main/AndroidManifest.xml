@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MyApplication"
@@ -29,6 +29,10 @@
         <activity
             android:name=".MyOrderActivity"
             android:label="@string/title_activity_mine" >
+        </activity>
+        <activity
+            android:name=".stu.StuActivity"
+            android:label="@string/title_activity_stu" >
         </activity>
     </application>
 

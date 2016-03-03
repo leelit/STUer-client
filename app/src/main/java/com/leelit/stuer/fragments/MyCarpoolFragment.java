@@ -16,7 +16,7 @@ public class MyCarpoolFragment extends BaseInfoOrderFragment {
 
 
     @Override
-    BaseListAdapter bindAdapter() {
+    protected BaseListAdapter bindAdapter() {
         return new MyCarpoolAdapter(mList);
     }
 
