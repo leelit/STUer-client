@@ -3,15 +3,17 @@ package com.leelit.stuer.stu;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.leelit.stuer.R;
 
@@ -29,7 +31,7 @@ public class StuActivity extends AppCompatActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
-    private ActionBarDrawerToggle mDrawerToggle;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +39,15 @@ public class StuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stu);
         ButterKnife.inject(this);
 
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitle(getIntent().getStringExtra("title"));
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        webViewProgressSetting();
+        initToolBar();
 
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setDisplayZoomControls(false); //隐藏webview缩放按钮
-        settings.setBuiltInZoomControls(true);// 显示缩放按钮(wap网页不支持)
-        settings.setUseWideViewPort(true);// 支持双击缩放(wap网页不支持)
-        // 自适应屏幕
-        settings.setLoadWithOverviewMode(true);
-//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setDisplayZoomControls(false); // 隐藏webview缩放按钮
+        settings.setBuiltInZoomControls(true); // 显示缩放按钮(wap网页不支持)
+        settings.setUseWideViewPort(true); // 支持双击缩放(wap网页不支持)
+        settings.setLoadWithOverviewMode(true); // 自适应屏幕
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -64,8 +57,8 @@ public class StuActivity extends AppCompatActivity {
             }
 
         });
-        String website = getIntent().getStringExtra("website");
-        mWebView.loadUrl(website);
+
+        mWebView.loadUrl(getIntent().getStringExtra("website"));
 
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +75,37 @@ public class StuActivity extends AppCompatActivity {
         });
 
         mWebView.setDownloadListener(new MyWebViewDownLoadListener());
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle(getIntent().getStringExtra("title"));
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private void webViewProgressSetting() {
+        mProgressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        mProgressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 20));
+        mWebView.addView(mProgressBar, 0);
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                } else {
+                    if (mProgressBar.getVisibility() == View.INVISIBLE) {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                    mProgressBar.setProgress(newProgress);
+                }
+            }
+        });
     }
 
 
