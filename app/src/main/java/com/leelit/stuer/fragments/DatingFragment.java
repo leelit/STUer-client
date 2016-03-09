@@ -2,12 +2,13 @@ package com.leelit.stuer.fragments;
 
 import android.content.Intent;
 
+import com.leelit.stuer.MainActivity;
 import com.leelit.stuer.MyOrderActivity;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.DateAdapter;
+import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.constant.MyOrderActivityConstant;
-import com.leelit.stuer.constant.NetConstant;
-import com.leelit.stuer.utils.GsonUtils;
+import com.leelit.stuer.presenter.BaseInfoDatePresenter;
 
 /**
  * Created by Leelit on 2016/1/17.
@@ -15,33 +16,27 @@ import com.leelit.stuer.utils.GsonUtils;
 public class DatingFragment extends BaseInfoBusinessFragment {
 
 
+    private BaseInfoDatePresenter mDatePresenter = new BaseInfoDatePresenter(this);
+
     @Override
     protected BaseListAdapter bindAdapter() {
         return new DateAdapter(mList);
     }
 
     @Override
-    String getQueryAddress() {
-        return NetConstant.getDateTypeQueryAddress();
+    protected void refreshTask() {
+        mDatePresenter.doLoadingInfos(String.valueOf(MainActivity.mTabValue));
     }
 
     @Override
-    void bindResponseGson(String jsonArray) {
-        mList.addAll(GsonUtils.fromDateJsonArray(jsonArray));
-    }
-
-
-    @Override
-    String bindPostAddress() {
-        return NetConstant.DATE_CREATE;
+    protected void postInfo() {
+        mDatePresenter.doPostInfo((DatingInfo) guest);
     }
 
     @Override
-    void bindAfterPost() {
+    public void afterPostInfo() {
         Intent intent = new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
         startActivity(intent);
     }
-
-
 }
