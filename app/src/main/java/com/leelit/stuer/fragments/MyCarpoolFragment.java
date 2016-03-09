@@ -3,45 +3,40 @@ package com.leelit.stuer.fragments;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.MyCarpoolAdapter;
 import com.leelit.stuer.bean.BaseInfo;
-import com.leelit.stuer.bean.CarpoolingInfo;
-import com.leelit.stuer.constant.NetConstant;
-import com.leelit.stuer.utils.GsonUtils;
+import com.leelit.stuer.presenter.MyCarpoolPresenter;
+import com.leelit.stuer.utils.PhoneInfoUtils;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Leelit on 2016/1/7.
  */
-public class MyCarpoolFragment extends BaseInfoOrderFragment {
-
+public class MyCarpoolFragment extends MyOrderFragment {
+    private MyCarpoolPresenter mPresenter = new MyCarpoolPresenter(this);
 
     @Override
     protected BaseListAdapter bindAdapter() {
         return new MyCarpoolAdapter(mList);
     }
 
+
     @Override
-    protected String getImeiQueryAddress() {
-        return NetConstant.getCarpoolImeiQueryAddress();
+    protected void refreshTask() {
+        mPresenter.doLoadingInfos(PhoneInfoUtils.getImei());
     }
 
     @Override
-    protected void bindResponseGson(String jsonArray) {
-        ArrayList<ArrayList<CarpoolingInfo>> lists = GsonUtils.fromCarpoolJsonArrayArr(jsonArray);
-        for (ArrayList<CarpoolingInfo> list : lists) {
-            mList.add(list);
-        }
+    protected void finishThisOrder(BaseInfo rightInfo, int position) {
+        mPresenter.doFinishOrder(rightInfo.getUniquecode(), position);
     }
 
     @Override
-    protected String getDeleteHostRecord(BaseInfo rightInfo) {
-        return NetConstant.CARPOOL_EXIT + "?uniquecode=" + rightInfo.getUniquecode();
+    protected void quitThisOrder(BaseInfo rightInfo, int position) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uniquecode", rightInfo.getUniquecode());
+        map.put("id", String.valueOf(rightInfo.getId()));
+        mPresenter.doQuitOrder(map, position);
     }
-
-    @Override
-    protected String getDeleteGuestRecord(BaseInfo rightInfo) {
-        return NetConstant.CARPOOL_EXIT + "?uniquecode=" + rightInfo.getUniquecode() + "&id=" + rightInfo.getId();
-    }
-
 
 }

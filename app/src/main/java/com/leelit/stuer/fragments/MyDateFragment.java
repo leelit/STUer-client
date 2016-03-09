@@ -3,17 +3,18 @@ package com.leelit.stuer.fragments;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.MyDateAdapter;
 import com.leelit.stuer.bean.BaseInfo;
-import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.constant.NetConstant;
-import com.leelit.stuer.utils.GsonUtils;
+import com.leelit.stuer.presenter.MyDatePresenter;
+import com.leelit.stuer.utils.PhoneInfoUtils;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Leelit on 2016/3/1.
  */
-public class MyDateFragment extends BaseInfoOrderFragment {
+public class MyDateFragment extends MyOrderFragment {
 
+    private MyDatePresenter mPresenter = new MyDatePresenter(this);
 
     @Override
     protected BaseListAdapter bindAdapter() {
@@ -21,26 +22,21 @@ public class MyDateFragment extends BaseInfoOrderFragment {
     }
 
     @Override
-    protected String getImeiQueryAddress() {
-        return NetConstant.getDateImeiQueryAddress();
+    protected void refreshTask() {
+        mPresenter.doLoadingInfos(PhoneInfoUtils.getImei());
     }
 
     @Override
-    protected void bindResponseGson(String jsonArray) {
-        ArrayList<ArrayList<DatingInfo>> lists = GsonUtils.fromDateJsonArrayArr(jsonArray);
-        for (ArrayList<DatingInfo> list : lists) {
-            mList.add(list);
-        }
+    protected void finishThisOrder(BaseInfo rightInfo, int position) {
+        mPresenter.doFinishOrder(rightInfo.getUniquecode(), position);
     }
 
     @Override
-    protected String getDeleteHostRecord(BaseInfo rightInfo) {
-        return NetConstant.DATE_EXIT + "?uniquecode=" + rightInfo.getUniquecode();
-    }
-
-    @Override
-    protected String getDeleteGuestRecord(BaseInfo rightInfo) {
-        return NetConstant.DATE_EXIT + "?uniquecode=" + rightInfo.getUniquecode() + "&id=" + rightInfo.getId();
+    protected void quitThisOrder(BaseInfo rightInfo, int position) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uniquecode", rightInfo.getUniquecode());
+        map.put("id", String.valueOf(rightInfo.getId()));
+        mPresenter.doQuitOrder(map, position);
     }
 
 
