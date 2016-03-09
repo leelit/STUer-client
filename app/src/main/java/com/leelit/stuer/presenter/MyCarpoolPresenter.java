@@ -15,7 +15,11 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class MyCarpoolPresenter {
+public class MyCarpoolPresenter implements IMyOrderPresenter {
+
+    // 为何Model不抽象接口
+    // 因为CarpoolModel和DateModel接口不同
+    // 运用多态时，则需要判断是哪个Model，再转型，再调用，会使这个基类膨胀。
 
     private CarpoolModel mModel = new CarpoolModel();
 
@@ -25,6 +29,7 @@ public class MyCarpoolPresenter {
         mView = view;
     }
 
+    @Override
     public void doLoadingInfos(String imei) {
         mModel.getPersonalRelativeRecords(imei, new Subscriber<List<List<CarpoolingInfo>>>() {
             @Override
@@ -53,7 +58,7 @@ public class MyCarpoolPresenter {
         });
     }
 
-
+    @Override
     public void doQuitOrder(Map<String, String> map, final int position) {
         mView.showDeleteProgressDialog("退出中...");
         mModel.quitOrder(map, new Subscriber<ResponseBody>() {
@@ -76,6 +81,7 @@ public class MyCarpoolPresenter {
         });
     }
 
+    @Override
     public void doFinishOrder(String uniquecode, final int position) {
         mView.showDeleteProgressDialog("解散中...");
         mModel.finishOrder(uniquecode, new Subscriber<ResponseBody>() {

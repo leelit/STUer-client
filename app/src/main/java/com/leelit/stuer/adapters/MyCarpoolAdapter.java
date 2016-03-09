@@ -34,7 +34,6 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
     private Context mContext;
     private List<List<? extends BaseInfo>> mLists;
 
-
     public MyCarpoolAdapter(List<List<? extends BaseInfo>> lists) {
         mLists = lists;
     }

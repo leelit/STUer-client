@@ -15,7 +15,7 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class MyDatePresenter {
+public class MyDatePresenter implements IMyOrderPresenter {
 
     private DateModel mModel = new DateModel();
 
@@ -25,6 +25,7 @@ public class MyDatePresenter {
         mView = view;
     }
 
+    @Override
     public void doLoadingInfos(String imei) {
         mModel.getPersonalRelativeRecords(imei, new Subscriber<List<List<DatingInfo>>>() {
             @Override
@@ -53,7 +54,7 @@ public class MyDatePresenter {
         });
     }
 
-
+    @Override
     public void doQuitOrder(Map<String, String> map, final int position) {
         mView.showDeleteProgressDialog("退出中...");
         mModel.quitOrder(map, new Subscriber<ResponseBody>() {
@@ -76,6 +77,7 @@ public class MyDatePresenter {
         });
     }
 
+    @Override
     public void doFinishOrder(String uniquecode, final int position) {
         mView.showDeleteProgressDialog("解散中...");
         mModel.finishOrder(uniquecode, new Subscriber<ResponseBody>() {

@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leelit.stuer.bean.BaseInfo;
+import com.leelit.stuer.presenter.IMyOrderPresenter;
 import com.leelit.stuer.utils.PhoneInfoUtils;
 import com.leelit.stuer.viewinterface.IMyOrderView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Leelit on 2016/3/2.
@@ -22,20 +25,26 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
     protected List<List<? extends BaseInfo>> mList = new ArrayList<>();
     private ProgressDialog mProgressDialog;
 
-    protected abstract void finishThisOrder(BaseInfo rightInfo, int position);
+    private IMyOrderPresenter mPresenter;
 
-    protected abstract void quitThisOrder(BaseInfo rightInfo, int position);
-
+    protected abstract IMyOrderPresenter bindPresenter();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mProgressDialog = new ProgressDialog(getActivity());
+        mPresenter = bindPresenter();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
+    protected void refreshTask() {
+        mPresenter.doLoadingInfos(PhoneInfoUtils.getImei());
+    }
+
+    @Override
     protected void onItemClickEvent(View view, int position) {
+        // 找到自己的info
         List<? extends BaseInfo> relativeInfos = mList.get(position);
         BaseInfo rightInfo = null;
         for (int i = 0; i < relativeInfos.size(); i++) {
@@ -44,6 +53,7 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
                 rightInfo = current;
             }
         }
+        // host解散，guest离开
         if (rightInfo != null) {
             if (rightInfo.getFlag().equals("host")) {
                 finishThisOrder(rightInfo, position);
@@ -51,6 +61,18 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
                 quitThisOrder(rightInfo, position);
             }
         }
+    }
+
+
+    private void finishThisOrder(BaseInfo rightInfo, int position) {
+        mPresenter.doFinishOrder(rightInfo.getUniquecode(), position);
+    }
+
+    private void quitThisOrder(BaseInfo rightInfo, int position) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uniquecode", rightInfo.getUniquecode());
+        map.put("id", String.valueOf(rightInfo.getId()));
+        mPresenter.doQuitOrder(map, position);
     }
 
 
