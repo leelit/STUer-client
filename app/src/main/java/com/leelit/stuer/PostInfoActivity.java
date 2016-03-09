@@ -24,24 +24,20 @@ import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyOrderActivityConstant;
-import com.leelit.stuer.constant.NetConstant;
+import com.leelit.stuer.presenter.PostInfoPresenter;
 import com.leelit.stuer.utils.AppUtils;
-import com.leelit.stuer.utils.GsonUtils;
-import com.leelit.stuer.utils.OkHttpUtils;
 import com.leelit.stuer.utils.PhoneInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.leelit.stuer.viewinterface.IPostView;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class PostInfoActivity extends AppCompatActivity {
+public class PostInfoActivity extends AppCompatActivity implements IPostView {
+
+    public static final String[] keys = {"ET_NAME", "ET_TEL", "ET_SHORT_TEL", "ET_WECHAT"};
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -78,18 +74,19 @@ public class PostInfoActivity extends AppCompatActivity {
     LinearLayout mSpinnerDescriptionLayout;
 
     private BaseInfo host;
-
-    private Call mCall;
-    private static final String[] keys = {"ET_NAME", "ET_TEL", "ET_SHORT_TEL", "ET_WECHAT"};
+    private ProgressDialog mProgressDialog;
 
     private int mFragmentIndex;
+
+    private PostInfoPresenter mPresenter = new PostInfoPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_info);
         ButterKnife.inject(this);
-
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("发布中...");
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
         mToolbar.setTitle(getString(R.string.post_title));
@@ -215,12 +212,11 @@ public class PostInfoActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mCall != null) {
-            mCall.cancel();
+    private void postCarpoolingInfo() {
+        if (commonPostCheckNotOk()) {
+            return;
         }
+        mPresenter.doCarpoolPost((CarpoolingInfo) host);
     }
 
     private void postDateInfo() {
@@ -228,62 +224,9 @@ public class PostInfoActivity extends AppCompatActivity {
             return;
         }
         ((DatingInfo) host).setDescription(mEtDescription.getText().toString());
-
-        final ProgressDialog progressDialog = new ProgressDialog(PostInfoActivity.this);
-        progressDialog.setMessage("发布中...");
-        progressDialog.show();
-
-        mCall = OkHttpUtils.postOnUiThread(NetConstant.DATE_CREATE, GsonUtils.toJson(host), new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                if (!mCall.isCanceled()) {
-                    Toast.makeText(PostInfoActivity.this, "网络出错...", Toast.LENGTH_SHORT).show();
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onResponse(final Response response) throws IOException {
-                saveSP();
-                progressDialog.dismiss();
-                Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
-                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
-                startActivity(intent);
-                finish();
-            }
-        }, this);
+        mPresenter.doDatePost((DatingInfo) host);
     }
 
-    private void postCarpoolingInfo() {
-        if (commonPostCheckNotOk()) {
-            return;
-        }
-
-        final ProgressDialog progressDialog = new ProgressDialog(PostInfoActivity.this);
-        progressDialog.setMessage("发布中...");
-        progressDialog.show();
-
-        mCall = OkHttpUtils.postOnUiThread(NetConstant.CARPOOL_CREATE, GsonUtils.toJson(host), new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                if (!mCall.isCanceled()) {
-                    Toast.makeText(PostInfoActivity.this, "网络出错...", Toast.LENGTH_SHORT).show();
-                }
-                progressDialog.dismiss();
-
-            }
-
-            @Override
-            public void onResponse(final Response response) throws IOException {
-                saveSP();
-                progressDialog.dismiss();
-                Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
-                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.CARPOOL);
-                startActivity(intent);
-                finish();
-            }
-        }, this);
-    }
 
     private boolean commonPostCheckNotOk() {
         host.setName(mEtName.getText().toString());
@@ -369,8 +312,31 @@ public class PostInfoActivity extends AppCompatActivity {
         }
     }
 
-    private void saveSP() {
-        String[] values = {host.getName(), host.getTel(), host.getShortTel(), host.getWechat()};
-        SPUtils.save(keys, values);
+
+    @Override
+    public void showPostProgressDialog() {
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void dismissPostProgressDialog() {
+        mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void netError() {
+        Toast.makeText(PostInfoActivity.this, "网络异常，请稍后再试...", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void afterPost() {
+        Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
+        if (mFragmentIndex == FragmentIndex.CARPOOL) {
+            intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.CARPOOL);
+        } else if (mFragmentIndex == FragmentIndex.DATE) {
+            intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
+        }
+        startActivity(intent);
+        finish();
     }
 }
