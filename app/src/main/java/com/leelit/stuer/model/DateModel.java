@@ -2,7 +2,7 @@ package com.leelit.stuer.model;
 
 
 import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.service.DateService;
+import com.leelit.stuer.model.service.DateService;
 
 import java.util.List;
 import java.util.Map;

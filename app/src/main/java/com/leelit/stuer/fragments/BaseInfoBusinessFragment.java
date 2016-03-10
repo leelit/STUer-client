@@ -17,7 +17,7 @@ import com.leelit.stuer.R;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.SpConstant;
-import com.leelit.stuer.utils.PhoneInfoUtils;
+import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.viewinterface.IBaseInfoView;
 
@@ -60,7 +60,7 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
+    // 先加载有数据才有可能click，即先需要回调#showInfos
     @Override
     protected void onItemClickEvent(View view, int position) {
         initGuest(position);
@@ -131,7 +131,7 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
         guest.setShortTel("");
         guest.setWechat("");
         guest.setFlag("guest");
-        guest.setImei(PhoneInfoUtils.getImei());
+        guest.setImei(AppInfoUtils.getImei());
     }
 
     @Override

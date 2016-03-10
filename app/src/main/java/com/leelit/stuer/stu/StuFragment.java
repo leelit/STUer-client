@@ -25,14 +25,14 @@ public class StuFragment extends BaseListFragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mTitles = Arrays.asList("办公自动化", "学分制系统", "MySTU", "水电管理中心", "邮箱", "图书馆", "校内常用电话", "汕大百事通");
+        mTitles = Arrays.asList("办公自动化", "学分制系统", "MySTU", "邮箱", "水电管理中心", "图书馆", "校内常用电话", "汕大百事通");
 
         mAddress = new ArrayList<>();
         mAddress.add("http://notes.stu.edu.cn/login/Login.jsp");
         mAddress.add("http://credit.stu.edu.cn/web/");
         mAddress.add("https://sso.stu.edu.cn/login");
-        mAddress.add("https://power.stu.edu.cn/index.htm");
         mAddress.add("http://webmail.stu.edu.cn/");
+        mAddress.add("https://power.stu.edu.cn/index.htm");
         mAddress.add("http://www.lib.stu.edu.cn/");
         mAddress.add("http://d.stulip.org/sp/tell.html");
         mAddress.add("http://d.stulip.org/");

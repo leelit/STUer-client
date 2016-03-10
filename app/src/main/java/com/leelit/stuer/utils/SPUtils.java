@@ -10,7 +10,7 @@ import com.leelit.stuer.MyApplication;
  */
 public class SPUtils {
 
-    private static SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences(AppUtils.getAppName(), Context.MODE_PRIVATE);
+    private static SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences(AppInfoUtils.getAppName(), Context.MODE_PRIVATE);
     private static SharedPreferences.Editor editor = sharedPreferences.edit();
 
     public static void save(String[] keys, String[] values) {

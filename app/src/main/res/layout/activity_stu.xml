@@ -17,12 +17,20 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@+id/toolbar"
+        android:visibility="gone"/>
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/control"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/progressBar"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp"/>
 

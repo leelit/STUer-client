@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -30,8 +29,9 @@ public class StuActivity extends AppCompatActivity {
     Button mBtnAhead;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
+    @InjectView(R.id.progressBar)
+    ProgressBar mProgressBar;
 
-    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,11 @@ public class StuActivity extends AppCompatActivity {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWebView.goBack();
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    finish();
+                }
             }
         });
 
@@ -90,16 +94,13 @@ public class StuActivity extends AppCompatActivity {
     }
 
     private void webViewProgressSetting() {
-        mProgressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-        mProgressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 20));
-        mWebView.addView(mProgressBar, 0);
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
                 } else {
-                    if (mProgressBar.getVisibility() == View.INVISIBLE) {
+                    if (mProgressBar.getVisibility() == View.GONE) {
                         mProgressBar.setVisibility(View.VISIBLE);
                     }
                     mProgressBar.setProgress(newProgress);

@@ -47,7 +47,7 @@ public abstract class BaseListFragment extends Fragment {
         mAdapter = bindAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-
+        // 将adapter的click task转移到fragment中
         if (mAdapter != null) {
             mAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
                 @Override

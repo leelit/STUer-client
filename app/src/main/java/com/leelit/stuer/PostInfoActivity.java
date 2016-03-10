@@ -24,9 +24,9 @@ import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyOrderActivityConstant;
+import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.presenter.PostInfoPresenter;
-import com.leelit.stuer.utils.AppUtils;
-import com.leelit.stuer.utils.PhoneInfoUtils;
+import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.viewinterface.IPostView;
 
@@ -37,7 +37,6 @@ import butterknife.InjectView;
 
 public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
-    public static final String[] keys = {"ET_NAME", "ET_TEL", "ET_SHORT_TEL", "ET_WECHAT"};
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -149,9 +148,9 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
     }
 
     private void initCommonInfo() {
-        host.setImei(PhoneInfoUtils.getImei());
+        host.setImei(AppInfoUtils.getImei());
         host.setFlag("host");
-        host.setUniquecode(AppUtils.getUniqueCode());
+        host.setUniquecode(AppInfoUtils.getUniqueCode());
     }
 
 
@@ -305,7 +304,7 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
     private void initSP() {
         EditText[] editText = {mEtName, mEtTel, mEtShortTel, mEtWechat};
         for (int i = 0; i < 4; i++) {
-            String et_value = SPUtils.get(keys[i]);
+            String et_value = SPUtils.get(SpConstant.HOST_KEYS[i]);
             if (!TextUtils.isEmpty(et_value)) {
                 editText[i].setText(et_value);
             }

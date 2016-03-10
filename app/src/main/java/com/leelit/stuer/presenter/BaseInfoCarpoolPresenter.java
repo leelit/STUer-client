@@ -71,14 +71,14 @@ public class BaseInfoCarpoolPresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveSP(info);
+                saveGuestSP(info);
                 mView.dismissPostProgressDialog();
                 mView.afterPostInfo();
             }
         });
     }
 
-    private void saveSP(BaseInfo guest) {
+    private void saveGuestSP(BaseInfo guest) {
         String[] values = {guest.getName(), guest.getTel(), guest.getShortTel(), guest.getWechat()};
         SPUtils.save(SpConstant.GUEST_KEYS, values);
     }

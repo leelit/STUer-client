@@ -1,7 +1,7 @@
 package com.leelit.stuer.model;
 
 import com.leelit.stuer.bean.CarpoolingInfo;
-import com.leelit.stuer.service.CarpoolService;
+import com.leelit.stuer.model.service.CarpoolService;
 
 import java.util.List;
 import java.util.Map;
@@ -19,8 +19,16 @@ import rx.schedulers.Schedulers;
  */
 public class CarpoolModel {
 
+    // model此处无法抽象，因为接口不同；
+    // Retrofit使用Gson进行字符串解析，并且RxJava#Observable<T>不能使用通配符，所以Gson从String-Object时必须指定确切类型，如果指定父类，则会丢失信息。
+    // 使用Retrofit配合Gson不管是post还是get，解析的类型都是特定的，父类会丢失子类信息。
+
     private static final String BASE_URL = "http://192.168.191.1:8080/STUer/carpool/";
 
+    /**
+     * can't not be Subscriber<List<BaseInfo>> or Subscriber<List<? extends/super BaseInfo>>
+     * @param subscriber
+     */
     public void getGroupRecords(Subscriber<List<CarpoolingInfo>> subscriber) {
         createService().getGroupRecords()
                 .subscribeOn(Schedulers.io())
@@ -35,6 +43,11 @@ public class CarpoolModel {
                 .subscribe(subscriber);
     }
 
+    /**
+     * can't not be BaseInfo here
+     * @param carpoolingInfo
+     * @param subscriber
+     */
     public void addRecord(CarpoolingInfo carpoolingInfo, Subscriber<ResponseBody> subscriber) {
         createService().addRecord(carpoolingInfo)
                 .subscribeOn(Schedulers.io())

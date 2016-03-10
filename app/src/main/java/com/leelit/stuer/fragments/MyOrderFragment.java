@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.presenter.IMyOrderPresenter;
-import com.leelit.stuer.utils.PhoneInfoUtils;
+import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.viewinterface.IMyOrderView;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
 
     @Override
     protected void refreshTask() {
-        mPresenter.doLoadingInfos(PhoneInfoUtils.getImei());
+        mPresenter.doLoadingInfos(AppInfoUtils.getImei());
     }
 
     @Override
@@ -49,7 +49,7 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
         BaseInfo rightInfo = null;
         for (int i = 0; i < relativeInfos.size(); i++) {
             BaseInfo current = relativeInfos.get(i);
-            if (current.getImei().equals(PhoneInfoUtils.getImei())) {
+            if (current.getImei().equals(AppInfoUtils.getImei())) {
                 rightInfo = current;
             }
         }

@@ -1,9 +1,9 @@
 package com.leelit.stuer.presenter;
 
-import com.leelit.stuer.PostInfoActivity;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
+import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.model.CarpoolModel;
 import com.leelit.stuer.model.DateModel;
 import com.leelit.stuer.utils.SPUtils;
@@ -39,7 +39,7 @@ public class PostInfoPresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveSP(info);
+                saveHostSP(info);
                 mPostView.dismissPostProgressDialog();
                 mPostView.afterPost();
             }
@@ -62,15 +62,15 @@ public class PostInfoPresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveSP(info);
+                saveHostSP(info);
                 mPostView.dismissPostProgressDialog();
                 mPostView.afterPost();
             }
         });
     }
 
-    private void saveSP(BaseInfo host) {
+    private void saveHostSP(BaseInfo host) {
         String[] values = {host.getName(), host.getTel(), host.getShortTel(), host.getWechat()};
-        SPUtils.save(PostInfoActivity.keys, values);
+        SPUtils.save(SpConstant.HOST_KEYS, values);
     }
 }
