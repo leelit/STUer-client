@@ -18,6 +18,10 @@ import rx.Subscriber;
  */
 public class BaseInfoCarpoolPresenter {
 
+    // Model此处无法抽象，因为接口不同；
+    // Retrofit使用Gson进行字符串解析，并且RxJava#Observable<T>不能使用通配符，所以Gson从String-Object时必须指定确切类型，如果指定父类，则会丢失信息。
+    // 使用Retrofit配合Gson不管是post还是get，解析的类型都是特定的，父类会丢失子类信息。
+
     private CarpoolModel mModel = new CarpoolModel();
 
     private IBaseInfoView mView;

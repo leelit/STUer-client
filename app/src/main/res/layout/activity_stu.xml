@@ -19,11 +19,12 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="5dp"
         android:layout_below="@+id/toolbar"
-        android:visibility="gone"/>
+        android:background="?android:attr/windowBackground"
+        android:visibility="invisible"/>
 
     <WebView
         android:id="@+id/webView"
@@ -31,8 +32,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/control"
         android:layout_below="@+id/progressBar"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginBottom="2dp"/>
 
     <LinearLayout
         android:id="@+id/control"

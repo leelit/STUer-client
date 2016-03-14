@@ -98,9 +98,9 @@ public class StuActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.INVISIBLE);
                 } else {
-                    if (mProgressBar.getVisibility() == View.GONE) {
+                    if (mProgressBar.getVisibility() == View.INVISIBLE) {
                         mProgressBar.setVisibility(View.VISIBLE);
                     }
                     mProgressBar.setProgress(newProgress);

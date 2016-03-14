@@ -40,10 +40,14 @@ public class StuFragment extends BaseListFragment {
     }
 
     @Override
-    protected void refreshTask() {
-        mSwipeRefreshLayout.setRefreshing(false);
+    public void refreshAfterLoaded() {
         // 禁止刷新
         mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    @Override
+    protected void refreshTask() {
+        // donothing
     }
 
     @Override
