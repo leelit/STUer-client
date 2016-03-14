@@ -17,9 +17,9 @@ import rx.Subscriber;
  */
 public class MyCarpoolPresenter implements IMyOrderPresenter {
 
-    // 为何Model不抽象接口
-    // 因为CarpoolModel和DateModel接口不同
-    // 运用多态时，则需要判断是哪个Model，再转型，再调用，会使这个基类膨胀。
+    // Model此处无法抽象，因为接口不同；
+    // Retrofit使用Gson进行字符串解析，并且RxJava#Observable<T>不能使用通配符，所以Gson从String-Object时必须指定确切类型，如果指定父类，则会丢失信息。
+    // 使用Retrofit配合Gson不管是post还是get，解析的类型都是特定的，父类会丢失子类信息。
 
     private CarpoolModel mModel = new CarpoolModel();
 
