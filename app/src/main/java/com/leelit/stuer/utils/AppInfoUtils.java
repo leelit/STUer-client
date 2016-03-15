@@ -25,11 +25,14 @@ public class AppInfoUtils {
         return "";
     }
 
-
+    /**
+     * 产生唯一订单号
+     * @return
+     */
     public static String getUniqueCode() {
         String imei = AppInfoUtils.getImei();
         Date date = new Date();
         String unique = imei + date.hashCode();
-        return String.valueOf(unique.hashCode());
+        return unique;
     }
 }

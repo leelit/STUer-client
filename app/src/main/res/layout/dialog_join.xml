@@ -10,31 +10,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="昵称"/>
-
-        <EditText
-            android:id="@+id/et_tel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="0123456789"
-            android:hint="长号"/>
-
-        <EditText
-            android:id="@+id/et_shortTel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="0123456789无"
-            android:hint="短号，无则填无"/>
-
-        <EditText
-            android:id="@+id/et_wechat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="微信号，别填微信名...无则填无"/>
+        <include layout="@layout/component_contact"/>
 
         <LinearLayout
             android:layout_width="match_parent"

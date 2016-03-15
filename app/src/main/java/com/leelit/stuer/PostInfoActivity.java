@@ -88,16 +88,7 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
         mProgressDialog.setMessage("发布中...");
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
-        mToolbar.setTitle(getString(R.string.post_title));
-        setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+        initToolbar("发布");
         initSP();
 
         if (mFragmentIndex == FragmentIndex.CARPOOL) {
@@ -134,6 +125,19 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
             }
         });
 
+    }
+
+    private void initToolbar(String title) {
+        mToolbar.setTitle(getString(R.string.post_title));
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle(title);
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
