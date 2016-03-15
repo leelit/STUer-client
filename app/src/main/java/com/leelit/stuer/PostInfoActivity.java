@@ -24,7 +24,6 @@ import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyOrderActivityConstant;
-import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.presenter.PostInfoPresenter;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
@@ -40,14 +39,6 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.et_name)
-    EditText mEtName;
-    @InjectView(R.id.et_tel)
-    EditText mEtTel;
-    @InjectView(R.id.et_shortTel)
-    EditText mEtShortTel;
-    @InjectView(R.id.et_wechat)
-    EditText mEtWechat;
     @InjectView(R.id.spinner_route)
     Spinner mSpinnerRoute;
     @InjectView(R.id.spinner_temporary_count)
@@ -89,7 +80,6 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
         initToolbar("发布");
-        initSP();
 
         if (mFragmentIndex == FragmentIndex.CARPOOL) {
             initCarpoolBean();
@@ -152,6 +142,10 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
     }
 
     private void initCommonInfo() {
+        host.setName(SPUtils.getString(LoginActivity.INFOS[0]));
+        host.setTel(SPUtils.getString(LoginActivity.INFOS[1]));
+        host.setShortTel(SPUtils.getString(LoginActivity.INFOS[2]));
+        host.setWechat(SPUtils.getString(LoginActivity.INFOS[3]));
         host.setImei(AppInfoUtils.getImei());
         host.setFlag("host");
         host.setUniquecode(AppInfoUtils.getUniqueCode());
@@ -232,13 +226,6 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
 
     private boolean commonPostCheckNotOk() {
-        host.setName(mEtName.getText().toString());
-        host.setTel(mEtTel.getText().toString());
-        host.setShortTel(mEtShortTel.getText().toString());
-        host.setWechat(mEtWechat.getText().toString());
-        if (isEmpty(mEtName) || isEmpty(mEtTel) || isEmpty(mEtShortTel) || isEmpty(mEtWechat)) {
-            return true;
-        }
         if (TextUtils.isEmpty(host.getDate())) {
             Toast.makeText(PostInfoActivity.this, "未设置日期", Toast.LENGTH_SHORT).show();
             return true;
@@ -295,24 +282,6 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
             }
         }, year, month, day);
         mDatePickerDialog.show();
-    }
-
-    private boolean isEmpty(EditText et) {
-        if (TextUtils.isEmpty(et.getText())) {
-            et.setError("不能为空");
-            return true;
-        }
-        return false;
-    }
-
-    private void initSP() {
-        EditText[] editText = {mEtName, mEtTel, mEtShortTel, mEtWechat};
-        for (int i = 0; i < 4; i++) {
-            String et_value = SPUtils.get(SpConstant.HOST_KEYS[i]);
-            if (!TextUtils.isEmpty(et_value)) {
-                editText[i].setText(et_value);
-            }
-        }
     }
 
 

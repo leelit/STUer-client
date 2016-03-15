@@ -13,6 +13,16 @@ public class SPUtils {
     private static SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences(AppInfoUtils.getAppName(), Context.MODE_PRIVATE);
     private static SharedPreferences.Editor editor = sharedPreferences.edit();
 
+    public static void save(String key, boolean value) {
+        editor.putBoolean(key, value);
+        editor.commit();
+    }
+
+    public static void save(String key, String value) {
+        editor.putString(key, value);
+        editor.commit();
+    }
+
     public static void save(String[] keys, String[] values) {
         for (int i = 0; i < keys.length; i++) {
             editor.putString(keys[i], values[i]);
@@ -20,7 +30,11 @@ public class SPUtils {
         editor.commit();
     }
 
-    public static String get(String key) {
+    public static String getString(String key) {
         return sharedPreferences.getString(key, "");
+    }
+
+    public static boolean getBoolean(String key) {
+        return sharedPreferences.getBoolean(key, false);
     }
 }

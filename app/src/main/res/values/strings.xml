@@ -29,5 +29,6 @@
     <string name="tab_others">其他</string>
     <string name="title_activity_stu">StuActivity</string>
     <string name="title_activity_post_message">PostMessageActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

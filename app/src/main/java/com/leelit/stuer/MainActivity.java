@@ -23,6 +23,7 @@ import com.leelit.stuer.fragments.BaseListFragment;
 import com.leelit.stuer.fragments.CarpoolFragment;
 import com.leelit.stuer.fragments.DatingFragment;
 import com.leelit.stuer.stu.StuFragment;
+import com.leelit.stuer.utils.SPUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,11 +54,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        setSupportActionBar(mToolbar);
-        initDrawer();
+
+        if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
+        initDrawerAndToolbar();
+        initNavigationView();
         initFab();
         initFragment();
     }
+
 
     private void initFragment() {
         BaseListFragment carpoolFragment = new CarpoolFragment();
@@ -82,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initDrawer() {
+    private void initDrawerAndToolbar() {
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.hello_world, R.string.hello_world);
@@ -93,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 switchFragment(menuItem);
                 return false;
+            }
+        });
+    }
+
+    private void initNavigationView() {
+        mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
     }
@@ -173,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setVisibility(View.GONE);
     }
 
-    private void stuInit(){
+    private void stuInit() {
         mFabBtn.setVisibility(View.INVISIBLE);
         mMainMenuItem.setIcon(R.drawable.pic5);
         mFabBtn.setImageResource(R.drawable.pic1);

@@ -13,10 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.common.SharedAnimation;
-import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.viewinterface.IBaseInfoView;
@@ -32,14 +32,6 @@ import butterknife.InjectView;
  */
 public abstract class BaseInfoBusinessFragment extends BaseListFragment implements IBaseInfoView {
 
-    @InjectView(R.id.et_name)
-    EditText mEtName;
-    @InjectView(R.id.et_tel)
-    EditText mEtTel;
-    @InjectView(R.id.et_shortTel)
-    EditText mEtShortTel;
-    @InjectView(R.id.et_wechat)
-    EditText mEtWechat;
     @InjectView(R.id.spinner_temporary_count)
     Spinner mSpinnerTemporaryCount;
     @InjectView(R.id.btn_publish)
@@ -84,13 +76,6 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
      * @return
      */
     private boolean postStatusNotOk() {
-        guest.setName(mEtName.getText().toString());
-        guest.setTel(mEtTel.getText().toString());
-        guest.setShortTel(mEtShortTel.getText().toString());
-        guest.setWechat(mEtWechat.getText().toString());
-        if (isEmpty(mEtName) || isEmpty(mEtTel) || isEmpty(mEtShortTel) || isEmpty(mEtWechat)) {
-            return true;
-        }
         if (!guest.completedAllInfo()) {
             return true;
         }
@@ -100,10 +85,9 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
 
     private AlertDialog createJoinDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("填写信息，加入后可查看其他成员信息...");
+        builder.setTitle("填写信息，加入后可查看其他成员信息。");
         View dialogView = View.inflate(getActivity(), R.layout.dialog_join, null);
         ButterKnife.inject(this, dialogView);
-        initSP(); // Dialog里的EditText先尝试从SharePreference加载
         builder.setView(dialogView);
         final AlertDialog joinDialog = builder.create();
         joinDialog.show();
@@ -126,10 +110,10 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
 
     private void initGuest(int position) {
         guest = mList.get(position);
-        guest.setName("");
-        guest.setTel("");
-        guest.setShortTel("");
-        guest.setWechat("");
+        guest.setName(SPUtils.getString(LoginActivity.INFOS[0]));
+        guest.setTel(SPUtils.getString(LoginActivity.INFOS[1]));
+        guest.setShortTel(SPUtils.getString(LoginActivity.INFOS[2]));
+        guest.setWechat(SPUtils.getString(LoginActivity.INFOS[3]));
         guest.setFlag("guest");
         guest.setImei(AppInfoUtils.getImei());
     }
@@ -148,15 +132,6 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
         return false;
     }
 
-    private void initSP() {
-        EditText[] editText = {mEtName, mEtTel, mEtShortTel, mEtWechat};
-        for (int i = 0; i < 4; i++) {
-            String et_value = SPUtils.get(SpConstant.GUEST_KEYS[i]);
-            if (!TextUtils.isEmpty(et_value)) {
-                editText[i].setText(et_value);
-            }
-        }
-    }
 
     @Override
     public void notRefreshing() {

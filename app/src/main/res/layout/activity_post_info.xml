@@ -17,8 +17,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <include layout="@layout/component_contact"/>
-
             <LinearLayout
                 android:id="@+id/spinner_route_layout"
                 android:layout_width="match_parent"
@@ -98,11 +96,11 @@
                 android:visibility="gone">
 
                 <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="说说: "
-                android:textColor="?attr/colorAccent"
-                android:textSize="18sp"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="说说: "
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="18sp"/>
 
                 <EditText
                     android:id="@+id/et_description"
