@@ -22,6 +22,8 @@ import com.leelit.stuer.constant.TabConstant;
 import com.leelit.stuer.fragments.BaseListFragment;
 import com.leelit.stuer.fragments.CarpoolFragment;
 import com.leelit.stuer.fragments.DatingFragment;
+import com.leelit.stuer.sell.SellPostActivity;
+import com.leelit.stuer.sell.SellFragment;
 import com.leelit.stuer.stu.StuFragment;
 import com.leelit.stuer.utils.SPUtils;
 
@@ -85,7 +87,11 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
                     startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, SellPostActivity.class);
+                    startActivity(intent);
                 }
+
             }
         });
     }
@@ -136,8 +142,22 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 stuInit();
             }
+        } else if (title.equals(getString(R.string.sell))) {
+            if (currentFragment instanceof SellFragment) {
+                return;
+            } else {
+                sellInit();
+            }
         }
         showFragment(currentFragment);
+    }
+
+    private void sellInit() {
+        mFabBtn.setVisibility(View.VISIBLE);
+        mMainMenuItem.setIcon(R.drawable.pic3);
+        mFabBtn.setImageResource(R.drawable.pic3);
+        currentFragment = new SellFragment();
+        mTabLayout.setVisibility(View.GONE);
     }
 
     private void dateInit() {
@@ -194,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     private void stuInit() {
         mFabBtn.setVisibility(View.INVISIBLE);
         mMainMenuItem.setIcon(R.drawable.pic5);
-        mFabBtn.setImageResource(R.drawable.pic1);
+        mFabBtn.setImageResource(R.drawable.pic5);
         currentFragment = new StuFragment();
         mTabLayout.setVisibility(View.GONE);
     }
@@ -241,13 +261,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
                 intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
                 startActivity(intent);
+            }else if (currentFragment instanceof SellFragment) {
+//                Intent intent = new Intent(this, SellPostActivity.class);
+//                startActivity(intent);
             }
             return true;
         }
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, PostMessageActivity.class);
-            startActivity(intent);
             return true;
         }
 

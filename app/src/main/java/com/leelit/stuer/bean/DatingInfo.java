@@ -6,6 +6,7 @@ import android.text.TextUtils;
  * Created by Leelit on 2016/1/17.
  */
 public class DatingInfo extends BaseInfo {
+
     String type;
     String description = "";
 
@@ -27,19 +28,20 @@ public class DatingInfo extends BaseInfo {
 
     @Override
     public String toString() {
-        return "CarpoolingInfo{" +
+        return "DatingInfo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +
                 ", shortTel='" + shortTel + '\'' +
                 ", wechat='" + wechat + '\'' +
-                ", type='" + type + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", temporaryCount='" + temporaryCount + '\'' +
                 ", flag='" + flag + '\'' +
                 ", imei='" + imei + '\'' +
                 ", uniquecode='" + uniquecode + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 

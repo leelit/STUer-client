@@ -36,7 +36,7 @@
             android:label="@string/title_activity_stu" >
         </activity>
         <activity
-            android:name=".PostMessageActivity"
+            android:name=".sell.SellPostActivity"
             android:label="@string/title_activity_post_message" >
         </activity>
         <activity

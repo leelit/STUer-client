@@ -33,6 +33,6 @@ public class AppInfoUtils {
         String imei = AppInfoUtils.getImei();
         Date date = new Date();
         String unique = imei + date.hashCode();
-        return unique;
+        return String.valueOf(unique.hashCode());
     }
 }

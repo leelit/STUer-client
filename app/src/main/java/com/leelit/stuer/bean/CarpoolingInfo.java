@@ -17,16 +17,15 @@ public class CarpoolingInfo extends BaseInfo {
                 ", tel='" + tel + '\'' +
                 ", shortTel='" + shortTel + '\'' +
                 ", wechat='" + wechat + '\'' +
-                ", route='" + route + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", temporaryCount='" + temporaryCount + '\'' +
                 ", flag='" + flag + '\'' +
                 ", imei='" + imei + '\'' +
                 ", uniquecode='" + uniquecode + '\'' +
+                ", route='" + route + '\'' +
                 '}';
     }
-
 
     public String getRoute() {
         return route;
