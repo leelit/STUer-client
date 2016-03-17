@@ -311,4 +311,10 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.doClear();
+    }
 }

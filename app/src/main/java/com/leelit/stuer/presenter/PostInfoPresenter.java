@@ -1,12 +1,9 @@
 package com.leelit.stuer.presenter;
 
-import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.model.CarpoolModel;
 import com.leelit.stuer.model.DateModel;
-import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.viewinterface.IPostView;
 
 import okhttp3.ResponseBody;
@@ -15,9 +12,11 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class PostInfoPresenter {
+public class PostInfoPresenter implements IPresenter {
 
     private IPostView mPostView;
+    private Subscriber<ResponseBody> mSubscriber1;
+    private Subscriber<ResponseBody> mSubscriber2;
 
     public PostInfoPresenter(IPostView postView) {
         mPostView = postView;
@@ -25,10 +24,10 @@ public class PostInfoPresenter {
 
     public void doCarpoolPost(final CarpoolingInfo info) {
         mPostView.showPostProgressDialog();
-        new CarpoolModel().addRecord(info, new Subscriber<ResponseBody>() {
+        mSubscriber1 = new Subscriber<ResponseBody>() {
+
             @Override
             public void onCompleted() {
-
             }
 
             @Override
@@ -39,16 +38,16 @@ public class PostInfoPresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveHostSP(info);
                 mPostView.dismissPostProgressDialog();
                 mPostView.afterPost();
             }
-        });
+        };
+        new CarpoolModel().addRecord(info, mSubscriber1);
     }
 
     public void doDatePost(final DatingInfo info) {
         mPostView.showPostProgressDialog();
-        new DateModel().addRecord(info, new Subscriber<ResponseBody>() {
+        mSubscriber2 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -62,15 +61,22 @@ public class PostInfoPresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveHostSP(info);
                 mPostView.dismissPostProgressDialog();
                 mPostView.afterPost();
             }
-        });
+        };
+        new DateModel().addRecord(info, mSubscriber2);
     }
 
-    private void saveHostSP(BaseInfo host) {
-        String[] values = {host.getName(), host.getTel(), host.getShortTel(), host.getWechat()};
-        SPUtils.save(SpConstant.HOST_KEYS, values);
+
+    @Override
+    public void doClear() {
+        if (mSubscriber1 != null) {
+            mSubscriber1.unsubscribe();
+        }
+        if (mSubscriber2 != null) {
+            mSubscriber2.unsubscribe();
+        }
+        mPostView = null;
     }
 }

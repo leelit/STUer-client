@@ -35,4 +35,10 @@ public class CarpoolFragment extends BaseInfoBusinessFragment {
         Intent intent = new Intent(getActivity(), MyOrderActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCarpoolPresenter.doClear();
+    }
 }

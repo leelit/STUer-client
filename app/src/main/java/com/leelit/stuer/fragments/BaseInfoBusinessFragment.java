@@ -4,13 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.leelit.stuer.LoginActivity;
@@ -122,14 +120,6 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    private boolean isEmpty(EditText et) {
-        if (TextUtils.isEmpty(et.getText())) {
-            et.setError("不能为空");
-            return true;
-        }
-        return false;
     }
 
 

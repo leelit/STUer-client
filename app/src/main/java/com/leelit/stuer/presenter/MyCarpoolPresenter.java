@@ -15,7 +15,7 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class MyCarpoolPresenter implements IMyOrderPresenter {
+public class MyCarpoolPresenter implements IMyOrderPresenter,IPresenter {
 
     // Model此处无法抽象，因为接口不同；
     // Retrofit使用Gson进行字符串解析，并且RxJava#Observable<T>不能使用通配符，所以Gson从String-Object时必须指定确切类型，如果指定父类，则会丢失信息。
@@ -24,6 +24,9 @@ public class MyCarpoolPresenter implements IMyOrderPresenter {
     private CarpoolModel mModel = new CarpoolModel();
 
     private IMyOrderView mView;
+    private Subscriber<List<List<CarpoolingInfo>>> mSubscriber1;
+    private Subscriber<ResponseBody> mSubscriber2;
+    private Subscriber<ResponseBody> mSubscriber3;
 
     public MyCarpoolPresenter(IMyOrderView view) {
         mView = view;
@@ -31,7 +34,7 @@ public class MyCarpoolPresenter implements IMyOrderPresenter {
 
     @Override
     public void doLoadingInfos(String imei) {
-        mModel.getPersonalRelativeRecords(imei, new Subscriber<List<List<CarpoolingInfo>>>() {
+        mSubscriber1 = new Subscriber<List<List<CarpoolingInfo>>>() {
             @Override
             public void onCompleted() {
 
@@ -55,13 +58,14 @@ public class MyCarpoolPresenter implements IMyOrderPresenter {
                     mView.noInfos();
                 }
             }
-        });
+        };
+        mModel.getPersonalRelativeRecords(imei, mSubscriber1);
     }
 
     @Override
     public void doQuitOrder(Map<String, String> map, final int position) {
         mView.showDeleteProgressDialog("退出中...");
-        mModel.quitOrder(map, new Subscriber<ResponseBody>() {
+        mSubscriber2 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -78,13 +82,14 @@ public class MyCarpoolPresenter implements IMyOrderPresenter {
                 mView.dismissDeleteProgressDialog();
                 mView.deleteOrder(position);
             }
-        });
+        };
+        mModel.quitOrder(map, mSubscriber2);
     }
 
     @Override
     public void doFinishOrder(String uniquecode, final int position) {
         mView.showDeleteProgressDialog("解散中...");
-        mModel.finishOrder(uniquecode, new Subscriber<ResponseBody>() {
+        mSubscriber3 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -101,6 +106,21 @@ public class MyCarpoolPresenter implements IMyOrderPresenter {
                 mView.dismissDeleteProgressDialog();
                 mView.deleteOrder(position);
             }
-        });
+        };
+        mModel.finishOrder(uniquecode, mSubscriber3);
+    }
+
+    @Override
+    public void doClear() {
+        if (mSubscriber1 != null) {
+            mSubscriber1.unsubscribe();
+        }
+        if (mSubscriber2 != null) {
+            mSubscriber2.unsubscribe();
+        }
+        if (mSubscriber3 != null) {
+            mSubscriber3.unsubscribe();
+        }
+        mView = null;
     }
 }

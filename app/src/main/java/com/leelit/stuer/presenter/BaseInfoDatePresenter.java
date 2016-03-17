@@ -1,11 +1,8 @@
 package com.leelit.stuer.presenter;
 
-import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.constant.NetConstant;
-import com.leelit.stuer.constant.SpConstant;
 import com.leelit.stuer.model.DateModel;
-import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.viewinterface.IBaseInfoView;
 
 import java.util.List;
@@ -16,18 +13,20 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/8.
  */
-public class BaseInfoDatePresenter {
+public class BaseInfoDatePresenter implements IPresenter{
 
     private DateModel mModel = new DateModel();
 
     private IBaseInfoView mView;
+    private Subscriber<List<DatingInfo>> mSubscriber1;
+    private Subscriber<ResponseBody> mSubscriber2;
 
     public BaseInfoDatePresenter(IBaseInfoView view) {
         mView = view;
     }
 
     public void doLoadingInfos(String type) {
-        mModel.getGroupRecords(type, new Subscriber<List<DatingInfo>>() {
+        mSubscriber1 = new Subscriber<List<DatingInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -47,13 +46,14 @@ public class BaseInfoDatePresenter {
                     mView.noInfos();
                 }
             }
-        });
+        };
+        mModel.getGroupRecords(type, mSubscriber1);
     }
 
 
     public void doPostInfo(final DatingInfo info) {
         mView.showPostProgressDialog();
-        mModel.addRecord(info, new Subscriber<ResponseBody>() {
+        mSubscriber2 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -71,15 +71,21 @@ public class BaseInfoDatePresenter {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                saveGuestSP(info);
                 mView.dismissPostProgressDialog();
                 mView.afterPostInfo();
             }
-        });
+        };
+        mModel.addRecord(info, mSubscriber2);
     }
 
-    private void saveGuestSP(BaseInfo guest) {
-        String[] values = {guest.getName(), guest.getTel(), guest.getShortTel(), guest.getWechat()};
-        SPUtils.save(SpConstant.GUEST_KEYS, values);
+    @Override
+    public void doClear() {
+        if (mSubscriber1 != null) {
+            mSubscriber1.unsubscribe();
+        }
+        if (mSubscriber2 != null) {
+            mSubscriber2.unsubscribe();
+        }
+        mView = null;
     }
 }

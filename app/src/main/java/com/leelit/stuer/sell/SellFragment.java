@@ -73,4 +73,10 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void notRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSellPresenter.doClear();
+    }
 }

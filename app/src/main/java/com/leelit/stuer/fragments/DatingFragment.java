@@ -39,4 +39,10 @@ public class DatingFragment extends BaseInfoBusinessFragment {
         intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
         startActivity(intent);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDatePresenter.doClear();
+    }
 }

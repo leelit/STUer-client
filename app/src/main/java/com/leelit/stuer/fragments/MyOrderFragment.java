@@ -113,4 +113,10 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
     public void deleteOrder(int position) {
         mAdapter.removeData(position);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.doClear();
+    }
 }

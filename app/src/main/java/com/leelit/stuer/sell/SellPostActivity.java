@@ -278,4 +278,10 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
         Toast.makeText(this, "发送成功", Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.doClear();
+    }
 }
