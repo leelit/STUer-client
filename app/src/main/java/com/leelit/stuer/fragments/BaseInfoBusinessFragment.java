@@ -50,7 +50,7 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    // 先加载有数据才有可能click，即先需要回调#showInfos
+    // 先加载有数据才有可能click，即先需要回调showInfos
     @Override
     protected void onItemClickEvent(View view, int position) {
         initGuest(position);
@@ -121,6 +121,7 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
 
 
     @Override

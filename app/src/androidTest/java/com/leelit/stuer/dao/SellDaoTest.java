@@ -38,4 +38,10 @@ public class SellDaoTest extends TestCase {
         Log.e("tag", sellDao.getAll().toString());
     }
 
+
+    public void testGetLatestDatetime() throws Exception {
+        SellDao sellDao= new SellDao();
+        String str =sellDao.getLatestDatetime();
+        Log.e("tag", str);
+    }
 }

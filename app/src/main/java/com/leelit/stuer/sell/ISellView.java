@@ -10,7 +10,17 @@ import java.util.List;
 public interface ISellView {
     void netError();
 
-    void showInfos(List<SellInfo> sellInfos);
+    void showFromLoadDbInfos(List<SellInfo> sellInfos);
 
     void notRefreshing();
+
+    void showLoading();
+
+    void dismissLoading();
+
+    void showFormRefreshInfos(List<SellInfo> sellInfos);
+
+    void showNoInfosPleaseRefresh();
+
+    void showNoInfosPleaseWait();
 }

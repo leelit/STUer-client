@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+            return;  // must return here
         }
 
         initDrawerAndToolbar();
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (text.equals(getString(R.string.tab_others))) {
                     mTabValue = TabConstant.OTHERS;
                 }
-                currentFragment.refreshAfterLoaded();
+                currentFragment.taskAfterLoaded();
             }
 
             @Override
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
                 intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
                 startActivity(intent);
-            }else if (currentFragment instanceof SellFragment) {
+            } else if (currentFragment instanceof SellFragment) {
 //                Intent intent = new Intent(this, SellPostActivity.class);
 //                startActivity(intent);
             }

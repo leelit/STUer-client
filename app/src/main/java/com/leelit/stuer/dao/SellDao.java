@@ -65,4 +65,20 @@ public class SellDao {
         return result;
     }
 
+
+    /**
+     * 查询最后一行，代表最新的数据
+     *
+     * @return 最新的数据的时间
+     */
+    public String getLatestDatetime() {
+        String str = "";
+        SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM sell ORDER BY id DESC LIMIT 1", null);
+        if (cursor.moveToFirst()) {
+            str = cursor.getString(cursor.getColumnIndex("dt"));
+        }
+        cursor.close();
+        return str;
+    }
 }

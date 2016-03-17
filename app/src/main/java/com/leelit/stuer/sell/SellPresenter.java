@@ -38,10 +38,15 @@ public class SellPresenter implements IPresenter {
             @Override
             public void onNext(List<SellInfo> sellInfos) {
                 mView.notRefreshing();
-                mView.showInfos(sellInfos);
+                mView.showFormRefreshInfos(sellInfos);
+                if (sellInfos.isEmpty()) {
+                    mView.showNoInfosPleaseWait();
+                } else {
+                    mModel.save(sellInfos);
+                }
             }
         };
-        mModel.query("", mSubscriber1);
+        mModel.query(mSubscriber1);
     }
 
     @Override
@@ -50,5 +55,30 @@ public class SellPresenter implements IPresenter {
             mSubscriber1.unsubscribe();
         }
         mView = null;
+    }
+
+    public void doLoadFromDb() {
+        mView.showLoading();
+        mModel.loadFromDb(new Subscriber<List<SellInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // do nothing
+                mView.dismissLoading();
+            }
+
+            @Override
+            public void onNext(List<SellInfo> sellInfos) {
+                mView.showFromLoadDbInfos(sellInfos);
+                mView.dismissLoading();
+                if (sellInfos.isEmpty()) {
+                   mView.showNoInfosPleaseRefresh();
+                }
+            }
+        });
     }
 }

@@ -32,5 +32,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:digits="0123456789abcdefghijklmnopqrstuvwxyz-_无"
-        android:hint="微信号，别填微信名...无则填无"/>
+        android:hint="微信号，无则填无"/>
 </LinearLayout>

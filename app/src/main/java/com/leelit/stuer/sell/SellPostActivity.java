@@ -24,6 +24,7 @@ import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.squareup.picasso.Picasso;
 

@@ -64,12 +64,12 @@ public abstract class BaseListFragment extends Fragment {
             }
         });
 
-        refreshAfterLoaded();
+        taskAfterLoaded();  // 默认执行下拉操作
 
         return view;
     }
 
-    public void refreshAfterLoaded() {
+    public void taskAfterLoaded() {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
