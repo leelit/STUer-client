@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    package="com.leelit.stuer" >
+<manifest package="com.leelit.stuer"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".PostInfoActivity"
-            android:label="@string/title_activity_carpooling" >
+            android:label="@string/title_activity_carpooling">
         </activity>
         <activity
             android:name=".MyOrderActivity"
-            android:label="@string/title_activity_mine" >
+            android:label="@string/title_activity_mine">
         </activity>
         <activity
             android:name=".stu.StuActivity"
-            android:label="@string/title_activity_stu" >
+            android:label="@string/title_activity_stu">
         </activity>
         <activity
             android:name=".sell.SellPostActivity"
-            android:label="@string/title_activity_post_message" >
+            android:label="@string/title_activity_post_message">
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login">
+        </activity>
+        <activity
+            android:name=".sell.PhotoActivity"
+            android:label="@string/title_activity_photo"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>
 

@@ -26,6 +26,7 @@ import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.ScreenUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -154,7 +155,7 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
 //                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mUploadImageUri));
 //                        mImageView.setImageBitmap(bitmap);
                     Picasso.with(this).invalidate(mUploadImageUri);
-                    Picasso.with(this).load(mUploadImageUri).resize(dp2px(200f), dp2px(200f)).centerCrop().into(mImageView);
+                    Picasso.with(this).load(mUploadImageUri).resize(ScreenUtils.dp2px(200f), ScreenUtils.dp2px(200f)).centerCrop().into(mImageView);
                     hasImage = true;
 //                    } catch (FileNotFoundException e) {
 //                        e.printStackTrace();
@@ -224,10 +225,7 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
         Toast.makeText(this, "兼容性有问题...请选择其他方式...", Toast.LENGTH_SHORT).show();
     }
 
-    public int dp2px(float dp) {
-        float scale = getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
