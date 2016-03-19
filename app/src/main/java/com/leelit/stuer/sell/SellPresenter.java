@@ -19,6 +19,8 @@ public class SellPresenter implements IPresenter {
 
     private ISellView mView;
     private Subscriber<List<SellInfo>> mSubscriber1;
+    private Subscriber<List<SellInfo>> mSubscriber2;
+    private Subscriber<SellInfo> mSubscriber3;
 
     public SellPresenter(ISellView view) {
         mView = view;
@@ -52,17 +54,10 @@ public class SellPresenter implements IPresenter {
         mModel.query(mSubscriber1);
     }
 
-    @Override
-    public void doClear() {
-        if (mSubscriber1 != null) {
-            mSubscriber1.unsubscribe();
-        }
-        mView = null;
-    }
 
     public void doLoadFromDb() {
         mView.showLoading();
-        mModel.loadFromDb(new Subscriber<List<SellInfo>>() {
+        mSubscriber2 = new Subscriber<List<SellInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -82,12 +77,13 @@ public class SellPresenter implements IPresenter {
                     mView.showNoInfosPleaseRefresh();
                 }
             }
-        });
+        };
+        mModel.loadFromDb(mSubscriber2);
     }
 
     public void doContactSeller(final SellInfo info, final int position) {
         mView.showLoading();
-        mModel.checkGoodsStillHere(info.getUniquecode(), new Subscriber<SellInfo>() {
+        mSubscriber3 = new Subscriber<SellInfo>() {
             @Override
             public void onCompleted() {
 
@@ -98,7 +94,6 @@ public class SellPresenter implements IPresenter {
                 mView.dismissLoading();
                 // 网络出错则不关心是否已售出，直接让同学联系商家
                 mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
-                Log.e("tag", "hehe");
             }
 
             @Override
@@ -111,6 +106,21 @@ public class SellPresenter implements IPresenter {
                     mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
                 }
             }
-        });
+        };
+        mModel.checkGoodsStillHere(info.getUniquecode(), mSubscriber3);
+    }
+
+    @Override
+    public void doClear() {
+        if (mSubscriber1 != null) {
+            mSubscriber1.unsubscribe();
+        }
+        if (mSubscriber2 != null) {
+            mSubscriber2.unsubscribe();
+        }
+        if (mSubscriber3 != null) {
+            mSubscriber3.unsubscribe();
+        }
+        mView = null;
     }
 }
