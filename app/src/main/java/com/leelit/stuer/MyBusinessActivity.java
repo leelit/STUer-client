@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.leelit.stuer.constant.MyBusinessConstant;
-import com.leelit.stuer.fragments.MyCarpoolFragment;
-import com.leelit.stuer.fragments.MyDateFragment;
-import com.leelit.stuer.sell.MySellFragment;
+import com.leelit.stuer.module_baseinfo.carpool.MyCarpoolFragment;
+import com.leelit.stuer.module_baseinfo.date.MyDateFragment;
+import com.leelit.stuer.module_sell.MySellFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

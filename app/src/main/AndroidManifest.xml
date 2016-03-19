@@ -24,19 +24,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BaseInfoPostActivity"
-            android:label="@string/title_activity_carpooling">
-        </activity>
-        <activity
             android:name=".MyBusinessActivity"
             android:label="@string/title_activity_mine">
         </activity>
         <activity
-            android:name=".stu.StuActivity"
+            android:name=".module_stu.StuActivity"
             android:label="@string/title_activity_stu">
         </activity>
         <activity
-            android:name=".sell.SellPostActivity"
+            android:name=".module_sell.SellPostActivity"
+            android:label="@string/title_activity_post_message">
+        </activity>
+        <activity
+            android:name=".base_fragments.BaseInfoPostActivity"
             android:label="@string/title_activity_post_message">
         </activity>
         <activity
@@ -44,7 +44,7 @@
             android:label="@string/title_activity_login">
         </activity>
         <activity
-            android:name=".sell.PhotoActivity"
+            android:name=".module_sell.PhotoActivity"
             android:label="@string/title_activity_photo"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>

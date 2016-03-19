@@ -16,15 +16,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.leelit.stuer.base_fragments.BaseInfoPostActivity;
+import com.leelit.stuer.base_fragments.BaseListFragment;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.constant.TabConstant;
-import com.leelit.stuer.fragments.BaseListFragment;
-import com.leelit.stuer.fragments.CarpoolFragment;
-import com.leelit.stuer.fragments.DatingFragment;
-import com.leelit.stuer.sell.SellPostActivity;
-import com.leelit.stuer.sell.SellFragment;
-import com.leelit.stuer.stu.StuFragment;
+import com.leelit.stuer.module_baseinfo.carpool.CarpoolFragment;
+import com.leelit.stuer.module_baseinfo.date.DateFragment;
+import com.leelit.stuer.module_sell.SellFragment;
+import com.leelit.stuer.module_sell.SellPostActivity;
+import com.leelit.stuer.module_stu.StuFragment;
 import com.leelit.stuer.utils.SPUtils;
 
 import butterknife.ButterKnife;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.CARPOOL);
                     startActivity(intent);
-                } else if (currentFragment instanceof DatingFragment) {
+                } else if (currentFragment instanceof DateFragment) {
                     Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
                     startActivity(intent);
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 carpoolInit();
             }
         } else if (title.equals(getString(R.string.date))) {
-            if (currentFragment instanceof DatingFragment) {
+            if (currentFragment instanceof DateFragment) {
                 return;
             } else {
                 dateInit();
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setIcon(R.drawable.pic2);
         mFabBtn.setImageResource(R.drawable.pic2);
-        currentFragment = new DatingFragment();
+        currentFragment = new DateFragment();
         mTabLayout.setVisibility(View.VISIBLE);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         int[] tabs = {R.string.tab_sport, R.string.tab_eat, R.string.tab_film, R.string.tab_game, R.string.tab_library, R.string.tab_others};
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             if (currentFragment instanceof CarpoolFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
                 startActivity(intent);
-            } else if (currentFragment instanceof DatingFragment) {
+            } else if (currentFragment instanceof DateFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
                 startActivity(intent);
