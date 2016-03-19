@@ -24,7 +24,7 @@ public class SellPostPresenter implements IPresenter{
     }
 
     public void doPost(SellInfo sellInfo) {
-        mView.showProgressDialog();
+        mView.showPostProgressDialog();
         mSubscriber1 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
@@ -33,21 +33,21 @@ public class SellPostPresenter implements IPresenter{
 
             @Override
             public void onError(Throwable e) {
-                mView.dismissProgressDialog();
+                mView.dismissPostProgressDialog();
                 mView.netError();
             }
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                mView.dismissProgressDialog();
-                mView.postSuccessfully();
+                mView.dismissPostProgressDialog();
+                mView.doAfterPostSuccessfully();
             }
         };
         mModel.addRecord(sellInfo, mSubscriber1);
     }
 
     public void doPostWithPhoto(File file, SellInfo sellInfo) {
-        mView.showProgressDialog();
+        mView.showPostProgressDialog();
         mSubscriber2 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
@@ -56,14 +56,14 @@ public class SellPostPresenter implements IPresenter{
 
             @Override
             public void onError(Throwable e) {
-                mView.dismissProgressDialog();
+                mView.dismissPostProgressDialog();
                 mView.netError();
             }
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                mView.dismissProgressDialog();
-                mView.postSuccessfully();
+                mView.dismissPostProgressDialog();
+                mView.doAfterPostSuccessfully();
             }
         };
         mModel.addRecordWithPhoto(file, sellInfo, mSubscriber2);

@@ -2,18 +2,18 @@ package com.leelit.stuer.fragments;
 
 import android.content.Intent;
 
-import com.leelit.stuer.MyOrderActivity;
+import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.CarpoolAdapter;
 import com.leelit.stuer.bean.CarpoolingInfo;
-import com.leelit.stuer.presenter.BaseInfoCarpoolPresenter;
+import com.leelit.stuer.presenter.CarpoolPresenter;
 
 /**
  * Created by Leelit on 2015/12/6.
  */
-public class CarpoolFragment extends BaseInfoBusinessFragment {
+public class CarpoolFragment extends BaseInfoFragment {
 
-    private BaseInfoCarpoolPresenter mCarpoolPresenter = new BaseInfoCarpoolPresenter(this);
+    private CarpoolPresenter mCarpoolPresenter = new CarpoolPresenter(this);
 
     @Override
     protected BaseListAdapter bindAdapter() {
@@ -22,17 +22,17 @@ public class CarpoolFragment extends BaseInfoBusinessFragment {
 
     @Override
     protected void refreshTask() {
-        mCarpoolPresenter.doLoadingInfos();
+        mCarpoolPresenter.doLoadingData();
     }
 
     @Override
     protected void postInfo() {
-        mCarpoolPresenter.doPostInfo((CarpoolingInfo) guest);
+        mCarpoolPresenter.doPostData((CarpoolingInfo) guest);
     }
 
     @Override
-    public void afterPostInfo() {
-        Intent intent = new Intent(getActivity(), MyOrderActivity.class);
+    public void doAfterJoinSuccessfully() {
+        Intent intent = new Intent(getActivity(), MyBusinessActivity.class);
         startActivity(intent);
     }
 

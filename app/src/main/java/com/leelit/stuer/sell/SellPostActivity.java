@@ -257,12 +257,12 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
     }
 
     @Override
-    public void showProgressDialog() {
+    public void showPostProgressDialog() {
         ProgressDialogUtils.showProgressDialog(this, "发送中...");
     }
 
     @Override
-    public void dismissProgressDialog() {
+    public void dismissPostProgressDialog() {
         ProgressDialogUtils.dismissProgressDialog();
     }
 
@@ -272,7 +272,7 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
     }
 
     @Override
-    public void postSuccessfully() {
+    public void doAfterPostSuccessfully() {
         Toast.makeText(this, "发送成功", Toast.LENGTH_SHORT).show();
         finish();
     }

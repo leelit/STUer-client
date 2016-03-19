@@ -28,7 +28,7 @@ import butterknife.InjectView;
 /**
  * Created by Leelit on 2016/3/2.
  */
-public abstract class BaseInfoBusinessFragment extends BaseListFragment implements IBaseInfoView {
+public abstract class BaseInfoFragment extends BaseListFragment implements IBaseInfoView {
 
     @InjectView(R.id.spinner_temporary_count)
     Spinner mSpinnerTemporaryCount;
@@ -123,41 +123,40 @@ public abstract class BaseInfoBusinessFragment extends BaseListFragment implemen
     }
 
 
-
     @Override
-    public void notRefreshing() {
+    public void stopRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showInfos(List<? extends BaseInfo> list) {
+    public void showData(List<? extends BaseInfo> list) {
         mList.clear();
         mList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void noInfos() {
-        toast("没有数据...");
+    public void noData() {
+        toast("当前没有数据...");
     }
 
     @Override
     public void netError() {
-        toast("网络异常，请稍后再试...");
+        toast(getString(R.string.toast_net_error));
     }
 
     @Override
-    public void showPostProgressDialog() {
+    public void showJoinProgressDialog() {
         mProgressDialog.show();
     }
 
     @Override
-    public void dismissPostProgressDialog() {
+    public void dismissJoinProgressDialog() {
         mProgressDialog.dismiss();
     }
 
     @Override
-    public void infoExist() {
+    public void showAlreadyJoin() {
         toast("当前已加入，请勿重复操作...");
     }
 

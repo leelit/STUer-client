@@ -24,7 +24,7 @@ public interface SellService {
     Observable<ResponseBody> addRecordWithPhoto(@Part("photo") RequestBody photo, @Part("info") SellInfo baseInfo);
 
     @GET("query")
-    Observable<List<SellInfo>> query(@Query("newer") String newer);
+    Observable<List<SellInfo>> getNewerData(@Query("newer") String newer);
 
     @GET("query")
     Observable<List<SellInfo>> getPersonalRecords(@Query("imei") String imei);

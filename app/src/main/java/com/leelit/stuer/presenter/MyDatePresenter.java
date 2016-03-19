@@ -3,7 +3,7 @@ package com.leelit.stuer.presenter;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.model.DateModel;
-import com.leelit.stuer.viewinterface.IMyOrderView;
+import com.leelit.stuer.viewinterface.IMyBaseInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +15,21 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class MyDatePresenter implements IMyOrderPresenter,IPresenter {
+public class MyDatePresenter implements IMyBaseInfoPresenter,IPresenter {
 
     private DateModel mModel = new DateModel();
 
-    private IMyOrderView mView;
+    private IMyBaseInfoView mView;
     private Subscriber<List<List<DatingInfo>>> mSubscriber1;
     private Subscriber<ResponseBody> mSubscriber2;
     private Subscriber<ResponseBody> mSubscriber3;
 
-    public MyDatePresenter(IMyOrderView view) {
+    public MyDatePresenter(IMyBaseInfoView view) {
         mView = view;
     }
 
     @Override
-    public void doLoadingInfos(String imei) {
+    public void doLoadingData(String imei) {
         mSubscriber1 = new Subscriber<List<List<DatingInfo>>>() {
             @Override
             public void onCompleted() {
@@ -38,20 +38,20 @@ public class MyDatePresenter implements IMyOrderPresenter,IPresenter {
 
             @Override
             public void onError(Throwable e) {
-                mView.notRefreshing();
+                mView.stopRefreshing();
                 mView.netError();
             }
 
             @Override
             public void onNext(List<List<DatingInfo>> lists) {
-                mView.notRefreshing();
+                mView.stopRefreshing();
                 List<List<? extends BaseInfo>> result = new ArrayList<>();
                 for (int i = 0; i < lists.size(); i++) {
                     result.add(lists.get(i));
                 }
-                mView.showInfos(result);
+                mView.showData(result);
                 if (lists.isEmpty()) {
-                    mView.noInfos();
+                    mView.noData();
                 }
             }
         };

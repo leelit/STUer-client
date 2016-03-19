@@ -3,7 +3,7 @@ package com.leelit.stuer.presenter;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.model.CarpoolModel;
-import com.leelit.stuer.viewinterface.IMyOrderView;
+import com.leelit.stuer.viewinterface.IMyBaseInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class MyCarpoolPresenter implements IMyOrderPresenter,IPresenter {
+public class MyCarpoolPresenter implements IMyBaseInfoPresenter,IPresenter {
 
     // Model此处无法抽象，因为接口不同；
     // Retrofit使用Gson进行字符串解析，并且RxJava#Observable<T>不能使用通配符，所以Gson从String-Object时必须指定确切类型，如果指定父类，则会丢失信息。
@@ -23,17 +23,17 @@ public class MyCarpoolPresenter implements IMyOrderPresenter,IPresenter {
 
     private CarpoolModel mModel = new CarpoolModel();
 
-    private IMyOrderView mView;
+    private IMyBaseInfoView mView;
     private Subscriber<List<List<CarpoolingInfo>>> mSubscriber1;
     private Subscriber<ResponseBody> mSubscriber2;
     private Subscriber<ResponseBody> mSubscriber3;
 
-    public MyCarpoolPresenter(IMyOrderView view) {
+    public MyCarpoolPresenter(IMyBaseInfoView view) {
         mView = view;
     }
 
     @Override
-    public void doLoadingInfos(String imei) {
+    public void doLoadingData(String imei) {
         mSubscriber1 = new Subscriber<List<List<CarpoolingInfo>>>() {
             @Override
             public void onCompleted() {
@@ -42,20 +42,20 @@ public class MyCarpoolPresenter implements IMyOrderPresenter,IPresenter {
 
             @Override
             public void onError(Throwable e) {
-                mView.notRefreshing();
+                mView.stopRefreshing();
                 mView.netError();
             }
 
             @Override
             public void onNext(List<List<CarpoolingInfo>> lists) {
-                mView.notRefreshing();
+                mView.stopRefreshing();
                 List<List<? extends BaseInfo>> result = new ArrayList<>();
                 for (int i = 0; i < lists.size(); i++) {
                     result.add(lists.get(i));
                 }
-                mView.showInfos(result);
+                mView.showData(result);
                 if (lists.isEmpty()) {
-                    mView.noInfos();
+                    mView.noData();
                 }
             }
         };

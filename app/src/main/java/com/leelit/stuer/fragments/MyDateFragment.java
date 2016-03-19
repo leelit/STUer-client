@@ -2,13 +2,13 @@ package com.leelit.stuer.fragments;
 
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.MyDateAdapter;
-import com.leelit.stuer.presenter.IMyOrderPresenter;
+import com.leelit.stuer.presenter.IMyBaseInfoPresenter;
 import com.leelit.stuer.presenter.MyDatePresenter;
 
 /**
  * Created by Leelit on 2016/3/1.
  */
-public class MyDateFragment extends MyOrderFragment {
+public class MyDateFragment extends MyBaseInfoFragment {
 
 
     @Override
@@ -18,7 +18,7 @@ public class MyDateFragment extends MyOrderFragment {
 
 
     @Override
-    protected IMyOrderPresenter bindPresenter() {
+    protected IMyBaseInfoPresenter bindPresenter() {
         return new MyDatePresenter(this);
     }
 }

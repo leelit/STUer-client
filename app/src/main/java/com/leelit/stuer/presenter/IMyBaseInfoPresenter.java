@@ -5,8 +5,8 @@ import java.util.Map;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public interface IMyOrderPresenter extends IPresenter {
-    void doLoadingInfos(String imei);
+public interface IMyBaseInfoPresenter extends IPresenter {
+    void doLoadingData(String imei);
 
     void doQuitOrder(Map<String, String> map, int position);
 

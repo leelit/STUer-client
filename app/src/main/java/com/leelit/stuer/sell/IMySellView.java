@@ -8,17 +8,20 @@ import java.util.List;
  * Created by Leelit on 2016/3/18.
  */
 public interface IMySellView {
-    void showLoading();
 
-    void dismissLoading();
+    void stopRefreshing();
 
     void netError();
 
-    void showInfos(List<SellInfo> sellInfos);
+    void showData(List<SellInfo> sellInfos);
 
-    void notRefreshing();
+    void noData();
 
-    void noInfos();
+    void showOffSellProgressDialog();
 
-    void offlineOrder(int position);
+    void dismissOffSellProgressDialog();
+
+    void offlineSell(int position);
+
+
 }

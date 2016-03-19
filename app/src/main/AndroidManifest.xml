@@ -24,11 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PostInfoActivity"
+            android:name=".BaseInfoPostActivity"
             android:label="@string/title_activity_carpooling">
         </activity>
         <activity
-            android:name=".MyOrderActivity"
+            android:name=".MyBusinessActivity"
             android:label="@string/title_activity_mine">
         </activity>
         <activity

@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.leelit.stuer.constant.MyOrderActivityConstant;
+import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.fragments.MyCarpoolFragment;
 import com.leelit.stuer.fragments.MyDateFragment;
 import com.leelit.stuer.sell.MySellFragment;
@@ -15,7 +15,7 @@ import com.leelit.stuer.sell.MySellFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MyOrderActivity extends AppCompatActivity {
+public class MyBusinessActivity extends AppCompatActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -28,18 +28,18 @@ public class MyOrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine);
+        setContentView(R.layout.activity_mybusiness);
         ButterKnife.inject(this);
 
-        mOrderActivityConstant = getIntent().getIntExtra(MyOrderActivityConstant.TAG, 1);
+        mOrderActivityConstant = getIntent().getIntExtra(MyBusinessConstant.TAG, 1);
 
-        if (mOrderActivityConstant == MyOrderActivityConstant.CARPOOL) {
+        if (mOrderActivityConstant == MyBusinessConstant.CARPOOL) {
             mToolbar.setTitle(getString(R.string.mine_title_1));
             mFragment = new MyCarpoolFragment();
-        }else if (mOrderActivityConstant == MyOrderActivityConstant.DATE) {
+        }else if (mOrderActivityConstant == MyBusinessConstant.DATE) {
             mToolbar.setTitle(getString(R.string.mine_title_2));
             mFragment = new MyDateFragment();
-        }else if (mOrderActivityConstant == MyOrderActivityConstant.SELL) {
+        }else if (mOrderActivityConstant == MyBusinessConstant.SELL) {
             mToolbar.setTitle("我的转让");
             mFragment = new MySellFragment();
         }

@@ -21,7 +21,7 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
     private MySellPresenter mSellPresenter = new MySellPresenter(this);
 
     @Override
-    public void notRefreshing() {
+    public void stopRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -31,7 +31,7 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
     }
 
     @Override
-    public void noInfos() {
+    public void noData() {
         toast(getResources().getString(R.string.toast_no_data));
     }
 
@@ -42,32 +42,32 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
 
     @Override
     protected void refreshTask() {
-        mSellPresenter.doLoadingInfos(AppInfoUtils.getImei());
+        mSellPresenter.doLoadingData(AppInfoUtils.getImei());
     }
 
     @Override
     protected void onItemClickEvent(View view, int position) {
-        mSellPresenter.doOfflineTheOrder(mList.get(position).getUniquecode(),position);
+        mSellPresenter.doOfflineSell(mList.get(position).getUniquecode(), position);
     }
 
     @Override
-    public void offlineOrder(int position) {
+    public void offlineSell(int position) {
         mAdapter.removeData(position);
     }
 
     @Override
-    public void showLoading() {
+    public void showOffSellProgressDialog() {
         ProgressDialogUtils.showProgressDialog(getContext(), "加载中...");
     }
 
     @Override
-    public void dismissLoading() {
+    public void dismissOffSellProgressDialog() {
         ProgressDialogUtils.dismissProgressDialog();
     }
 
 
     @Override
-    public void showInfos(List<SellInfo> sellInfos) {
+    public void showData(List<SellInfo> sellInfos) {
         mList.clear();
         mList.addAll(sellInfos);
         mAdapter.notifyDataSetChanged();

@@ -23,18 +23,18 @@ import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.common.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
-import com.leelit.stuer.constant.MyOrderActivityConstant;
-import com.leelit.stuer.presenter.PostInfoPresenter;
+import com.leelit.stuer.constant.MyBusinessConstant;
+import com.leelit.stuer.presenter.BaseInfoPostPresenter;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
-import com.leelit.stuer.viewinterface.IPostView;
+import com.leelit.stuer.viewinterface.IBaseInfoPostView;
 
 import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class PostInfoActivity extends AppCompatActivity implements IPostView {
+public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfoPostView {
 
 
     @InjectView(R.id.toolbar)
@@ -68,12 +68,12 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
     private int mFragmentIndex;
 
-    private PostInfoPresenter mPresenter = new PostInfoPresenter(this);
+    private BaseInfoPostPresenter mPresenter = new BaseInfoPostPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_info);
+        setContentView(R.layout.activity_baseinfo_post);
         ButterKnife.inject(this);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("发布中...");
@@ -227,11 +227,11 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
     private boolean commonPostCheckNotOk() {
         if (TextUtils.isEmpty(host.getDate())) {
-            Toast.makeText(PostInfoActivity.this, "未设置日期", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BaseInfoPostActivity.this, "未设置日期", Toast.LENGTH_SHORT).show();
             return true;
         }
         if (TextUtils.isEmpty(host.getTime())) {
-            Toast.makeText(PostInfoActivity.this, "未设置时间", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BaseInfoPostActivity.this, "未设置时间", Toast.LENGTH_SHORT).show();
             return true;
         }
         if (!host.completedAllInfo()) {
@@ -245,7 +245,7 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
         Calendar calendar = Calendar.getInstance();
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(PostInfoActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(BaseInfoPostActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String newHour;
@@ -273,7 +273,7 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog mDatePickerDialog = new DatePickerDialog(PostInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog mDatePickerDialog = new DatePickerDialog(BaseInfoPostActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
@@ -297,16 +297,16 @@ public class PostInfoActivity extends AppCompatActivity implements IPostView {
 
     @Override
     public void netError() {
-        Toast.makeText(PostInfoActivity.this, "网络异常，请稍后再试...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(BaseInfoPostActivity.this, "网络异常，请稍后再试...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void afterPost() {
-        Intent intent = new Intent(PostInfoActivity.this, MyOrderActivity.class);
+    public void doAfterPostSuccessfully() {
+        Intent intent = new Intent(BaseInfoPostActivity.this, MyBusinessActivity.class);
         if (mFragmentIndex == FragmentIndex.CARPOOL) {
-            intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.CARPOOL);
+            intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.CARPOOL);
         } else if (mFragmentIndex == FragmentIndex.DATE) {
-            intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
+            intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
         }
         startActivity(intent);
         finish();

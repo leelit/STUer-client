@@ -4,7 +4,7 @@ import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.model.CarpoolModel;
 import com.leelit.stuer.model.DateModel;
-import com.leelit.stuer.viewinterface.IPostView;
+import com.leelit.stuer.viewinterface.IBaseInfoPostView;
 
 import okhttp3.ResponseBody;
 import rx.Subscriber;
@@ -12,13 +12,13 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/9.
  */
-public class PostInfoPresenter implements IPresenter {
+public class BaseInfoPostPresenter implements IPresenter {
 
-    private IPostView mPostView;
+    private IBaseInfoPostView mPostView;
     private Subscriber<ResponseBody> mSubscriber1;
     private Subscriber<ResponseBody> mSubscriber2;
 
-    public PostInfoPresenter(IPostView postView) {
+    public BaseInfoPostPresenter(IBaseInfoPostView postView) {
         mPostView = postView;
     }
 
@@ -39,7 +39,7 @@ public class PostInfoPresenter implements IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mPostView.dismissPostProgressDialog();
-                mPostView.afterPost();
+                mPostView.doAfterPostSuccessfully();
             }
         };
         new CarpoolModel().addRecord(info, mSubscriber1);
@@ -62,7 +62,7 @@ public class PostInfoPresenter implements IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mPostView.dismissPostProgressDialog();
-                mPostView.afterPost();
+                mPostView.doAfterPostSuccessfully();
             }
         };
         new DateModel().addRecord(info, mSubscriber2);

@@ -1,7 +1,5 @@
 package com.leelit.stuer.sell;
 
-import android.util.Log;
-
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.dao.SellDao;
 import com.leelit.stuer.model.SellModel;
@@ -27,7 +25,7 @@ public class SellPresenter implements IPresenter {
     }
 
 
-    public void doQueryList() {
+    public void doLoadDataFromNet() {
         mSubscriber1 = new Subscriber<List<SellInfo>>() {
             @Override
             public void onCompleted() {
@@ -36,27 +34,27 @@ public class SellPresenter implements IPresenter {
 
             @Override
             public void onError(Throwable e) {
-                mView.notRefreshing();
+                mView.stopRefreshing();
                 mView.netError();
             }
 
             @Override
             public void onNext(List<SellInfo> sellInfos) {
-                mView.notRefreshing();
-                mView.showFormRefreshInfos(sellInfos);
+                mView.stopRefreshing();
+                mView.showDataFromNet(sellInfos);
                 if (sellInfos.isEmpty()) {
-                    mView.showNoInfosPleaseWait();
+                    mView.showNoDataFromNet();
                 } else {
                     mModel.save(sellInfos);
                 }
             }
         };
-        mModel.query(mSubscriber1);
+        mModel.getNewerData(mSubscriber1);
     }
 
 
-    public void doLoadFromDb() {
-        mView.showLoading();
+    public void doLoadDataFromDb() {
+        mView.showLoadingDbProgressDialog();
         mSubscriber2 = new Subscriber<List<SellInfo>>() {
             @Override
             public void onCompleted() {
@@ -66,15 +64,15 @@ public class SellPresenter implements IPresenter {
             @Override
             public void onError(Throwable e) {
                 // do nothing
-                mView.dismissLoading();
+                mView.dismissLoadingDbProgressDialog();
             }
 
             @Override
             public void onNext(List<SellInfo> sellInfos) {
-                mView.showFromLoadDbInfos(sellInfos);
-                mView.dismissLoading();
+                mView.showDataFromDb(sellInfos);
+                mView.dismissLoadingDbProgressDialog();
                 if (sellInfos.isEmpty()) {
-                    mView.showNoInfosPleaseRefresh();
+                    mView.showNoDataInDb();
                 }
             }
         };
@@ -82,7 +80,7 @@ public class SellPresenter implements IPresenter {
     }
 
     public void doContactSeller(final SellInfo info, final int position) {
-        mView.showLoading();
+        mView.showLoadingDbProgressDialog();
         mSubscriber3 = new Subscriber<SellInfo>() {
             @Override
             public void onCompleted() {
@@ -91,17 +89,17 @@ public class SellPresenter implements IPresenter {
 
             @Override
             public void onError(Throwable e) {
-                mView.dismissLoading();
+                mView.dismissLoadingDbProgressDialog();
                 // 网络出错则不关心是否已售出，直接让同学联系商家
                 mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
             }
 
             @Override
             public void onNext(SellInfo sellinfo) {
-                mView.dismissLoading();
+                mView.dismissLoadingDbProgressDialog();
                 if (sellinfo.getStatus().equals("off")) {
                     new SellDao().updateStatusInSell(sellinfo); // 这里同步操作，因为确保刷新时数据已变...
-                    mView.showGoodsOffLine(position);
+                    mView.showGoodsOffline(position);
                 } else {
                     mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
                 }

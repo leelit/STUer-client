@@ -3,20 +3,20 @@ package com.leelit.stuer.fragments;
 import android.content.Intent;
 
 import com.leelit.stuer.MainActivity;
-import com.leelit.stuer.MyOrderActivity;
+import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.adapters.DateAdapter;
 import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.constant.MyOrderActivityConstant;
-import com.leelit.stuer.presenter.BaseInfoDatePresenter;
+import com.leelit.stuer.constant.MyBusinessConstant;
+import com.leelit.stuer.presenter.DatePresenter;
 
 /**
  * Created by Leelit on 2016/1/17.
  */
-public class DatingFragment extends BaseInfoBusinessFragment {
+public class DatingFragment extends BaseInfoFragment {
 
 
-    private BaseInfoDatePresenter mDatePresenter = new BaseInfoDatePresenter(this);
+    private DatePresenter mDatePresenter = new DatePresenter(this);
 
     @Override
     protected BaseListAdapter bindAdapter() {
@@ -25,18 +25,18 @@ public class DatingFragment extends BaseInfoBusinessFragment {
 
     @Override
     protected void refreshTask() {
-        mDatePresenter.doLoadingInfos(String.valueOf(MainActivity.mTabValue));
+        mDatePresenter.doLoadingData(String.valueOf(MainActivity.mTabValue));
     }
 
     @Override
     protected void postInfo() {
-        mDatePresenter.doPostInfo((DatingInfo) guest);
+        mDatePresenter.doPostData((DatingInfo) guest);
     }
 
     @Override
-    public void afterPostInfo() {
-        Intent intent = new Intent(getActivity(), MyOrderActivity.class);
-        intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
+    public void doAfterJoinSuccessfully() {
+        Intent intent = new Intent(getActivity(), MyBusinessActivity.class);
+        intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
         startActivity(intent);
     }
 

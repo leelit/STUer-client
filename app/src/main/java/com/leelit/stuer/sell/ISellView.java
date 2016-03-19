@@ -1,7 +1,5 @@
 package com.leelit.stuer.sell;
 
-import android.content.Context;
-
 import com.leelit.stuer.bean.SellInfo;
 
 import java.util.List;
@@ -10,25 +8,24 @@ import java.util.List;
  * Created by Leelit on 2016/3/16.
  */
 public interface ISellView {
+
+    void stopRefreshing();
+
     void netError();
 
-    void showFromLoadDbInfos(List<SellInfo> sellInfos);
+    void showDataFromDb(List<SellInfo> sellInfos);
 
-    void notRefreshing();
+    void showLoadingDbProgressDialog();
 
-    void showLoading();
+    void dismissLoadingDbProgressDialog();
 
-    void dismissLoading();
+    void showNoDataInDb();
 
-    void showFormRefreshInfos(List<SellInfo> sellInfos);
+    void showDataFromNet(List<SellInfo> sellInfos);
 
-    void showNoInfosPleaseRefresh();
+    void showNoDataFromNet();
 
-    void showNoInfosPleaseWait();
-
-    Context getContext();
-
-    void showGoodsOffLine(int position);
+    void showGoodsOffline(int position);
 
     void showContactDialog(String tel, String shortel, String wechat);
 }

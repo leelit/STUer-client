@@ -36,7 +36,7 @@ public class SellModel {
             = MediaType.parse("image/*");
 
 
-    public void query(Subscriber<List<SellInfo>> subscriber) {
+    public void getNewerData(Subscriber<List<SellInfo>> subscriber) {
         Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -48,7 +48,7 @@ public class SellModel {
 
             @Override
             public Observable<List<SellInfo>> call(String s) {
-                return mService.query(s);
+                return mService.getNewerData(s);
             }
         });
         SupportUtils.toSubscribe(observable, subscriber);  // 想服务器请求比这个时间更新的数据

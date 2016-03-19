@@ -9,19 +9,20 @@ import java.util.List;
  */
 public interface IBaseInfoView {
 
-    void notRefreshing();
-
-    void showInfos(List<? extends BaseInfo> list);
-
-    void noInfos();
+    void stopRefreshing();
 
     void netError();
 
-    void showPostProgressDialog();
+    void showData(List<? extends BaseInfo> list);
 
-    void dismissPostProgressDialog();
+    void noData();
 
-    void infoExist();
+    void showJoinProgressDialog();
 
-    void afterPostInfo();
+    void dismissJoinProgressDialog();
+
+    void showAlreadyJoin();
+
+    void doAfterJoinSuccessfully();
+
 }

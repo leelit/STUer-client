@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.leelit.stuer.constant.FragmentIndex;
-import com.leelit.stuer.constant.MyOrderActivityConstant;
+import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.constant.TabConstant;
 import com.leelit.stuer.fragments.BaseListFragment;
 import com.leelit.stuer.fragments.CarpoolFragment;
@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentFragment instanceof CarpoolFragment) {
-                    Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.CARPOOL);
                     startActivity(intent);
                 } else if (currentFragment instanceof DatingFragment) {
-                    Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
                     startActivity(intent);
                 } else {
@@ -256,15 +256,15 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_mine) {
             if (currentFragment instanceof CarpoolFragment) {
-                Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
+                Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
                 startActivity(intent);
             } else if (currentFragment instanceof DatingFragment) {
-                Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
-                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
+                Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
+                intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
                 startActivity(intent);
             } else if (currentFragment instanceof SellFragment) {
-                Intent intent = new Intent(this, MyOrderActivity.class);
-                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.SELL);
+                Intent intent = new Intent(this, MyBusinessActivity.class);
+                intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.SELL);
                 startActivity(intent);
             }
             return true;

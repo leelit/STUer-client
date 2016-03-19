@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.BaseInfo;
-import com.leelit.stuer.presenter.IMyOrderPresenter;
+import com.leelit.stuer.presenter.IMyBaseInfoPresenter;
 import com.leelit.stuer.utils.AppInfoUtils;
-import com.leelit.stuer.viewinterface.IMyOrderView;
+import com.leelit.stuer.viewinterface.IMyBaseInfoView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +21,14 @@ import java.util.Map;
 /**
  * Created by Leelit on 2016/3/2.
  */
-public abstract class MyOrderFragment extends BaseListFragment implements IMyOrderView {
+public abstract class MyBaseInfoFragment extends BaseListFragment implements IMyBaseInfoView {
 
     protected List<List<? extends BaseInfo>> mList = new ArrayList<>();
     private ProgressDialog mProgressDialog;
 
-    private IMyOrderPresenter mPresenter;
+    private IMyBaseInfoPresenter mPresenter;
 
-    protected abstract IMyOrderPresenter bindPresenter();
+    protected abstract IMyBaseInfoPresenter bindPresenter();
 
     @Nullable
     @Override
@@ -40,7 +40,7 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
 
     @Override
     protected void refreshTask() {
-        mPresenter.doLoadingInfos(AppInfoUtils.getImei());
+        mPresenter.doLoadingData(AppInfoUtils.getImei());
     }
 
     @Override
@@ -78,19 +78,19 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
 
 
     @Override
-    public void notRefreshing() {
+    public void stopRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showInfos(List<List<? extends BaseInfo>> lists) {
+    public void showData(List<List<? extends BaseInfo>> lists) {
         mList.clear();
         mList.addAll(lists);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void noInfos() {
+    public void noData() {
         toast(getResources().getString(R.string.toast_no_data));
     }
 

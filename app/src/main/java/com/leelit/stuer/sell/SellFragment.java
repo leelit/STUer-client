@@ -41,22 +41,22 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     public void taskAfterLoaded() {
-        mSellPresenter.doLoadFromDb();
+        mSellPresenter.doLoadDataFromDb();
     }
 
     @Override
-    public void showNoInfosPleaseWait() {
+    public void showNoDataFromNet() {
         toast("没有新的数据，请稍后再来...");
     }
 
     @Override
-    public void showNoInfosPleaseRefresh() {
-        toast("没有数据，请刷新...");
+    public void showNoDataInDb() {
+        toast("首次使用没有缓存数据，请刷新...");
     }
 
     @Override
     protected void refreshTask() {
-        mSellPresenter.doQueryList();
+        mSellPresenter.doLoadDataFromNet();
     }
 
     @Override
@@ -70,30 +70,30 @@ public class SellFragment extends BaseListFragment implements ISellView {
     }
 
     @Override
-    public void showFromLoadDbInfos(List<SellInfo> sellInfos) {
+    public void showDataFromDb(List<SellInfo> sellInfos) {
         mList.clear();
         mList.addAll(sellInfos);
         mSellAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void notRefreshing() {
+    public void stopRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
 
     @Override
-    public void showLoading() {
+    public void showLoadingDbProgressDialog() {
         ProgressDialogUtils.showProgressDialog(getActivity(), "加载中...");
     }
 
     @Override
-    public void dismissLoading() {
+    public void dismissLoadingDbProgressDialog() {
         ProgressDialogUtils.dismissProgressDialog();
     }
 
     @Override
-    public void showFormRefreshInfos(List<SellInfo> sellInfos) {
+    public void showDataFromNet(List<SellInfo> sellInfos) {
         Collections.reverse(mList); // loadFromDb展示后的时间顺序是 4 3 2 1， reverse后 1 2 3 4
         mList.addAll(sellInfos);    // 加入5 6 7 8后变成 1 2 3 4 5 6 7 8
         Collections.reverse(mList); // reverse后 8 7 6 5 4 3 2 1
@@ -102,7 +102,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
 
     @Override
-    public void showGoodsOffLine(int position) {
+    public void showGoodsOffline(int position) {
         toast("该商品已售出...");
         mList.get(position).setStatus("off");
         mAdapter.notifyDataSetChanged();

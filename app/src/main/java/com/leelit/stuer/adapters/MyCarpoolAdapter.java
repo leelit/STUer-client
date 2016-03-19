@@ -38,7 +38,7 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_mine_order, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_baseinfo_my, parent, false);
         return new ViewHolder(view);
     }
 
@@ -70,7 +70,7 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
 
     @NonNull
     private TextView getTextView(final CarpoolingInfo info, LinearLayout linearLayout) {
-        TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.recycler_mine_order_friends, linearLayout, false);
+        TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.recycler_baseinfo_friends_inflate, linearLayout, false);
         if (info.getFlag().equals("host")) {
             String text = "拼主:" + info.getName() + " 已有:" + info.getTemporaryCount();
             textView.setText(text);
