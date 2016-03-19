@@ -2,14 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="?attr/colorPrimary">
+                android:background="@drawable/ic_nav_header_androidl">
+
+
+    <ImageView
+        android:id="@+id/nav_header_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_nav_header_pheonix"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:id="@+id/nav_header_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/nav_header_iv"
         android:layout_centerInParent="true"
-        android:text="STUer"
-        android:textSize="24sp"/>
+        android:text="有志  有识  有恒  有为"
+        android:textColor="#b9bdb8"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

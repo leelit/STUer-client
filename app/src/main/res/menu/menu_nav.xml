@@ -8,31 +8,31 @@
             <menu>
                 <item
                     android:id="@+id/nva_carpool"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_car"
                     android:title="@string/carpool"
                     app:showAsAction="always"/>
 
                 <item
                     android:id="@+id/nva_date"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_date"
                     android:title="@string/date"
                     app:showAsAction="always"/>
 
                 <item
                     android:id="@+id/nav_sell"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_sell"
                     android:title="@string/sell"
                     app:showAsAction="always"/>
 
                 <item
                     android:id="@+id/nav_treehole"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_treehole"
                     android:title="@string/treehole"
                     app:showAsAction="always"/>
 
                 <item
                     android:id="@+id/nav_stu"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_stu"
                     android:title="@string/stu"
                     app:showAsAction="always"/>
 
@@ -41,9 +41,21 @@
 
         <item android:title="@string/others">
             <menu>
+
+
+                <item
+                    android:id="@+id/nav_daynight"
+                    android:icon="@drawable/ic_nav_daynight"
+                    android:title="@string/daynight"/>
+
+                <item
+                    android:id="@+id/nav_setting"
+                    android:icon="@drawable/ic_nav_setting"
+                    android:title="@string/setting"/>
+
                 <item
                     android:id="@+id/nav_about"
-                    android:icon="@drawable/place_holder_white"
+                    android:icon="@drawable/ic_nav_about"
                     android:title="@string/about"/>
             </menu>
         </item>

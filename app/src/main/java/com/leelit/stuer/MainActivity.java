@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNavigationView() {
-        mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_tv).setOnClickListener(new View.OnClickListener() {
+        mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -154,18 +154,25 @@ public class MainActivity extends AppCompatActivity {
         showFragment(currentFragment);
     }
 
+    private void stuInit() {
+        mFabBtn.setVisibility(View.INVISIBLE);
+        mMainMenuItem.setVisible(false);
+        currentFragment = new StuFragment();
+        mTabLayout.setVisibility(View.GONE);
+    }
+
     private void sellInit() {
         mFabBtn.setVisibility(View.VISIBLE);
-        mMainMenuItem.setIcon(R.drawable.pic3);
-        mFabBtn.setImageResource(R.drawable.pic3);
+        mMainMenuItem.setVisible(true);
+        mMainMenuItem.setIcon(R.drawable.ic_menu_sell_my);
         currentFragment = new SellFragment();
         mTabLayout.setVisibility(View.GONE);
     }
 
     private void dateInit() {
         mFabBtn.setVisibility(View.VISIBLE);
-        mMainMenuItem.setIcon(R.drawable.pic2);
-        mFabBtn.setImageResource(R.drawable.pic2);
+        mMainMenuItem.setVisible(true);
+        mMainMenuItem.setIcon(R.drawable.ic_nav_date);
         currentFragment = new DateFragment();
         mTabLayout.setVisibility(View.VISIBLE);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -207,19 +214,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void carpoolInit() {
         mFabBtn.setVisibility(View.VISIBLE);
-        mMainMenuItem.setIcon(R.drawable.pic1);
-        mFabBtn.setImageResource(R.drawable.pic1);
+        mMainMenuItem.setVisible(true);
+        mMainMenuItem.setIcon(R.drawable.ic_nav_car);
         currentFragment = new CarpoolFragment();
         mTabLayout.setVisibility(View.GONE);
     }
 
-    private void stuInit() {
-        mFabBtn.setVisibility(View.INVISIBLE);
-        mMainMenuItem.setIcon(R.drawable.pic5);
-        mFabBtn.setImageResource(R.drawable.pic5);
-        currentFragment = new StuFragment();
-        mTabLayout.setVisibility(View.GONE);
-    }
 
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager().

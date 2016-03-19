@@ -4,7 +4,7 @@
       tools:context=".MainActivity">
     <item
         android:id="@+id/action_mine"
-        android:icon="@drawable/pic1"
+        android:icon="@drawable/ic_nav_car"
         android:orderInCategory="100"
         android:title="@string/mine"
         app:showAsAction="always"/>
