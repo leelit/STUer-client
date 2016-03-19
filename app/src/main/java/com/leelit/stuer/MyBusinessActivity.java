@@ -46,7 +46,7 @@ public class MyBusinessActivity extends AppCompatActivity {
 
 
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
