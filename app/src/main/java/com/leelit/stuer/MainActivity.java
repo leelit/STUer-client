@@ -263,8 +263,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.DATE);
                 startActivity(intent);
             } else if (currentFragment instanceof SellFragment) {
-//                Intent intent = new Intent(this, SellPostActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(this, MyOrderActivity.class);
+                intent.putExtra(MyOrderActivityConstant.TAG, MyOrderActivityConstant.SELL);
+                startActivity(intent);
             }
             return true;
         }

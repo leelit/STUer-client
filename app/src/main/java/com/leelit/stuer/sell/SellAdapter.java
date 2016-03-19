@@ -2,6 +2,7 @@ package com.leelit.stuer.sell;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
 
     private Context mContext;
     private List<SellInfo> mList;
+//    private List<SellInfo> mCollects;
 
     public SellAdapter(List<SellInfo> list) {
         mList = list;
@@ -38,16 +40,37 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+//        mCollects = new SellDao().getAll(SellDao.TABLES[1]);  // should it must be presenter ?
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_sell, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        SellInfo sellInfo = mList.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final SellInfo sellInfo = mList.get(position);
         holder.mName.setText(sellInfo.getName());
         holder.mTime.setText(TimeUtils.compareNowWithBefore(sellInfo.getDatetime()));
         holder.mState.setText(sellInfo.getState());
         holder.mStatus.setText(sellInfo.getStatus());
+        if (sellInfo.getStatus().equals("off")) {
+            holder.mStatus.setTextColor(holder.mName.getCurrentTextColor());
+        } else {
+            holder.mStatus.setTextColor(Color.rgb(255, 96, 110));
+        }
+
+        // 转移到Fragment
+        holder.mContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = holder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(v, pos);
+            }
+        });
+
+        pictureOperation(holder, sellInfo);
+//        collectOperation(holder, sellInfo);
+    }
+
+    private void pictureOperation(ViewHolder holder, SellInfo sellInfo) {
         final String picAddress = sellInfo.getPicAddress();
         if (picAddress.equals("empty")) {
             holder.mPhoto.setVisibility(View.GONE);
@@ -57,7 +80,7 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
             holder.mPhoto.setClickable(true);
             Picasso.with(mContext)
                     .load(SupportUtils.HOST + "picture/" + picAddress + ".jpg")
-                    .resize(ScreenUtils.dp2px(100f), ScreenUtils.dp2px(100f))
+                    .resize(ScreenUtils.dp2px(50f), ScreenUtils.dp2px(50f))
                     .centerCrop()
                     .into(holder.mPhoto);
             holder.mPhoto.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +94,32 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
         }
     }
 
-
+//    private void collectOperation(final ViewHolder holder, final SellInfo sellInfo) {
+//        boolean isAlreadyCollect = false;
+//        for (SellInfo collect : mCollects) {
+//            if (collect.getUniquecode().equals(sellInfo.getUniquecode())) {
+//                isAlreadyCollect = true;
+//            }
+//        }
+//        if (isAlreadyCollect) {
+//            holder.mCollect.setImageResource(R.drawable.ic_bookmark);
+//        } else {
+//            holder.mCollect.setImageResource(R.drawable.ic_bookmark_no);
+//        }
+//        final boolean finalIsAlreadyCollect = isAlreadyCollect;
+//        holder.mCollect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (finalIsAlreadyCollect) {
+//                    holder.mCollect.setImageResource(R.drawable.ic_bookmark_no);
+//                    new SellDao().unCollectInSellCollector(sellInfo);
+//                } else {
+//                    holder.mCollect.setImageResource(R.drawable.ic_bookmark);
+//                    new SellDao().save(SellDao.TABLES[1], sellInfo);
+//                }
+//            }
+//        });
+//    }
 
 
     @Override
@@ -104,6 +152,8 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
         ImageView mPhoto;
         @InjectView(R.id.cardView)
         CardView mCardView;
+        @InjectView(R.id.contact)
+        ImageView mContact;
 
         ViewHolder(View view) {
             super(view);

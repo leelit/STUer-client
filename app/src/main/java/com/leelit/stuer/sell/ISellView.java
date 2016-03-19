@@ -1,5 +1,7 @@
 package com.leelit.stuer.sell;
 
+import android.content.Context;
+
 import com.leelit.stuer.bean.SellInfo;
 
 import java.util.List;
@@ -23,4 +25,10 @@ public interface ISellView {
     void showNoInfosPleaseRefresh();
 
     void showNoInfosPleaseWait();
+
+    Context getContext();
+
+    void showGoodsOffLine(int position);
+
+    void showContactDialog(String tel, String shortel, String wechat);
 }

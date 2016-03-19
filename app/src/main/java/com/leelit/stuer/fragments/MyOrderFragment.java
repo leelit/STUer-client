@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leelit.stuer.R;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.presenter.IMyOrderPresenter;
 import com.leelit.stuer.utils.AppInfoUtils;
@@ -90,12 +91,12 @@ public abstract class MyOrderFragment extends BaseListFragment implements IMyOrd
 
     @Override
     public void noInfos() {
-        toast("没有数据...");
+        toast(getResources().getString(R.string.toast_no_data));
     }
 
     @Override
     public void netError() {
-        toast("网络异常，请稍后再试...");
+        toast(getResources().getString(R.string.toast_net_error));
     }
 
     @Override

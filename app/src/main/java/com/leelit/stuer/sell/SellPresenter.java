@@ -1,6 +1,9 @@
 package com.leelit.stuer.sell;
 
+import android.util.Log;
+
 import com.leelit.stuer.bean.SellInfo;
+import com.leelit.stuer.dao.SellDao;
 import com.leelit.stuer.model.SellModel;
 import com.leelit.stuer.presenter.IPresenter;
 
@@ -76,7 +79,36 @@ public class SellPresenter implements IPresenter {
                 mView.showFromLoadDbInfos(sellInfos);
                 mView.dismissLoading();
                 if (sellInfos.isEmpty()) {
-                   mView.showNoInfosPleaseRefresh();
+                    mView.showNoInfosPleaseRefresh();
+                }
+            }
+        });
+    }
+
+    public void doContactSeller(final SellInfo info, final int position) {
+        mView.showLoading();
+        mModel.checkGoodsStillHere(info.getUniquecode(), new Subscriber<SellInfo>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.dismissLoading();
+                // 网络出错则不关心是否已售出，直接让同学联系商家
+                mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
+                Log.e("tag", "hehe");
+            }
+
+            @Override
+            public void onNext(SellInfo sellinfo) {
+                mView.dismissLoading();
+                if (sellinfo.getStatus().equals("off")) {
+                    new SellDao().updateStatusInSell(sellinfo); // 这里同步操作，因为确保刷新时数据已变...
+                    mView.showGoodsOffLine(position);
+                } else {
+                    mView.showContactDialog(info.getTel(), info.getShortTel(), info.getWechat());
                 }
             }
         });

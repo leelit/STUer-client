@@ -25,4 +25,13 @@ public interface SellService {
 
     @GET("query")
     Observable<List<SellInfo>> query(@Query("newer") String newer);
+
+    @GET("query")
+    Observable<List<SellInfo>> getPersonalRecords(@Query("imei") String imei);
+
+    @GET("check")
+    Observable<SellInfo> checkFoodsStillHere(@Query("uniquecode") String uniquecode);
+
+    @GET("delete")
+    Observable<ResponseBody> offlineOrder(@Query("uniquecode") String uniquecode);
 }

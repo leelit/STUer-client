@@ -79,7 +79,7 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
         mSellInfo.setTel(SPUtils.getString(LoginActivity.INFOS[1]));
         mSellInfo.setShortTel(SPUtils.getString(LoginActivity.INFOS[2]));
         mSellInfo.setWechat(SPUtils.getString(LoginActivity.INFOS[3]));
-        mSellInfo.setFlag("host");
+        mSellInfo.setUniquecode(AppInfoUtils.getUniqueCode());
         mSellInfo.setStatus("on");
         mSellInfo.setImei(AppInfoUtils.getImei());
     }
@@ -224,7 +224,6 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
     private void pickImageError() {
         Toast.makeText(this, "兼容性有问题...请选择其他方式...", Toast.LENGTH_SHORT).show();
     }
-
 
 
     @Override

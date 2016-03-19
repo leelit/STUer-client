@@ -1,6 +1,5 @@
 package com.leelit.stuer.sell;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import com.leelit.stuer.R;
 import com.leelit.stuer.adapters.BaseListAdapter;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.fragments.BaseListFragment;
+import com.leelit.stuer.utils.ContactUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import java.util.ArrayList;
@@ -24,15 +24,12 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     private SellPresenter mSellPresenter = new SellPresenter(this);
     private List<SellInfo> mList = new ArrayList<>();
-    private ProgressDialog mProgressDialog;
     private SellAdapter mSellAdapter;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("加载中");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -64,7 +61,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     protected void onItemClickEvent(View view, int position) {
-
+        mSellPresenter.doContactSeller(mList.get(position), position);
     }
 
     @Override
@@ -101,6 +98,19 @@ public class SellFragment extends BaseListFragment implements ISellView {
         mList.addAll(sellInfos);    // 加入5 6 7 8后变成 1 2 3 4 5 6 7 8
         Collections.reverse(mList); // reverse后 8 7 6 5 4 3 2 1
         mAdapter.notifyDataSetChanged();  // 正确的时间顺序
+    }
+
+
+    @Override
+    public void showGoodsOffLine(int position) {
+        toast("该商品已售出...");
+        mList.get(position).setStatus("off");
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showContactDialog(String tel, String shortel, String wechat) {
+        ContactUtils.createContactDialog(getContext(), tel, shortel, wechat).show();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import com.leelit.stuer.constant.MyOrderActivityConstant;
 import com.leelit.stuer.fragments.MyCarpoolFragment;
 import com.leelit.stuer.fragments.MyDateFragment;
+import com.leelit.stuer.sell.MySellFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,7 +39,11 @@ public class MyOrderActivity extends AppCompatActivity {
         }else if (mOrderActivityConstant == MyOrderActivityConstant.DATE) {
             mToolbar.setTitle(getString(R.string.mine_title_2));
             mFragment = new MyDateFragment();
+        }else if (mOrderActivityConstant == MyOrderActivityConstant.SELL) {
+            mToolbar.setTitle("我的转让");
+            mFragment = new MySellFragment();
         }
+
 
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);

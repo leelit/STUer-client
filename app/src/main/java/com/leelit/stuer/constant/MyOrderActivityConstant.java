@@ -9,4 +9,5 @@ public class MyOrderActivityConstant {
 
     public static final int CARPOOL = 1;
     public static final int DATE = 2;
+    public static final int SELL = 3;
 }

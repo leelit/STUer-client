@@ -1,12 +1,7 @@
 package com.leelit.stuer.adapters;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
+import com.leelit.stuer.utils.ContactUtils;
 
 import java.util.List;
 
@@ -88,43 +83,13 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                final String[] items = {"拨打长号", "拨打短号", "发送短信", "复制微信号"};
-                AlertDialog dialog = builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + info.getTel()));
-                                mContext.startActivity(intent1);
-                                break;
-                            case 1:
-                                if (info.getShortTel().equals("无")) {
-                                    Toast.makeText(mContext, "对方无短号", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Intent intent2 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + info.getShortTel()));
-                                    mContext.startActivity(intent2);
-                                }
-                                break;
-                            case 2:
-                                Intent intent3 = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + info.getTel()));
-                                mContext.startActivity(intent3);
-                                break;
-                            case 3:
-                                ClipboardManager myClipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData myClip = ClipData.newPlainText("text", info.getWechat());
-                                myClipboard.setPrimaryClip(myClip);
-                                Toast.makeText(mContext, "已复制微信号：" + info.getWechat(), Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        dialog.dismiss();
-                    }
-                }).create();
+                AlertDialog dialog = ContactUtils.createContactDialog(mContext, info.getTel(), info.getShortTel(), info.getWechat());
                 dialog.show();
             }
         });
         return textView;
     }
+
 
     @Override
     public int getItemCount() {

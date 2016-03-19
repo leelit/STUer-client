@@ -14,6 +14,24 @@ import java.util.List;
  */
 public class SellDao {
 
+    public static final String[] TABLES = {"sell", "sell_collector"};
+
+    public void save(String whichTable, SellInfo info) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(keys[0], info.getName());
+        values.put(keys[1], info.getTel());
+        values.put(keys[2], info.getShortTel());
+        values.put(keys[3], info.getWechat());
+        values.put(keys[4], info.getDatetime());
+        values.put(keys[5], info.getImei());
+        values.put(keys[6], info.getPicAddress());
+        values.put(keys[7], info.getState());
+        values.put(keys[8], info.getUniquecode());
+        values.put(keys[9], info.getStatus());
+        db.insert(whichTable, null, values);
+    }
+
     public void save(List<SellInfo> infos) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
         db.beginTransaction();
@@ -27,7 +45,7 @@ public class SellDao {
             values.put(keys[5], info.getImei());
             values.put(keys[6], info.getPicAddress());
             values.put(keys[7], info.getState());
-            values.put(keys[8], info.getFlag());
+            values.put(keys[8], info.getUniquecode());
             values.put(keys[9], info.getStatus());
             db.insert("sell", null, values);
         }
@@ -35,14 +53,14 @@ public class SellDao {
         db.endTransaction();
     }
 
-    private static final String[] keys = {"name", "tel", "shorttel", "wechat", "dt", "imei", "picaddress", "state", "flag", "status"};
+    private static final String[] keys = {"name", "tel", "shorttel", "wechat", "dt", "imei", "picaddress", "state", "uniquecode", "status"};
 
 
-    public List<SellInfo> getAll() {
+    public List<SellInfo> getAll(String whichTable) {
         List<SellInfo> result = new ArrayList<>();
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         db.beginTransaction();
-        Cursor cursor = db.query("sell", null, null, null, null, null, null);
+        Cursor cursor = db.query(whichTable, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 SellInfo sellInfo = new SellInfo();
@@ -54,7 +72,7 @@ public class SellDao {
                 sellInfo.setImei(cursor.getString(cursor.getColumnIndex(keys[5])));
                 sellInfo.setPicAddress(cursor.getString(cursor.getColumnIndex(keys[6])));
                 sellInfo.setState(cursor.getString(cursor.getColumnIndex(keys[7])));
-                sellInfo.setFlag(cursor.getString(cursor.getColumnIndex(keys[8])));
+                sellInfo.setUniquecode(cursor.getString(cursor.getColumnIndex(keys[8])));
                 sellInfo.setStatus(cursor.getString(cursor.getColumnIndex(keys[9])));
                 result.add(sellInfo);
             } while (cursor.moveToNext());
@@ -67,7 +85,7 @@ public class SellDao {
 
 
     /**
-     * 查询最后一行，代表最新的数据
+     * 向后台查询最后一行，代表最新的数据
      *
      * @return 最新的数据的时间
      */
@@ -80,5 +98,19 @@ public class SellDao {
         }
         cursor.close();
         return str;
+    }
+
+    public void updateStatusInSell(SellInfo sellinfo) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("status", "off");
+        String uniquecode = sellinfo.getUniquecode();
+        db.update("sell", values, "uniquecode = ?", new String[]{uniquecode});
+    }
+
+    public void unCollectInSellCollector(SellInfo sellInfo) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        String uniquecode = sellInfo.getUniquecode();
+        db.delete("sell_collector", "uniquecode = ?", new String[]{uniquecode});
     }
 }

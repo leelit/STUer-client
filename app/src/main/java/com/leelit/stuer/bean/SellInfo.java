@@ -13,7 +13,7 @@ public class SellInfo {
     String imei;
     String picAddress;
     String state;
-    String flag; // host // guest
+    String uniquecode; // attention 这里的flag和carpool/date模块不同，唯一订单号，相当于前两个的uniquecode
     String status; // on // off
 
     @Override
@@ -28,7 +28,7 @@ public class SellInfo {
                 ", imei='" + imei + '\'' +
                 ", picAddress='" + picAddress + '\'' +
                 ", state='" + state + '\'' +
-                ", flag='" + flag + '\'' +
+                ", uniquecode='" + uniquecode + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }
@@ -97,12 +97,12 @@ public class SellInfo {
         this.state = state;
     }
 
-    public String getFlag() {
-        return flag;
+    public String getUniquecode() {
+        return uniquecode;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setUniquecode(String uniquecode) {
+        this.uniquecode = uniquecode;
     }
 
     public String getStatus() {

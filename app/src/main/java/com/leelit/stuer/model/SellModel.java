@@ -69,7 +69,7 @@ public class SellModel {
             @Override
             public void call(Subscriber<? super List<SellInfo>> subscriber) {
                 SellDao dao = new SellDao();
-                List<SellInfo> list = dao.getAll();
+                List<SellInfo> list = dao.getAll("sell");
                 Collections.reverse(list);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
                 subscriber.onNext(list);
             }
@@ -85,5 +85,18 @@ public class SellModel {
                 new SellDao().save(sellInfos);
             }
         });
+    }
+
+    public void checkGoodsStillHere(String uniquecode, Subscriber<SellInfo> subscriber) {
+        SupportUtils.toSubscribe(mService.checkFoodsStillHere(uniquecode), subscriber);
+    }
+
+    public void getPersonalSell(String imei, Subscriber<List<SellInfo>> subscriber) {
+        SupportUtils.toSubscribe(mService.getPersonalRecords(imei), subscriber);
+    }
+
+
+    public void offlineOrder(String uniquecode, Subscriber<ResponseBody> subscriber) {
+        SupportUtils.toSubscribe(mService.offlineOrder(uniquecode), subscriber);
     }
 }
