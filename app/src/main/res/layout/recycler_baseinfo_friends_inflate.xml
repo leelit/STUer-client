@@ -6,6 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:background="@drawable/carpool_tv_confirm"
-    android:drawableLeft="@drawable/place_holder_black"
     android:text="@string/hello_world"
     android:textSize="22sp"/>

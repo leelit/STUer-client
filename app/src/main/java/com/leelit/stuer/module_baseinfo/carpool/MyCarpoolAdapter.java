@@ -39,7 +39,7 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_baseinfo_my, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_carpool_my, parent, false);
         return new ViewHolder(view);
     }
 

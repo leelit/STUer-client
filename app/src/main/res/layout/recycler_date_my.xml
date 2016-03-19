@@ -6,20 +6,18 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="10dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,10 +29,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/recycler_carpool_route"/>
+                    android:src="@drawable/recycler_date_type"/>
 
                 <TextView
-                    android:id="@+id/textView_route"
+                    android:id="@+id/textView_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_world"
@@ -52,58 +50,57 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/recycler_carpool_time"/>
+                    android:src="@drawable/recycler_date_desciption"/>
+
+                <TextView
+                    android:id="@+id/textView_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/recycler_date_time"/>
 
                 <TextView
                     android:id="@+id/textView_timing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_route"
                     android:text="@string/hello_world"
                     android:textColor="@color/time"
                     android:textSize="18sp"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout_place_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/recycler_carpool_host"/>
-
-                <TextView
-                    android:id="@+id/textView_host"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
-                    android:textSize="18sp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/recycler_carpool_count"/>
-
-                <TextView
-                    android:id="@+id/textView_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
-                    android:textSize="18sp"/>
-            </LinearLayout>
         </LinearLayout>
 
-
+        <ImageButton
+            android:id="@+id/control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ic_delete_global"/>
     </android.support.v7.widget.CardView>
 </LinearLayout>

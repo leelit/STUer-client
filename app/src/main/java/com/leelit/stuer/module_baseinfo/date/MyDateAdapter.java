@@ -44,7 +44,7 @@ public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_baseinfo_my, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_date_my, parent, false);
         return new ViewHolder(view);
     }
 
@@ -52,7 +52,8 @@ public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
     public void onBindViewHolder(final MyDateAdapter.ViewHolder holder, int position) {
         final List<? extends BaseInfo> list = mLists.get(position);
 
-        holder.mTextViewDateType.setText(((DatingInfo) list.get(0)).getType() + ":\n" + ((DatingInfo) list.get(0)).getDescription());
+        holder.mTextViewDateType.setText(((DatingInfo) list.get(0)).getType());
+        holder.mTextViewDescription.setText(((DatingInfo) list.get(0)).getDescription());
         holder.mTextViewTiming.setText(list.get(0).getDate() + "  " + list.get(0).getTime());
         holder.mLinearLayout.removeAllViews();
 
@@ -102,8 +103,10 @@ public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.textView_route)
+        @InjectView(R.id.textView_type)
         TextView mTextViewDateType;
+        @InjectView(R.id.textView_description)
+        TextView mTextViewDescription;
         @InjectView(R.id.textView_timing)
         TextView mTextViewTiming;
         @InjectView(R.id.control)
