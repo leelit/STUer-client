@@ -18,7 +18,7 @@ import java.util.List;
 public class MySellFragment extends BaseListFragment implements IMySellView {
 
     private List<SellInfo> mList = new ArrayList<>();
-    private MySellPresenter mSellPresenter = new MySellPresenter(this);
+    private MySellPresenter mPresenter = new MySellPresenter(this);
 
     @Override
     public void stopRefreshing() {
@@ -42,12 +42,12 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
 
     @Override
     protected void refreshTask() {
-        mSellPresenter.doLoadingData(AppInfoUtils.getImei());
+        mPresenter.doLoadingData(AppInfoUtils.getImei());
     }
 
     @Override
     protected void onItemClickEvent(View view, int position) {
-        mSellPresenter.doOfflineSell(mList.get(position).getUniquecode(), position);
+        mPresenter.doOfflineSell(mList.get(position).getUniquecode(), position);
     }
 
     @Override
@@ -71,5 +71,11 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
         mList.clear();
         mList.addAll(sellInfos);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.doClear();
     }
 }
