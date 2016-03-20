@@ -30,12 +30,12 @@ public class SellDaoTest extends TestCase {
             sellInfo.setImei(keys[5] + i);
             sellInfo.setPicAddress(keys[6] + i);
             sellInfo.setState(keys[7] + i);
-            sellInfo.setFlag(keys[8] + i);
+            sellInfo.setUniquecode(keys[8] + i);
             sellInfo.setStatus(keys[9] + i);
             list.add(sellInfo);
         }
         sellDao.save(list);
-        Log.e("tag", sellDao.getAll().toString());
+        Log.e("tag", sellDao.getAll("sell").toString());
     }
 
 

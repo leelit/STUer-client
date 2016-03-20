@@ -1,5 +1,7 @@
 package com.leelit.stuer.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,4 +55,14 @@ public class TimeUtils {
         return "刚刚";
     }
 
+    public static Date stringToDate(String dateStr, String formatStr) {
+        DateFormat sdf = new SimpleDateFormat(formatStr);
+        Date date = null;
+        try {
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }

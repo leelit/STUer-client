@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,18 +23,19 @@ import android.widget.Toast;
 import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.R;
+import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoPostView;
 import com.leelit.stuer.base_presenter.BaseInfoPostPresenter;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoPostView;
-import com.leelit.stuer.utils.SharedAnimation;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.TimeUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,8 +55,7 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
     Spinner mSpinnerDateType;
     @InjectView(R.id.btn_time_picker)
     Button mBtnTimePicker;
-    @InjectView(R.id.btn_publish)
-    Button mBtnPublish;
+
 
     @InjectView(R.id.spinner_route_layout)
     LinearLayout mSpinnerRouteLayout;
@@ -103,18 +105,6 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
             @Override
             public void onClick(View v) {
                 timePick();
-            }
-        });
-
-        mBtnPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mFragmentIndex == FragmentIndex.CARPOOL) {
-                    postCarpoolingInfo();
-                } else if (mFragmentIndex == FragmentIndex.DATE) {
-                    postDateInfo();
-                }
-                SharedAnimation.postScaleAnimation(v);
             }
         });
 
@@ -313,6 +303,42 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
         }
         startActivity(intent);
         finish();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_sell_post, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            String timing = host.getDate() + " " + host.getTime();
+            Date postDate = TimeUtils.stringToDate(timing, "yyyy/MM/dd HH:mm");
+            Date currentDate = TimeUtils.stringToDate(TimeUtils.getCurrentTime(), "yyyy-MM-dd HH:mm:ss");
+            if (postDate.before(currentDate)) {
+                Toast.makeText(BaseInfoPostActivity.this, "发布过期时间不合法，请重新选择时间", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            if (mFragmentIndex == FragmentIndex.CARPOOL) {
+                postCarpoolingInfo();
+            } else if (mFragmentIndex == FragmentIndex.DATE) {
+                postDateInfo();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

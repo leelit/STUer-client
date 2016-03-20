@@ -4,6 +4,8 @@ import android.util.Log;
 
 import junit.framework.TestCase;
 
+import java.util.Date;
+
 /**
  * Created by Leelit on 2016/3/17.
  */
@@ -22,5 +24,12 @@ public class TimeUtilsTest extends TestCase {
         Log.e("tag", TimeUtils.compareNowWithBefore("2016-02-17 23:00:00"));
 
 
+    }
+
+    public void testStringToDate() throws Exception {
+        Date date1 = TimeUtils.stringToDate("2016/3/24 11:14", "yyyy/MM/dd HH:mm");
+        Date date2 = TimeUtils.stringToDate(TimeUtils.getCurrentTime(), "yyyy-MM-dd HH:mm:ss");
+        assertEquals(true, date1.after(date2));
+        assertEquals(false,date1.before(date2));
     }
 }

@@ -125,15 +125,6 @@
                 android:text="设定时间"
                 />
 
-            <Button
-                android:id="@+id/btn_publish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/carpool_btn_confirm"
-                android:text="确认发布"
-                android:textColor="@color/white"
-                />
         </LinearLayout>
 
     </ScrollView>
