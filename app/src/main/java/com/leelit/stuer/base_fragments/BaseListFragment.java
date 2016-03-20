@@ -91,6 +91,8 @@ public abstract class BaseListFragment extends Fragment {
         super.onDestroy();
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
+            // 此处不设null，如果某个Fragment有数据时刷新，在数据还未加载完毕时切换到其他fragment，会产生Fragment重叠现象
+            mRecyclerView.setAdapter(null);
         }
     }
 }
