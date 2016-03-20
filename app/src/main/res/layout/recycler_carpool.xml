@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="@dimen/recycler_text_right_to_icon"
                     android:src="@drawable/recycler_carpool_route"/>
 
                 <TextView
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_world"
-                    android:textSize="24sp"/>
+                    android:textSize="22sp"/>
             </LinearLayout>
 
 
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="@dimen/recycler_text_right_to_icon"
                     android:src="@drawable/recycler_carpool_time"/>
 
                 <TextView
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="@dimen/recycler_text_right_to_icon"
                     android:src="@drawable/recycler_carpool_host"/>
 
                 <TextView
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="@dimen/recycler_text_right_to_icon"
                     android:src="@drawable/recycler_carpool_count"/>
 
                 <TextView

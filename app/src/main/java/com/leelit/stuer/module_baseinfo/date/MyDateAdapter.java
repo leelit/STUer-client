@@ -65,6 +65,7 @@ public class MyDateAdapter extends BaseListAdapter<MyDateAdapter.ViewHolder> {
         }
 
         if (mOnItemClickListener != null) {
+            // 删除操作转移到view
             holder.mControl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

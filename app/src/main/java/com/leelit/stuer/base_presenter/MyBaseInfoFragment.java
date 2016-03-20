@@ -1,6 +1,8 @@
 package com.leelit.stuer.base_presenter;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
-import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.base_fragments.BaseListFragment;
 import com.leelit.stuer.base_fragments.viewinterface.IMyBaseInfoView;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
 
 import java.util.ArrayList;
@@ -44,7 +46,10 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
     }
 
     @Override
-    protected void onItemClickEvent(View view, int position) {
+    protected void onItemClickEvent(View view, final int position) {
+
+        // 这里是否应该推到presenter ? 如果推到presenter，MyCarpoolPresenter/MyDatePresenter两个都必须实现这同一个这个方法！
+
         // 找到自己的info
         List<? extends BaseInfo> relativeInfos = mList.get(position);
         BaseInfo rightInfo = null;
@@ -55,11 +60,22 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
             }
         }
         // host解散，guest离开
+        final BaseInfo finalRightInfo = rightInfo;
         if (rightInfo != null) {
             if (rightInfo.getFlag().equals("host")) {
-                finishThisOrder(rightInfo, position);
+                new AlertDialog.Builder(getContext()).setMessage("解散当前行列，注意，此举并不会通知你的拼友！").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishThisOrder(finalRightInfo, position); // 解散
+                    }
+                }).setNegativeButton("取消", null).create().show();
             } else {
-                quitThisOrder(rightInfo, position);
+                new AlertDialog.Builder(getContext()).setMessage("退出当前行列").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        quitThisOrder(finalRightInfo, position); // 退出
+                    }
+                }).setNegativeButton("取消", null).create().show();
             }
         }
     }
