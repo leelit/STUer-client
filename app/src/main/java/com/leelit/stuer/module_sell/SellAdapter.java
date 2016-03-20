@@ -2,7 +2,6 @@ package com.leelit.stuer.module_sell;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +13,8 @@ import android.widget.TextView;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.bean.SellInfo;
-import com.leelit.stuer.utils.SupportModelUtils;
 import com.leelit.stuer.utils.ScreenUtils;
+import com.leelit.stuer.utils.SupportModelUtils;
 import com.leelit.stuer.utils.TimeUtils;
 import com.squareup.picasso.Picasso;
 
@@ -50,11 +49,10 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
         holder.mName.setText(sellInfo.getName());
         holder.mTime.setText(TimeUtils.compareNowWithBefore(sellInfo.getDatetime()));
         holder.mState.setText(sellInfo.getState());
-        holder.mStatus.setText(sellInfo.getStatus());
         if (sellInfo.getStatus().equals("off")) {
-            holder.mStatus.setTextColor(holder.mName.getCurrentTextColor());
+            holder.mStatus.setImageResource(R.drawable.recycler_sell_offline);
         } else {
-            holder.mStatus.setTextColor(Color.rgb(255, 96, 110));
+            holder.mStatus.setImageResource(R.drawable.recycler_sell_online);
         }
 
         // 转移到Fragment
@@ -147,7 +145,7 @@ public class SellAdapter extends BaseListAdapter<SellAdapter.ViewHolder> {
         @InjectView(R.id.state)
         TextView mState;
         @InjectView(R.id.status)
-        TextView mStatus;
+        ImageView mStatus;
         @InjectView(R.id.photo)
         ImageView mPhoto;
         @InjectView(R.id.cardView)

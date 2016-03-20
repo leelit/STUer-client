@@ -25,12 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <ImageView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="on"
-                    android:textColor="#ff606e"/>
+                    android:src="@drawable/recycler_sell_online"/>
 
                 <ImageView
                     android:id="@+id/contact"
@@ -38,7 +37,7 @@
                     android:layout_height="24dp"
                     android:layout_marginRight="6dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_contact"/>
+                    android:src="@drawable/recycler_sell_chat"/>
 
 
             </RelativeLayout>
