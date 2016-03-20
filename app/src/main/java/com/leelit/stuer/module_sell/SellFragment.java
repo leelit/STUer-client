@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.base_fragments.BaseListFragment;
+import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.module_sell.presenter.SellPresenter;
 import com.leelit.stuer.module_sell.viewinterface.ISellView;
 import com.leelit.stuer.utils.ContactUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
+import com.leelit.stuer.utils.SettingUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +36,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     protected BaseListAdapter bindAdapter() {
         mSellAdapter = new SellAdapter(mList);
@@ -42,8 +44,14 @@ public class SellFragment extends BaseListFragment implements ISellView {
     }
 
     @Override
-    public void taskAfterLoaded() {
+    public void onResume() {
+        super.onResume();
         mSellPresenter.doLoadDataFromDb();
+    }
+
+    @Override
+    public void taskAfterLoaded() {
+        // do nothing
     }
 
     @Override
@@ -53,7 +61,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     public void showNoDataInDb() {
-        toast("首次使用没有缓存数据，请刷新...");
+        toast("没有缓存数据，请刷新...");
     }
 
     @Override
@@ -75,8 +83,25 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void showDataFromDb(List<SellInfo> sellInfos) {
         mList.clear();
         mList.addAll(sellInfos);
+        // 如果不展示下架商品
+        checkIfNoShowOfflineSell();
         mSellAdapter.notifyDataSetChanged();
     }
+
+    private void checkIfNoShowOfflineSell() {
+        List<SellInfo> offInfos = new ArrayList<>();
+        if (SettingUtils.noOfflineSell()) {
+            for (SellInfo info : mList) {
+                if (info.getStatus().equals("off")) {
+                    offInfos.add(info);
+                }
+            }
+        }
+        for (SellInfo info : offInfos) {
+            mList.remove(info);
+        }
+    }
+
 
     @Override
     public void stopRefreshing() {
@@ -99,6 +124,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
         Collections.reverse(mList); // loadFromDb展示后的时间顺序是 4 3 2 1， reverse后 1 2 3 4
         mList.addAll(sellInfos);    // 加入5 6 7 8后变成 1 2 3 4 5 6 7 8
         Collections.reverse(mList); // reverse后 8 7 6 5 4 3 2 1
+        checkIfNoShowOfflineSell();
         mAdapter.notifyDataSetChanged();  // 正确的时间顺序
     }
 

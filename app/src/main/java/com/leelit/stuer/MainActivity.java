@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.nav_setting) {
+                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                    return false;
+                }
+
                 mDrawerLayout.closeDrawers();
                 switchFragment(menuItem);
                 return false;
@@ -277,6 +282,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     @Override
     public void onBackPressed() {
