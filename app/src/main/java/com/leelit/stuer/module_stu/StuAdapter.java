@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leelit.stuer.R;
@@ -21,11 +22,11 @@ import butterknife.InjectView;
 public class StuAdapter extends BaseListAdapter<StuAdapter.ViewHolder> {
 
     private List<String> mTitleList;
-    private List<String> mSiteAddress;
+    private int[] mIcon;
 
-    public StuAdapter(List<String> titleList, List<String> siteAddress) {
+    public StuAdapter(List<String> titleList) {
         mTitleList = titleList;
-        mSiteAddress = siteAddress;
+        mIcon = new int[]{R.drawable.module_net_bangong, R.drawable.module_net_xuefenzhi, R.drawable.module_stu_mystu, R.drawable.module_net_youxiang, R.drawable.module_net_shudian, R.drawable.module_net_tushuguan, R.drawable.module_net_dianhua, R.drawable.module_net_baishitong};
     }
 
     @Override
@@ -38,9 +39,11 @@ public class StuAdapter extends BaseListAdapter<StuAdapter.ViewHolder> {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_stu, parent, false));
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mTextViewTitle.setText(mTitleList.get(position));
+        holder.mIcon.setImageResource(mIcon[position]);
         if (mOnItemClickListener != null) {
             holder.mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -51,6 +54,7 @@ public class StuAdapter extends BaseListAdapter<StuAdapter.ViewHolder> {
             });
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -64,9 +68,11 @@ public class StuAdapter extends BaseListAdapter<StuAdapter.ViewHolder> {
      *
      * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
      */
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.textView_title)
         TextView mTextViewTitle;
+        @InjectView(R.id.icon)
+        ImageView mIcon;
         @InjectView(R.id.cardView)
         CardView mCardView;
 
@@ -75,4 +81,6 @@ public class StuAdapter extends BaseListAdapter<StuAdapter.ViewHolder> {
             ButterKnife.inject(this, view);
         }
     }
+
+
 }

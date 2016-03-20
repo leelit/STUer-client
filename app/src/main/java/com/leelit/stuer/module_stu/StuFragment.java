@@ -36,7 +36,7 @@ public class StuFragment extends BaseListFragment {
         mAddress.add("http://www.lib.stu.edu.cn/");
         mAddress.add("http://d.stulip.org/sp/tell.html");
         mAddress.add("http://d.stulip.org/");
-        return new StuAdapter(mTitles, mAddress);
+        return new StuAdapter(mTitles);
     }
 
     @Override
