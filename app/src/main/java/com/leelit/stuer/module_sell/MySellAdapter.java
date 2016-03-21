@@ -86,7 +86,7 @@ public class MySellAdapter extends BaseListAdapter<MySellAdapter.ViewHolder> {
     @Override
     public void removeData(int position) {
         mList.get(position).setStatus("off");
-        new SellDao().updateStatusInSell(mList.get(position));
+        new SellDao().updateStatusInSell(mList.get(position)); // 同步操作
         notifyDataSetChanged();
     }
 

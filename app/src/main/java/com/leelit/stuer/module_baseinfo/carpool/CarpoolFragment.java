@@ -1,11 +1,8 @@
 package com.leelit.stuer.module_baseinfo.carpool;
 
-import android.content.Intent;
-
-import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.base_fragments.BaseInfoFragment;
+import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.module_baseinfo.carpool.presenter.CarpoolPresenter;
 
 /**
@@ -32,8 +29,8 @@ public class CarpoolFragment extends BaseInfoFragment {
 
     @Override
     public void doAfterJoinSuccessfully() {
-        Intent intent = new Intent(getActivity(), MyBusinessActivity.class);
-        startActivity(intent);
+        toast("加入成功，可在我的拼车中查看...");
+        autoRefresh();
     }
 
     @Override

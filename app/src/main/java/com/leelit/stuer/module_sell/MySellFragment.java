@@ -1,5 +1,6 @@
 package com.leelit.stuer.module_sell;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.leelit.stuer.R;
@@ -54,6 +55,7 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
 
     @Override
     public void offlineSell(int position) {
+        getActivity().setResult(Activity.RESULT_OK);
         mAdapter.removeData(position);
     }
 

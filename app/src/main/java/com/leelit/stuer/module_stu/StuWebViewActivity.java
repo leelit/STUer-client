@@ -19,7 +19,7 @@ import com.leelit.stuer.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class StuActivity extends AppCompatActivity {
+public class StuWebViewActivity extends AppCompatActivity {
 
     @InjectView(R.id.webView)
     WebView mWebView;

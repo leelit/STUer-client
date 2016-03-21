@@ -82,7 +82,7 @@ public class MyCarpoolPresenter implements IMyBaseInfoPresenter,IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mView.dismissDeleteProgressDialog();
-                mView.deleteOrder(position);
+                mView.doAfterDeleteOrderSuccessfully(position);
             }
         };
         mModel.quitOrder(map, mSubscriber2);
@@ -106,7 +106,7 @@ public class MyCarpoolPresenter implements IMyBaseInfoPresenter,IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mView.dismissDeleteProgressDialog();
-                mView.deleteOrder(position);
+                mView.doAfterDeleteOrderSuccessfully(position);
             }
         };
         mModel.finishOrder(uniquecode, mSubscriber3);

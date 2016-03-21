@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.leelit.stuer.base_fragments.BaseInfoFragment;
 import com.leelit.stuer.base_fragments.BaseInfoPostActivity;
 import com.leelit.stuer.base_fragments.BaseListFragment;
 import com.leelit.stuer.constant.FragmentIndex;
@@ -95,22 +96,40 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     intent = new Intent(MainActivity.this, SellPostActivity.class);
                 }
-                startActivityForResult(intent, POST_INFO_REQUEST);
+                startActivityForResult(intent, MODULE_ALL_POST_INFO_REQUEST);
             }
         });
     }
 
-    private static final int POST_INFO_REQUEST = 1;
+    public static final int MODULE_ALL_POST_INFO_REQUEST = 1; // 成功“发送”消息后所有模块刷新
+    public static final int MODULE_BASEINFO_JOIN_DELETE_REQUEST = 2; // BaseInfo成功加入或者删除后刷新
+    public static final int MODULE_SELL_RELOAD_DB = 3; // Sell设置“下架商品不可见”或者商家删除后重新加载数据库
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("tag", requestCode + " : " + resultCode);
-        if (requestCode == POST_INFO_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                currentFragment.autoRefresh();
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case MODULE_ALL_POST_INFO_REQUEST:
+                    currentFragment.autoRefresh();
+                    break;
+
+                case MODULE_BASEINFO_JOIN_DELETE_REQUEST:
+                    if (currentFragment instanceof BaseInfoFragment) {
+                        currentFragment.autoRefresh();
+                    }
+                    break;
+
+                case MODULE_SELL_RELOAD_DB:
+                    if (currentFragment instanceof SellFragment) {
+                        ((SellFragment) currentFragment).loadDataFromDb();
+                    }
+                    break;
             }
         }
+
     }
 
     private void initDrawerAndToolbar() {
@@ -123,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if (menuItem.getItemId() == R.id.nav_setting) {
-                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
                     return false;
                 }
 
@@ -278,15 +298,15 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_mine) {
             if (currentFragment instanceof CarpoolFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MODULE_BASEINFO_JOIN_DELETE_REQUEST);
             } else if (currentFragment instanceof DateFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
-                startActivity(intent);
+                startActivityForResult(intent, MODULE_BASEINFO_JOIN_DELETE_REQUEST);
             } else if (currentFragment instanceof SellFragment) {
                 Intent intent = new Intent(this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.SELL);
-                startActivity(intent);
+                startActivityForResult(intent,MODULE_SELL_RELOAD_DB);
             }
             return true;
         }

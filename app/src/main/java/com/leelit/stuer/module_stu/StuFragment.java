@@ -25,7 +25,7 @@ public class StuFragment extends BaseListFragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mTitles = Arrays.asList("办公自动化", "学分制系统", "MySTU", "邮箱", "水电管理中心", "图书馆", "校内常用电话", "汕大百事通");
+        mTitles = Arrays.asList("办公自动化(内网)", "学分制系统(内网)", "MySTU", "邮箱", "水电管理中心(内网)", "图书馆", "校内常用电话", "汕大百事通");
 
         mAddress = new ArrayList<>();
         mAddress.add("http://notes.stu.edu.cn/login/Login.jsp");
@@ -52,7 +52,7 @@ public class StuFragment extends BaseListFragment {
 
     @Override
     protected void onItemClickEvent(View view, int position) {
-        Intent intent = new Intent(getActivity(), StuActivity.class);
+        Intent intent = new Intent(getActivity(), StuWebViewActivity.class);
         intent.putExtra("title", mTitles.get(position));
         intent.putExtra("website", mAddress.get(position));
         startActivity(intent);

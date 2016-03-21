@@ -17,6 +17,7 @@ public class SettingActivity extends AppCompatActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
+    private static boolean originalNoOfflineSellSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,22 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         initToolbar();
         getFragmentManager().beginTransaction().replace(R.id.content, new MySettingFragment()).commit();
+        originalNoOfflineSellSetting = SettingUtils.noOfflineSell();
+    }
+
+    // 不能在onDestroy方法调用setResult，否则无效。
+    @Override
+    public void onBackPressed() {
+        checkResult();
+        super.onBackPressed();
+    }
+
+    private void checkResult() {
+        if (originalNoOfflineSellSetting != SettingUtils.noOfflineSell()) {
+            setResult(RESULT_OK);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
     }
 
     private void initToolbar() {
@@ -34,6 +51,7 @@ public class SettingActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkResult();
                 finish();
             }
         });
@@ -52,8 +70,8 @@ public class SettingActivity extends AppCompatActivity {
             // Preference Fragment只是一次性的动作，并不会持久化你的选择，需要自己处理
             mNoOfflineSell = (CheckBoxPreference) findPreference(SettingUtils.NO_OFFLINE_SELL);
             mNoOfflineSell.setChecked(SettingUtils.noOfflineSell());
-        }
 
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package com.leelit.stuer.base_presenter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -127,8 +128,9 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
     }
 
     @Override
-    public void deleteOrder(int position) {
+    public void doAfterDeleteOrderSuccessfully(int position) {
         mAdapter.removeData(position);
+        getActivity().setResult(Activity.RESULT_OK);
     }
 
     @Override

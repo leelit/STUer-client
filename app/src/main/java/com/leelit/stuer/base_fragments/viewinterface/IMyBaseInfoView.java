@@ -20,7 +20,7 @@ public interface IMyBaseInfoView {
 
     void dismissDeleteProgressDialog();
 
-    void deleteOrder(int position);
+    void doAfterDeleteOrderSuccessfully(int position);
 
 
 }

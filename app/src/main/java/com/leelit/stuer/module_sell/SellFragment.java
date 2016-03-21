@@ -1,10 +1,6 @@
 package com.leelit.stuer.module_sell;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
@@ -30,13 +26,6 @@ public class SellFragment extends BaseListFragment implements ISellView {
     private SellAdapter mSellAdapter;
 
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-
     @Override
     protected BaseListAdapter bindAdapter() {
         mSellAdapter = new SellAdapter(mList);
@@ -44,14 +33,12 @@ public class SellFragment extends BaseListFragment implements ISellView {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mSellPresenter.doLoadDataFromDb();
+    public void taskAfterLoaded() {
+        loadDataFromDb();
     }
 
-    @Override
-    public void taskAfterLoaded() {
-        // do nothing
+    public void loadDataFromDb() {
+        mSellPresenter.doLoadDataFromDb();
     }
 
     @Override
@@ -146,4 +133,6 @@ public class SellFragment extends BaseListFragment implements ISellView {
         super.onDestroy();
         mSellPresenter.doClear();
     }
+
+
 }

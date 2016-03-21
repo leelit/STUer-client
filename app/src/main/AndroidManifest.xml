@@ -28,7 +28,7 @@
             android:label="@string/title_activity_mine" >
         </activity>
         <activity
-            android:name=".module_stu.StuActivity"
+            android:name=".module_stu.StuWebViewActivity"
             android:label="@string/title_activity_stu" >
         </activity>
         <activity

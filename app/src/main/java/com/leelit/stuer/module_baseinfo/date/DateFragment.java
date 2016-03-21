@@ -1,13 +1,9 @@
 package com.leelit.stuer.module_baseinfo.date;
 
-import android.content.Intent;
-
 import com.leelit.stuer.MainActivity;
-import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.bean.DatingInfo;
-import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.base_fragments.BaseInfoFragment;
+import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.module_baseinfo.date.presenter.DatePresenter;
 
 /**
@@ -35,9 +31,8 @@ public class DateFragment extends BaseInfoFragment {
 
     @Override
     public void doAfterJoinSuccessfully() {
-        Intent intent = new Intent(getActivity(), MyBusinessActivity.class);
-        intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
-        startActivity(intent);
+        toast("加入成功，可在我的约中查看...");
+        autoRefresh();
     }
 
     @Override
