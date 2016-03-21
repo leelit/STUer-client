@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.leelit.stuer.base_fragments.BaseInfoFragment;
 import com.leelit.stuer.base_fragments.BaseInfoPostActivity;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private BaseListFragment currentFragment;
 
     public static int mTabValue = 1;
+
+    private long mToolbarClickLastTime = System.currentTimeMillis();
+    private long mBackClickLastTime = System.currentTimeMillis();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void initDrawerAndToolbar() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -150,6 +155,17 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 switchFragment(menuItem);
                 return false;
+            }
+        });
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis - mToolbarClickLastTime >= 2000) {
+                    mToolbarClickLastTime = System.currentTimeMillis();
+                } else {
+                    currentFragment.smoothToTop();
+                }
             }
         });
     }
@@ -306,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (currentFragment instanceof SellFragment) {
                 Intent intent = new Intent(this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.SELL);
-                startActivityForResult(intent,MODULE_SELL_RELOAD_DB);
+                startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
             }
             return true;
         }
@@ -324,7 +340,14 @@ public class MainActivity extends AppCompatActivity {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
         } else {
-            super.onBackPressed();
+            long currentTime = System.currentTimeMillis();
+            long timeGap = currentTime - mBackClickLastTime;
+            if (timeGap >= 2000) {
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mBackClickLastTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

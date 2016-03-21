@@ -99,4 +99,8 @@ public abstract class BaseListFragment extends Fragment {
             mRecyclerView.setAdapter(null);
         }
     }
+
+    public void smoothToTop() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 }
