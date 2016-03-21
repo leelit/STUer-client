@@ -275,6 +275,8 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
 
     @Override
     public void doAfterPostSuccessfully() {
+        setResult(RESULT_OK);
+
         Toast.makeText(this, "发送成功", Toast.LENGTH_SHORT).show();
         finish();
     }

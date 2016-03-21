@@ -295,6 +295,8 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
 
     @Override
     public void doAfterPostSuccessfully() {
+        setResult(RESULT_OK);
+
         Intent intent = new Intent(BaseInfoPostActivity.this, MyBusinessActivity.class);
         if (mFragmentIndex == FragmentIndex.CARPOOL) {
             intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.CARPOOL);

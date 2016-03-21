@@ -69,7 +69,11 @@ public abstract class BaseListFragment extends Fragment {
         return view;
     }
 
-    public void taskAfterLoaded() {
+    protected void taskAfterLoaded() {
+        autoRefresh();
+    }
+
+    public void autoRefresh() {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

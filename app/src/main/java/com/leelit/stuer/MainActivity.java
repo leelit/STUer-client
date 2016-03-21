@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,25 +78,39 @@ public class MainActivity extends AppCompatActivity {
         currentFragment = carpoolFragment;
     }
 
+    /**
+     * Fab 是一个post信息的按钮
+     */
     private void initFab() {
         mFabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent;
                 if (currentFragment instanceof CarpoolFragment) {
-                    Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
+                    intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.CARPOOL);
-                    startActivity(intent);
                 } else if (currentFragment instanceof DateFragment) {
-                    Intent intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
+                    intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
-                    startActivity(intent);
                 } else {
-                    Intent intent = new Intent(MainActivity.this, SellPostActivity.class);
-                    startActivity(intent);
+                    intent = new Intent(MainActivity.this, SellPostActivity.class);
                 }
-
+                startActivityForResult(intent, POST_INFO_REQUEST);
             }
         });
+    }
+
+    private static final int POST_INFO_REQUEST = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("tag", requestCode + " : " + resultCode);
+        if (requestCode == POST_INFO_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                currentFragment.autoRefresh();
+            }
+        }
     }
 
     private void initDrawerAndToolbar() {
@@ -202,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (text.equals(getString(R.string.tab_others))) {
                     mTabValue = TabConstant.OTHERS;
                 }
-                currentFragment.taskAfterLoaded();
+                currentFragment.autoRefresh();
             }
 
             @Override
@@ -282,8 +297,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
     @Override
