@@ -61,12 +61,12 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
 
     @Override
     public void showOffSellProgressDialog() {
-        ProgressDialogUtils.showProgressDialog(getContext(), "商品下线中...");
+        ProgressDialogUtils.show(getContext(), "商品下线中...");
     }
 
     @Override
     public void dismissOffSellProgressDialog() {
-        ProgressDialogUtils.dismissProgressDialog();
+        ProgressDialogUtils.dismiss();
     }
 
 

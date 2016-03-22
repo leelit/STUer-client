@@ -98,12 +98,12 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     public void showLoadingDbProgressDialog() {
-        ProgressDialogUtils.showProgressDialog(getActivity(), "加载中...");
+        ProgressDialogUtils.show(getActivity(), "加载中...");
     }
 
     @Override
     public void dismissLoadingDbProgressDialog() {
-        ProgressDialogUtils.dismissProgressDialog();
+        ProgressDialogUtils.dismiss();
     }
 
     @Override

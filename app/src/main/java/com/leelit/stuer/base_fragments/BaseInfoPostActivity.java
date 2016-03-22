@@ -1,7 +1,6 @@
 package com.leelit.stuer.base_fragments;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +30,7 @@ import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.utils.AppInfoUtils;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.TimeUtils;
 
@@ -69,7 +69,6 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
     LinearLayout mSpinnerDescriptionLayout;
 
     private BaseInfo host;
-    private ProgressDialog mProgressDialog;
 
     private int mFragmentIndex;
 
@@ -80,8 +79,6 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baseinfo_post);
         ButterKnife.inject(this);
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("发布中...");
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
         initToolbar("发布");
@@ -280,12 +277,12 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
 
     @Override
     public void showPostProgressDialog() {
-        mProgressDialog.show();
+        ProgressDialogUtils.show(this, "发送中...");
     }
 
     @Override
     public void dismissPostProgressDialog() {
-        mProgressDialog.dismiss();
+        ProgressDialogUtils.dismiss();
     }
 
     @Override

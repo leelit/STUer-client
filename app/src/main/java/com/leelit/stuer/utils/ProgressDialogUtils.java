@@ -11,17 +11,20 @@ public class ProgressDialogUtils {
 
     private static ProgressDialog progressDialog;
 
-    public static void showProgressDialog(Context context, String text) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(context);
-        }
+    public static void show(Context context) {
+        show(context, "");
+    }
+
+    public static void show(Context context, String text) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false); // 只能同时操作一个ProgressDialog
         if (!TextUtils.isEmpty(text)) {
             progressDialog.setMessage(text);
         }
         progressDialog.show();
     }
 
-    public static void dismissProgressDialog() {
+    public static void dismiss() {
         progressDialog.dismiss();
         progressDialog = null;
     }

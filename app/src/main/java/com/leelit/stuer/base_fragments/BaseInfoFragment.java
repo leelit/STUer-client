@@ -1,23 +1,19 @@
 package com.leelit.stuer.base_fragments;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.R;
-import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoView;
-import com.leelit.stuer.utils.SharedAnimation;
+import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.SharedAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,21 +30,12 @@ public abstract class BaseInfoFragment extends BaseListFragment implements IBase
     Spinner mSpinnerTemporaryCount;
     @InjectView(R.id.btn_publish)
     Button mBtnPublish;
-    private ProgressDialog mProgressDialog;
 
     protected List<BaseInfo> mList = new ArrayList<>();
     protected BaseInfo guest;
 
     protected abstract void postInfo();
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("加入中...");
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
 
     // 先加载有数据才有可能click，即先需要回调showInfos
     @Override
@@ -147,12 +134,12 @@ public abstract class BaseInfoFragment extends BaseListFragment implements IBase
 
     @Override
     public void showJoinProgressDialog() {
-        mProgressDialog.show();
+        ProgressDialogUtils.show(getContext(), "加入中...");
     }
 
     @Override
     public void dismissJoinProgressDialog() {
-        mProgressDialog.dismiss();
+        ProgressDialogUtils.dismiss();
     }
 
     @Override

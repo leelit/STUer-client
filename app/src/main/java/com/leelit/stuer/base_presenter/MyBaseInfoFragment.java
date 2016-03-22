@@ -2,7 +2,6 @@ package com.leelit.stuer.base_presenter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +14,7 @@ import com.leelit.stuer.base_fragments.BaseListFragment;
 import com.leelit.stuer.base_fragments.viewinterface.IMyBaseInfoView;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,6 @@ import java.util.Map;
 public abstract class MyBaseInfoFragment extends BaseListFragment implements IMyBaseInfoView {
 
     protected List<List<? extends BaseInfo>> mList = new ArrayList<>();
-    private ProgressDialog mProgressDialog;
 
     private IMyBaseInfoPresenter mPresenter;
 
@@ -36,7 +35,6 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mProgressDialog = new ProgressDialog(getActivity());
         mPresenter = bindPresenter();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -118,13 +116,12 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
 
     @Override
     public void showDeleteProgressDialog(String message) {
-        mProgressDialog.setMessage(message);
-        mProgressDialog.show();
+        ProgressDialogUtils.show(getContext(), message);
     }
 
     @Override
     public void dismissDeleteProgressDialog() {
-        mProgressDialog.dismiss();
+        ProgressDialogUtils.dismiss();
     }
 
     @Override

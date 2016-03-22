@@ -260,12 +260,12 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
 
     @Override
     public void showPostProgressDialog() {
-        ProgressDialogUtils.showProgressDialog(this, "发送中...");
+        ProgressDialogUtils.show(this, "发送中...");
     }
 
     @Override
     public void dismissPostProgressDialog() {
-        ProgressDialogUtils.dismissProgressDialog();
+        ProgressDialogUtils.dismiss();
     }
 
     @Override
