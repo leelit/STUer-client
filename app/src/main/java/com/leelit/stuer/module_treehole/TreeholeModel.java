@@ -4,6 +4,7 @@ import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.utils.SupportModelUtils;
 
 import java.io.File;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -41,4 +42,7 @@ public class TreeholeModel {
         SupportModelUtils.toSubscribe(mService.addRecordWithPhoto(RequestBody.create(IMAGE, file), info), subscriber);
     }
 
+    public void getNewerData(Subscriber<List<TreeholeInfo>> subscriber) {
+        SupportModelUtils.toSubscribe(mService.getNewerData(null), subscriber);
+    }
 }

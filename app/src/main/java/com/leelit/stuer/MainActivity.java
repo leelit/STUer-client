@@ -29,6 +29,7 @@ import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
 import com.leelit.stuer.module_sell.PicPostActivity;
 import com.leelit.stuer.module_stu.StuFragment;
+import com.leelit.stuer.module_treehole.TreeholeFragment;
 import com.leelit.stuer.utils.SPUtils;
 
 import butterknife.ButterKnife;
@@ -97,9 +98,12 @@ public class MainActivity extends AppCompatActivity {
                 } else if (currentFragment instanceof DateFragment) {
                     intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
-                } else {
+                } else if (currentFragment instanceof SellFragment) {
                     intent = new Intent(MainActivity.this, PicPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.SELL);
+                } else {
+                    intent = new Intent(MainActivity.this, PicPostActivity.class);
+                    intent.putExtra(FragmentIndex.TAG, FragmentIndex.TREEHOLE);
                 }
                 startActivityForResult(intent, MODULE_ALL_POST_INFO_REQUEST);
             }
@@ -207,14 +211,28 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 sellInit();
             }
+        } else if (title.equals(getString(R.string.treehole))) {
+            if (currentFragment instanceof TreeholeFragment) {
+                return;
+            } else {
+                treeholeInit();
+            }
         }
         showFragment(currentFragment);
     }
+
 
     private void stuInit() {
         mFabBtn.setVisibility(View.INVISIBLE);
         mMainMenuItem.setVisible(false);
         currentFragment = new StuFragment();
+        mTabLayout.setVisibility(View.GONE);
+    }
+
+    private void treeholeInit() {
+        mFabBtn.setVisibility(View.VISIBLE);
+        mMainMenuItem.setVisible(false);
+        currentFragment = new TreeholeFragment();
         mTabLayout.setVisibility(View.GONE);
     }
 
@@ -329,9 +347,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, PicPostActivity.class);
-            intent.putExtra(FragmentIndex.TAG, FragmentIndex.TREEHOLE);
-            startActivity(intent);
+
             return true;
         }
 
