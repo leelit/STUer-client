@@ -27,7 +27,7 @@ import com.leelit.stuer.constant.TabConstant;
 import com.leelit.stuer.module_baseinfo.carpool.CarpoolFragment;
 import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
-import com.leelit.stuer.module_sell.SellPostActivity;
+import com.leelit.stuer.module_sell.PicPostActivity;
 import com.leelit.stuer.module_stu.StuFragment;
 import com.leelit.stuer.utils.SPUtils;
 
@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, BaseInfoPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.DATE);
                 } else {
-                    intent = new Intent(MainActivity.this, SellPostActivity.class);
+                    intent = new Intent(MainActivity.this, PicPostActivity.class);
+                    intent.putExtra(FragmentIndex.TAG, FragmentIndex.SELL);
                 }
                 startActivityForResult(intent, MODULE_ALL_POST_INFO_REQUEST);
             }
@@ -328,6 +329,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PicPostActivity.class);
+            intent.putExtra(FragmentIndex.TAG, FragmentIndex.TREEHOLE);
+            startActivity(intent);
             return true;
         }
 

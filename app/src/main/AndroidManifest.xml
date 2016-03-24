@@ -32,7 +32,7 @@
             android:label="@string/title_activity_stu" >
         </activity>
         <activity
-            android:name=".module_sell.SellPostActivity"
+            android:name=".module_sell.PicPostActivity"
             android:label="@string/title_activity_post_message" >
         </activity>
         <activity

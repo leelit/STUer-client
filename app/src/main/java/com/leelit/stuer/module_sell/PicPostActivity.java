@@ -23,8 +23,10 @@ import android.widget.Toast;
 import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.SellInfo;
-import com.leelit.stuer.module_sell.presenter.SellPostPresenter;
-import com.leelit.stuer.module_sell.viewinterface.ISellPostView;
+import com.leelit.stuer.bean.TreeholeInfo;
+import com.leelit.stuer.constant.FragmentIndex;
+import com.leelit.stuer.module_sell.presenter.PicPostPresenter;
+import com.leelit.stuer.module_sell.viewinterface.IPicPostView;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
@@ -37,7 +39,7 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SellPostActivity extends AppCompatActivity implements ISellPostView {
+public class PicPostActivity extends AppCompatActivity implements IPicPostView {
     private static final int TAKE_PHOTO = 1;
     private static final int CROP_PHOTO = 2;
     private static final int GET_FROM_ALBUM = 3;
@@ -57,22 +59,37 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
 
     private Uri mUploadImageUri;
 
-    private SellPostPresenter mPresenter = new SellPostPresenter(this);
+    private PicPostPresenter mPresenter = new PicPostPresenter(this);
     private SellInfo mSellInfo;
+    private TreeholeInfo mTreeholeInfo;
     private boolean hasImage;
     private File mUpLoadImageFile;
 
+    private int mFragmentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_post);
         ButterKnife.inject(this);
+
+        mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, FragmentIndex.SELL);
+
         initToolbar("发布");
         initAddImageButton();
         initDeleteImageButton();
         initUploadImageUri();
-        initSellInfoBean();
+
+        if (mFragmentIndex == FragmentIndex.SELL) {
+            initSellInfoBean();
+        }else if (mFragmentIndex == FragmentIndex.TREEHOLE) {
+            initTreeholeBean();
+        }
+    }
+
+    private void initTreeholeBean() {
+        mTreeholeInfo = new TreeholeInfo();
+        mTreeholeInfo.setUniquecode(AppInfoUtils.getUniqueCode());
     }
 
     private void initSellInfoBean() {
@@ -119,7 +136,7 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
         mAddImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SellPostActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PicPostActivity.this);
                 builder.setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -245,17 +262,36 @@ public class SellPostActivity extends AppCompatActivity implements ISellPostView
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            mSellInfo.setState(mState.getText().toString());
-            if (hasImage) {
-                mSellInfo.setPicAddress(AppInfoUtils.getUniqueCode());
-                mPresenter.doPostWithPhoto(mUpLoadImageFile, mSellInfo);
+            if (mFragmentIndex == FragmentIndex.SELL) {
+                sellPost();
             } else {
-                mSellInfo.setPicAddress("empty");
-                mPresenter.doPost(mSellInfo);
+                treeholePost();
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void treeholePost() {
+        mTreeholeInfo.setState(mState.getText().toString());
+        if (hasImage) {
+            mTreeholeInfo.setPicAddress(AppInfoUtils.getUniqueCode());
+            mPresenter.doPostWithPhoto(mUpLoadImageFile, mTreeholeInfo);
+        } else {
+            mTreeholeInfo.setPicAddress("empty");
+            mPresenter.doPost(mTreeholeInfo);
+        }
+    }
+
+    private void sellPost() {
+        mSellInfo.setState(mState.getText().toString());
+        if (hasImage) {
+            mSellInfo.setPicAddress(AppInfoUtils.getUniqueCode());
+            mPresenter.doPostWithPhoto(mUpLoadImageFile, mSellInfo);
+        } else {
+            mSellInfo.setPicAddress("empty");
+            mPresenter.doPost(mSellInfo);
+        }
     }
 
     @Override
