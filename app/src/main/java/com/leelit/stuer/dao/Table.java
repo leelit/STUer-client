@@ -36,7 +36,7 @@ public class Table {
             "state varchar(255)," +
             "picaddress varchar(255)," +
             "uniquecode varchar(255)," +
-            "like boolean," +
-            "unlike boolean" +
+            "like integer," +
+            "unlike integer" +
             ")";
 }

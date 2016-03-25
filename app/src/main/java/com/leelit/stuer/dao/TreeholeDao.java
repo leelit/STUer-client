@@ -17,6 +17,9 @@ public class TreeholeDao {
 
     private static final String[] keys = {"dt", "state", "picaddress", "uniquecode", "like", "unlike"};
 
+    private static final int TRUE = 1;
+    private static final int FALSE = 0;
+
     public void save(List<TreeholeInfo> infos) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
         db.beginTransaction();
@@ -26,8 +29,8 @@ public class TreeholeDao {
             values.put(keys[1], info.getState());
             values.put(keys[2], info.getPicAddress());
             values.put(keys[3], info.getUniquecode());
-            values.put(keys[4], false);
-            values.put(keys[5], false);
+            values.put(keys[4], FALSE);
+            values.put(keys[5], FALSE);
             db.insert("treehole", null, values);
         }
         db.setTransactionSuccessful();
@@ -57,8 +60,8 @@ public class TreeholeDao {
                 comment.setState(cursor.getString(cursor.getColumnIndex(keys[1])));
                 comment.setPicAddress(cursor.getString(cursor.getColumnIndex(keys[2])));
                 comment.setUniquecode(cursor.getString(cursor.getColumnIndex(keys[3])));
-                comment.setLike(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(keys[4]))));
-                comment.setLike(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(keys[5]))));
+                comment.setLike(TRUE == cursor.getInt(cursor.getColumnIndex(keys[4])));
+                comment.setUnlike(TRUE == cursor.getInt(cursor.getColumnIndex(keys[5])));
                 result.add(comment);
             } while (cursor.moveToNext());
         }
