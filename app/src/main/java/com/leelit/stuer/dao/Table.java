@@ -30,4 +30,13 @@ public class Table {
             "uniquecode varchar(255)," +
             "status varchar(255)" +
             ")";
+
+    public static final String TREEHOLE_TABLE_CREATE = "create table treehole (id integer primary key autoincrement," +
+            "dt datetime," +
+            "state varchar(255)," +
+            "picaddress varchar(255)," +
+            "uniquecode varchar(255)," +
+            "like boolean," +
+            "unlike boolean" +
+            ")";
 }

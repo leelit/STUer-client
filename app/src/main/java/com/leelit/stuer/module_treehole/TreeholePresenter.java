@@ -39,8 +39,6 @@ public class TreeholePresenter implements IPresenter{
                 mView.showDataFromNet(treeholeInfos);
                 if (treeholeInfos.isEmpty()) {
                     mView.showNoDataFromNet();
-                } else {
-//                    mModel.save(sellInfos);
                 }
             }
         };

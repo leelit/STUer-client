@@ -7,7 +7,6 @@ import com.leelit.stuer.utils.SupportModelUtils;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -17,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -50,6 +50,11 @@ public class SellModel {
             public Observable<List<SellInfo>> call(String s) {
                 return mService.getNewerData(s);
             }
+        }).doOnNext(new Action1<List<SellInfo>>() {
+            @Override
+            public void call(List<SellInfo> sellInfos) {
+                new SellDao().save(sellInfos);
+            }
         });
         SupportModelUtils.toSubscribe(observable, subscriber);  // 想服务器请求比这个时间更新的数据
     }
@@ -76,15 +81,6 @@ public class SellModel {
 
         });
         SupportModelUtils.toSubscribe(observable, subscriber);
-    }
-
-    public void save(final List<SellInfo> sellInfos) {
-        Executors.newCachedThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                new SellDao().save(sellInfos);
-            }
-        });
     }
 
     public void checkGoodsStillHere(String uniquecode, Subscriber<SellInfo> subscriber) {

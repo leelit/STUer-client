@@ -45,8 +45,6 @@ public class SellPresenter implements IPresenter {
                 mView.showDataFromNet(sellInfos);
                 if (sellInfos.isEmpty()) {
                     mView.showNoDataFromNet();
-                } else {
-                    mModel.save(sellInfos);
                 }
             }
         };
