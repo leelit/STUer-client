@@ -112,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int MODULE_ALL_POST_INFO_REQUEST = 1; // 成功“发送”消息后所有模块刷新
     public static final int MODULE_BASEINFO_JOIN_DELETE_REQUEST = 2; // BaseInfo成功加入或者删除后刷新
-    public static final int MODULE_SELL_RELOAD_DB = 3; // Sell设置“下架商品不可见”或者商家删除后重新加载数据库
+    public static final int MODULE_SELL_RELOAD_DB = 3; // Sell设置“下架商品不可见”重新加载数据库
+    public static final int MODULE_SELL_OFFLINE_ITEM = 4; // 商家下架商品，返回时自己下架的要局部刷新
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -134,6 +135,13 @@ public class MainActivity extends AppCompatActivity {
                 case MODULE_SELL_RELOAD_DB:
                     if (currentFragment instanceof SellFragment) {
                         ((SellFragment) currentFragment).loadDataFromDb();
+                    }
+                    break;
+                case MODULE_SELL_OFFLINE_ITEM:
+                    if (currentFragment instanceof SellFragment) {
+                        for (int i : data.getIntegerArrayListExtra("positions")) {
+                            ((SellFragment) currentFragment).notifyItem(i);
+                        }
                     }
                     break;
             }
@@ -341,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (currentFragment instanceof SellFragment) {
                 Intent intent = new Intent(this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.SELL);
-                startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
+                startActivityForResult(intent, MODULE_SELL_OFFLINE_ITEM);
             }
             return true;
         }

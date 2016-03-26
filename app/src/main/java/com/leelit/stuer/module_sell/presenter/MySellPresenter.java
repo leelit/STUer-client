@@ -2,6 +2,7 @@ package com.leelit.stuer.module_sell.presenter;
 
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.base_presenter.IPresenter;
+import com.leelit.stuer.dao.SellDao;
 import com.leelit.stuer.module_sell.viewinterface.IMySellView;
 import com.leelit.stuer.module_sell.model.SellModel;
 
@@ -70,7 +71,10 @@ public class MySellPresenter implements IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mView.dismissOffSellProgressDialog();
-                mView.offlineSell(position);
+                SellInfo updateInfo = mView.getCurrentList().get(position); // 刷新当前MySellFragment#mList
+                updateInfo.setStatus("off");
+                new SellDao().updateStatusInSell(updateInfo); // 刷新数据库
+                mView.doAfterOfflineSell(position);
             }
         };
         mModel.offlineOrder(uniquecode, mSubscriber2);

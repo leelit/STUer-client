@@ -38,7 +38,12 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void loadDataFromDb() {
         mSellPresenter.doLoadDataFromDb();
     }
-    
+
+
+    public void notifyItem(int position) {
+        mList.get(position).setStatus("off");
+        mAdapter.notifyItemChanged(position);
+    }
 
     @Override
     public void showNoDataFromNet() {
@@ -109,7 +114,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void showGoodsOffline(int position) {
         toast("该商品已售出...");
         mList.get(position).setStatus("off");
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(position);
     }
 
     @Override

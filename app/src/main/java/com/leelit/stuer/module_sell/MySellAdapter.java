@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.bean.SellInfo;
-import com.leelit.stuer.dao.SellDao;
 import com.leelit.stuer.utils.ScreenUtils;
 import com.leelit.stuer.utils.SupportModelUtils;
 import com.leelit.stuer.utils.TimeUtils;
@@ -85,9 +84,7 @@ public class MySellAdapter extends BaseListAdapter<MySellAdapter.ViewHolder> {
 
     @Override
     public void removeData(int position) {
-        mList.get(position).setStatus("off");
-        new SellDao().updateStatusInSell(mList.get(position)); // 同步操作
-        notifyDataSetChanged();
+
     }
 
     /**

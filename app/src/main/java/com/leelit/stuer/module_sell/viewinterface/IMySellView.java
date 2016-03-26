@@ -21,7 +21,7 @@ public interface IMySellView {
 
     void dismissOffSellProgressDialog();
 
-    void offlineSell(int position);
+    void doAfterOfflineSell(int position);
 
-
+    List<SellInfo> getCurrentList();
 }
