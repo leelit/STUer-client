@@ -5,10 +5,11 @@ import android.view.View;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.base_fragments.BaseListFragment;
+import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeInfo;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +23,12 @@ public class TreeholeFragment extends BaseListFragment implements ITreeholeView 
     @Override
     protected BaseListAdapter bindAdapter() {
         return new TreeholeAdapter(mList);
+    }
+
+
+    @Override
+    protected void taskAfterLoaded() {
+        mPresenter.doLoadDataFromDb();
     }
 
     @Override
@@ -45,9 +52,31 @@ public class TreeholeFragment extends BaseListFragment implements ITreeholeView 
     }
 
     @Override
+    public void showDataFromDb(List<TreeholeComment> infos) {
+        mList.clear();
+        mList.addAll(infos);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLoadingDbProgressDialog() {
+        ProgressDialogUtils.show(getActivity(), "加载中...");
+    }
+
+    @Override
+    public void dismissLoadingDbProgressDialog() {
+        ProgressDialogUtils.dismiss();
+    }
+
+    @Override
+    public void showNoDataInDb() {
+        toast("没有缓存数据，请刷新...");
+    }
+
+
+    @Override
     public void showDataFromNet(List<TreeholeInfo> treeholeInfos) {
         mList.clear();
-        Collections.reverse(treeholeInfos);
         mList.addAll(treeholeInfos);
         mAdapter.notifyDataSetChanged();
     }
@@ -55,5 +84,16 @@ public class TreeholeFragment extends BaseListFragment implements ITreeholeView 
     @Override
     public void showNoDataFromNet() {
         toast("没有新的数据，请稍后再来...");
+    }
+
+    @Override
+    public List<TreeholeInfo> getCurrentList() {
+        return mList;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.doClear();
     }
 }

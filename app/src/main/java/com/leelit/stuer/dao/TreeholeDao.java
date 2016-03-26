@@ -20,7 +20,7 @@ public class TreeholeDao {
     private static final int TRUE = 1;
     private static final int FALSE = 0;
 
-    public void save(List<TreeholeInfo> infos) {
+    public static void save(List<TreeholeInfo> infos) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
         db.beginTransaction();
         for (TreeholeInfo info : infos) {
@@ -37,7 +37,7 @@ public class TreeholeDao {
         db.endTransaction();
     }
 
-    public String getLatestDatetime() {
+    public static String getLatestDatetime() {
         String str = "";
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM treehole ORDER BY id DESC LIMIT 1", null);
@@ -48,7 +48,7 @@ public class TreeholeDao {
         return str;
     }
 
-    public List<TreeholeComment> getAll() {
+    public static List<TreeholeComment> getAll() {
         List<TreeholeComment> result = new ArrayList<>();
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         db.beginTransaction();

@@ -12,47 +12,59 @@ import java.util.Map;
  */
 public class TimeUtils {
 
+    private static final int DAY_MS = 24 * 60 * 60 * 1000;
+    private static final int HOUR_MS = (60 * 60 * 1000);
+    ;
+    private static final int MIN_MS = (60 * 1000);
+
     public static String getCurrentTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
         return time;
     }
 
-    public static Map<String, Integer> getDetailTime(String datetime) {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("year", Integer.parseInt(datetime.substring(0, 4)));
-        map.put("month", Integer.parseInt(datetime.substring(5, 7)));
-        map.put("day", Integer.parseInt(datetime.substring(8, 10)));
-        map.put("hour", Integer.parseInt(datetime.substring(11, 13)));
-        map.put("minute", Integer.parseInt(datetime.substring(14, 16)));
-        map.put("second", Integer.parseInt(datetime.substring(17, 19)));
+    public static Map<String, String> getDetailTime(String datetime) {
+        Map<String, String> map = new HashMap<>();
+        map.put("year", datetime.substring(0, 4));
+        map.put("month", datetime.substring(5, 7));
+        map.put("day", datetime.substring(8, 10));
+        map.put("hour", datetime.substring(11, 13));
+        map.put("minute", datetime.substring(14, 16));
+        map.put("second", datetime.substring(17, 19));
         return map;
     }
 
     public static String compareNowWithBefore(String datetime) {
-        String currentTime = TimeUtils.getCurrentTime();
-        Map<String, Integer> nowMap = TimeUtils.getDetailTime(currentTime);
-        Map<String, Integer> thenMap = TimeUtils.getDetailTime(datetime);
-        if (nowMap.get("year") > thenMap.get("year") || nowMap.get("month") > thenMap.get("month")) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Map<String, String> detail = getDetailTime(datetime);
+            Date now = df.parse(getCurrentTime());
+            Date date = df.parse(datetime);
+            long timeGap = now.getTime() - date.getTime();
+            long dayGap = timeGap / DAY_MS;
+            if (dayGap >= 30) {
+                return new StringBuilder(datetime).delete(datetime.length() - 3, datetime.length()).toString();
+            } else if (dayGap > 2) {
+                return new StringBuilder().append(detail.get("month")).append("-").append(detail.get("day")).append(" ").append(detail.get("hour")).append(":").append(detail.get("minute")).toString();
+            } else if (dayGap == 2) {
+                return "前天 " + detail.get("hour") + ":" + detail.get("minute");
+            } else if (dayGap == 1) {
+                return "昨天 " + detail.get("hour") + ":" + detail.get("minute");
+            }
+            long hourGap = (timeGap / HOUR_MS - dayGap * 24);
+            if (hourGap > 0) {
+                return hourGap + "小时前";
+            }
+            long minGap = ((timeGap / MIN_MS) - dayGap * 24 * 60 - hourGap * 60);
+            if (minGap > 0) {
+                return minGap + "分钟前";
+            } else {
+                return "刚刚";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
             return datetime;
         }
-        int dayCount = nowMap.get("day") - thenMap.get("day");
-        if (dayCount > 2) {
-            return datetime;
-        } else if (dayCount == 2) {
-            return "前天 " + thenMap.get("hour") + ":" + thenMap.get("minute");
-        } else if (dayCount == 1) {
-            return "昨天" + thenMap.get("hour") + ":" + thenMap.get("minute");
-        }
-        int hourCount = nowMap.get("hour") - thenMap.get("hour");
-        if (hourCount != 0) {
-            return hourCount + "小时前";
-        }
-        int minuteCount = nowMap.get("minute") - thenMap.get("minute");
-        if (minuteCount != 0) {
-            return minuteCount + "分钟前";
-        }
-        return "刚刚";
     }
 
     public static Date stringToDate(String dateStr, String formatStr) {
