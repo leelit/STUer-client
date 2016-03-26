@@ -10,10 +10,8 @@ import com.leelit.stuer.module_sell.presenter.SellPresenter;
 import com.leelit.stuer.module_sell.viewinterface.ISellView;
 import com.leelit.stuer.utils.ContactUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
-import com.leelit.stuer.utils.SettingUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,10 +38,16 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void loadDataFromDb() {
         mSellPresenter.doLoadDataFromDb();
     }
+    
 
     @Override
     public void showNoDataFromNet() {
         toast("没有新的数据，请稍后再来...");
+    }
+
+    @Override
+    public List<SellInfo> getCurrentList() {
+        return mList;
     }
 
     @Override
@@ -70,23 +74,9 @@ public class SellFragment extends BaseListFragment implements ISellView {
     public void showDataFromDb(List<SellInfo> sellInfos) {
         mList.clear();
         mList.addAll(sellInfos);
-        // 如果不展示下架商品
-        checkIfNoShowOfflineSell();
+        // 如果不展示下架商品，在presenter里面处理一下这个mList
+        mSellPresenter.doIfNoShowOfflineSell();
         mSellAdapter.notifyDataSetChanged();
-    }
-
-    private void checkIfNoShowOfflineSell() {
-        List<SellInfo> offInfos = new ArrayList<>();
-        if (SettingUtils.noOfflineSell()) {
-            for (SellInfo info : mList) {
-                if (info.getStatus().equals("off")) {
-                    offInfos.add(info);
-                }
-            }
-        }
-        for (SellInfo info : offInfos) {
-            mList.remove(info);
-        }
     }
 
 
@@ -108,11 +98,10 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     public void showDataFromNet(List<SellInfo> sellInfos) {
-        Collections.reverse(mList); // loadFromDb展示后的时间顺序是 4 3 2 1， reverse后 1 2 3 4
-        mList.addAll(sellInfos);    // 加入5 6 7 8后变成 1 2 3 4 5 6 7 8
-        Collections.reverse(mList); // reverse后 8 7 6 5 4 3 2 1
-        checkIfNoShowOfflineSell();
-        mAdapter.notifyDataSetChanged();  // 正确的时间顺序
+        mList.clear();
+        mList.addAll(sellInfos);
+        mSellPresenter.doIfNoShowOfflineSell();
+        mAdapter.notifyDataSetChanged();
     }
 
 

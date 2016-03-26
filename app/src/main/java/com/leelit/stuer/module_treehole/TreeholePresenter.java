@@ -72,10 +72,12 @@ public class TreeholePresenter implements IPresenter {
             @Override
             public void onNext(List<TreeholeComment> treeholeComments) {
                 mView.dismissLoadingDbProgressDialog();
-                mView.showDataFromDb(treeholeComments);
                 if (treeholeComments.isEmpty()) {
                     mView.showNoDataInDb();
+                    return;
                 }
+                Collections.reverse(treeholeComments);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
+                mView.showDataFromDb(treeholeComments);
             }
         };
         mModel.loadFromDb(mSubscriber2);

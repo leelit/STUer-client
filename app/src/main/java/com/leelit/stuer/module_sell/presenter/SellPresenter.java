@@ -1,11 +1,14 @@
 package com.leelit.stuer.module_sell.presenter;
 
+import com.leelit.stuer.base_presenter.IPresenter;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.dao.SellDao;
-import com.leelit.stuer.base_presenter.IPresenter;
-import com.leelit.stuer.module_sell.viewinterface.ISellView;
 import com.leelit.stuer.module_sell.model.SellModel;
+import com.leelit.stuer.module_sell.viewinterface.ISellView;
+import com.leelit.stuer.utils.SettingUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import rx.Subscriber;
@@ -42,10 +45,16 @@ public class SellPresenter implements IPresenter {
             @Override
             public void onNext(List<SellInfo> sellInfos) {
                 mView.stopRefreshing();
-                mView.showDataFromNet(sellInfos);
                 if (sellInfos.isEmpty()) {
                     mView.showNoDataFromNet();
+                    return;
                 }
+                List<SellInfo> currentList = mView.getCurrentList();
+                List<SellInfo> copyList = new ArrayList<>(currentList);
+                Collections.reverse(copyList); // 加上新的数据并处理顺序
+                copyList.addAll(sellInfos);
+                Collections.reverse(copyList);
+                mView.showDataFromNet(copyList); // 展示
             }
         };
         mModel.getNewerData(mSubscriber1);
@@ -68,11 +77,13 @@ public class SellPresenter implements IPresenter {
 
             @Override
             public void onNext(List<SellInfo> sellInfos) {
-                mView.showDataFromDb(sellInfos);
                 mView.dismissLoadingDbProgressDialog();
                 if (sellInfos.isEmpty()) {
                     mView.showNoDataInDb();
+                    return;
                 }
+                Collections.reverse(sellInfos);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
+                mView.showDataFromDb(sellInfos);
             }
         };
         mModel.loadFromDb(mSubscriber2);
@@ -107,6 +118,22 @@ public class SellPresenter implements IPresenter {
         mModel.checkGoodsStillHere(info.getUniquecode(), mSubscriber3);
     }
 
+    public void doIfNoShowOfflineSell() {
+        if (!SettingUtils.noOfflineSell()) {
+            return;  // 如果不展示才需要后续处理，如果双重否定即要展示时则不处理数据
+        }
+        List<SellInfo> currentList = mView.getCurrentList(); // not copy the same list
+        List<SellInfo> offInfos = new ArrayList<>();
+        for (SellInfo info : currentList) {
+            if (info.getStatus().equals("off")) {
+                offInfos.add(info);
+            }
+        }
+        for (SellInfo info : offInfos) {
+            currentList.remove(info);
+        }
+    }
+
     @Override
     public void doClear() {
         if (mSubscriber1 != null) {
@@ -120,4 +147,6 @@ public class SellPresenter implements IPresenter {
         }
         mView = null;
     }
+
+
 }

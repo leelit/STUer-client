@@ -25,6 +25,8 @@ public interface ISellView {
 
     void showNoDataFromNet();
 
+    List<SellInfo> getCurrentList();
+
     void showGoodsOffline(int position);
 
     void showContactDialog(String tel, String shortel, String wechat);

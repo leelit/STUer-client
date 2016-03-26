@@ -5,7 +5,6 @@ import com.leelit.stuer.dao.SellDao;
 import com.leelit.stuer.utils.SupportModelUtils;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -75,7 +74,6 @@ public class SellModel {
             public void call(Subscriber<? super List<SellInfo>> subscriber) {
                 SellDao dao = new SellDao();
                 List<SellInfo> list = dao.getAll("sell");
-                Collections.reverse(list);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
                 subscriber.onNext(list);
             }
 
