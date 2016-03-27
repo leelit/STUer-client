@@ -17,7 +17,6 @@ import java.util.List;
 public class TreeholeDaoTest extends TestCase {
 
     public void testSave() throws Exception {
-        TreeholeDao treeholeDao = new TreeholeDao();
         List<TreeholeInfo> treeholeInfos = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             TreeholeInfo info = new TreeholeInfo();
@@ -31,11 +30,14 @@ public class TreeholeDaoTest extends TestCase {
     }
 
     public void testGetAll() throws Exception {
-        TreeholeDao treeholeDao = new TreeholeDao();
         Log.e("tag", TreeholeDao.getAll().toString());
     }
 
     public void testGetComment() throws Exception {
         Log.e("tag", TreeholeDao.getComment("1319861953").toString());
+    }
+
+    public void testUpdateComment() throws Exception {
+        TreeholeDao.updateUnlikeOfComment("1319861953", 0);
     }
 }

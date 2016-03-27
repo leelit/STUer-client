@@ -28,4 +28,10 @@ public interface TreeholeService {
 
     @GET("query")
     Observable<List<TreeholeInfo>> getNewerData(@Query("newer") String newer);
+
+    @GET("like")
+    Observable<ResponseBody> doLikeJob(@Query("uniquecode") String uniquecode, @Query("imei") String imei, @Query("islike") String isLike);
+
+    @GET("unlike")
+    Observable<ResponseBody> doUnlikeJob(@Query("uniquecode") String uniquecode, @Query("imei") String imei, @Query("isunlike") String isUnlike);
 }

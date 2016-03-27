@@ -16,18 +16,18 @@ import com.leelit.stuer.dao.TreeholeDao;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends AppCompatActivity implements ICommentView {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.treeholeView)
     TreeholeView mTreeholeView;
-    @InjectView(R.id.like)
-    ImageView mLike;
+    @InjectView(R.id.likePic)
+    ImageView mLikePic;
     @InjectView(R.id.likeCount)
     TextView mLikeCount;
-    @InjectView(R.id.unlike)
-    ImageView mUnlike;
+    @InjectView(R.id.unlikePic)
+    ImageView mUnlikePic;
     @InjectView(R.id.unlikeCount)
     TextView mUnlikeCount;
     @InjectView(R.id.recyclerView)
@@ -37,7 +37,14 @@ public class CommentActivity extends AppCompatActivity {
     @InjectView(R.id.unlikeLayout)
     LinearLayout mUnlikeLayout;
 
-    private boolean isLike = false;
+
+    private boolean isLike;
+    private boolean isUnlike;
+    private boolean mOriginalIsLike;
+    private boolean mOriginalIsUnlike;
+
+    private TreeholeComment mTreeholeComment;
+    private CommentPresenter mPresenter = new CommentPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +52,62 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment);
         ButterKnife.inject(this);
         initToolBar();
+        mTreeholeComment = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
         initTreeholeView();
+        initLikeAndUnlike();
+    }
+
+    private void initLikeAndUnlike() {
+        isLike = mTreeholeComment.isLike();
+        isUnlike = mTreeholeComment.isUnlike();
+        mOriginalIsLike = isLike;
+        mOriginalIsUnlike = isUnlike;
+        if (isLike) {
+            mLikePic.setImageResource(R.drawable.module_treehole_like_true);
+            mLikeCount.setText("1"); // 以防网络出错
+        }
+        if (isUnlike) {
+            mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_true);
+            mUnlikeCount.setText("1");
+        }
+
         mLikeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLike) {
-                    mLike.setImageResource(R.drawable.module_treehole_like_true);
+                    mLikePic.setImageResource(R.drawable.module_treehole_like_normal);
+                    int count = Integer.parseInt(mLikeCount.getText().toString()) - 1;
+                    mLikeCount.setText(String.valueOf(count));
                 } else {
-                    mLike.setImageResource(R.drawable.module_treehole_like_normal);
+                    mLikePic.setImageResource(R.drawable.module_treehole_like_true);
+                    int count = Integer.parseInt(mLikeCount.getText().toString()) + 1;
+                    mLikeCount.setText(String.valueOf(count));
                 }
                 isLike = !isLike;
+            }
+        });
+
+        mUnlikeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isUnlike) {
+                    mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_normal);
+                    int count = Integer.parseInt(mUnlikeCount.getText().toString()) - 1;
+                    mUnlikeCount.setText(String.valueOf(count));
+                } else {
+                    mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_true);
+                    int count = Integer.parseInt(mUnlikeCount.getText().toString()) + 1;
+                    mUnlikeCount.setText(String.valueOf(count));
+                }
+                isUnlike = !isUnlike;
             }
         });
     }
 
     private void initTreeholeView() {
-        TreeholeComment comment = TreeholeDao.getComment("1319861953");
-        mTreeholeView.setTime(comment.getDatetime());
-        mTreeholeView.setState(comment.getState());
-        mTreeholeView.setPicture(comment.getPicAddress());
+        mTreeholeView.setTime(mTreeholeComment.getDatetime());
+        mTreeholeView.setState(mTreeholeComment.getState());
+        mTreeholeView.setPicture(mTreeholeComment.getPicAddress());
     }
 
     private void initToolBar() {
@@ -78,5 +122,15 @@ public class CommentActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 不能用户每次瞎点都网络请求，只在退出时才去进行
+        if (isLike != mOriginalIsLike) {
+            mPresenter.doLikeJob(mTreeholeComment.getUniquecode(), isLike);
+        }
+        if (isUnlike != mOriginalIsUnlike) {
+            mPresenter.doUnlikeJob(mTreeholeComment.getUniquecode(), isUnlike);
+        }
+    }
 }

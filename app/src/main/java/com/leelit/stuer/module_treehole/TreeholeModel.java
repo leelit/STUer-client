@@ -18,6 +18,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Leelit on 2016/3/24.
@@ -77,5 +78,68 @@ public class TreeholeModel {
 
         });
         SupportModelUtils.toSubscribe(observable, subscriber);
+    }
+
+    public void doLikeJob(final String uniquecode, String imei, final boolean isLike) {
+        String param;
+        if (isLike) {
+            param = "true";
+        } else {
+            param = "false";
+        }
+        mService.doLikeJob(uniquecode, imei, param)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // 失败不进行任何操作，不会更新数据库，用户下次进来还是原来状态，
+                        // 不能使用Action1类型,否则Exception thrown on Scheduler.Worker thread. Add `onError` handling.
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        if (isLike) {
+                            TreeholeDao.updateLikeOfComment(uniquecode, TreeholeDao.TRUE);
+                        } else {
+                            TreeholeDao.updateLikeOfComment(uniquecode, TreeholeDao.FALSE);
+                        }
+                    }
+                });
+    }
+
+    public void doUnlikeJob(final String uniquecode, String imei, final boolean isUnlike) {
+        String param;
+        if (isUnlike) {
+            param = "true";
+        } else {
+            param = "false";
+        }
+        mService.doUnlikeJob(uniquecode, imei, param)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        if (isUnlike) {
+                            TreeholeDao.updateUnlikeOfComment(uniquecode, TreeholeDao.TRUE);
+                        } else {
+                            TreeholeDao.updateUnlikeOfComment(uniquecode, TreeholeDao.FALSE);
+                        }
+                    }
+                });
     }
 }

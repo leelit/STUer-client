@@ -17,8 +17,8 @@ public class TreeholeDao {
 
     private static final String[] keys = {"dt", "state", "picaddress", "uniquecode", "like", "unlike"};
 
-    private static final int TRUE = 1;
-    private static final int FALSE = 0;
+    public static final int TRUE = 1;
+    public static final int FALSE = 0;
 
     public static void save(List<TreeholeInfo> infos) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -86,4 +86,17 @@ public class TreeholeDao {
         return comment;
     }
 
+    public static void updateLikeOfComment(String uniquecode, int isLike) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(keys[4], isLike);
+        db.update("treehole", values, "uniquecode = ?", new String[]{uniquecode});
+    }
+
+    public static void updateUnlikeOfComment(String uniquecode, int isUnlike) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(keys[5], isUnlike);
+        db.update("treehole", values, "uniquecode = ?", new String[]{uniquecode});
+    }
 }

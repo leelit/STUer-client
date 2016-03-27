@@ -63,17 +63,17 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/like"
+                    android:id="@+id/likePic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/module_treehole_like_true"/>
+                    android:src="@drawable/module_treehole_like_normal"/>
 
                 <TextView
                     android:id="@+id/likeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="12"/>
+                    android:text="0"/>
             </LinearLayout>
 
             <View
@@ -91,7 +91,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/unlike"
+                    android:id="@+id/unlikePic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/module_treehole_unlike_normal"/>
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="10"/>
+                    android:text="0"/>
             </LinearLayout>
         </LinearLayout>
 

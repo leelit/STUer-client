@@ -1,5 +1,6 @@
 package com.leelit.stuer.module_treehole;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.leelit.stuer.R;
@@ -38,7 +39,9 @@ public class TreeholeFragment extends BaseListFragment implements ITreeholeView 
 
     @Override
     protected void onItemClickEvent(View view, int position) {
-
+        Intent intent = new Intent(getContext(), CommentActivity.class);
+        intent.putExtra("uniquecode", mList.get(position).getUniquecode());
+        startActivity(intent);
     }
 
     @Override
