@@ -1,7 +1,7 @@
 package com.leelit.stuer.module_baseinfo.carpool;
 
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.base_fragments.BaseInfoFragment;
+import com.leelit.stuer.base_view.BaseInfoFragment;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.module_baseinfo.carpool.presenter.CarpoolPresenter;
 

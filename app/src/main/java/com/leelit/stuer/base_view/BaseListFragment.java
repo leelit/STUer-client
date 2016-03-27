@@ -1,4 +1,4 @@
-package com.leelit.stuer.base_fragments;
+package com.leelit.stuer.base_view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.leelit.stuer.base_fragments;
+package com.leelit.stuer.base_view;
 
 import android.app.AlertDialog;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.Spinner;
 
 import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.R;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoView;
+import com.leelit.stuer.base_view.viewinterface.IBaseInfoView;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;

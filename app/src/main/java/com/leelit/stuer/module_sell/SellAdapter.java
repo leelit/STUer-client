@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
+import com.leelit.stuer.base_view.PhotoActivity;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.utils.ScreenUtils;
 import com.leelit.stuer.utils.SupportModelUtils;

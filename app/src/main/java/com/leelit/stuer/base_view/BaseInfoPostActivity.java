@@ -1,4 +1,4 @@
-package com.leelit.stuer.base_fragments;
+package com.leelit.stuer.base_view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.leelit.stuer.LoginActivity;
 import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.R;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoPostView;
+import com.leelit.stuer.base_view.viewinterface.IBaseInfoPostView;
 import com.leelit.stuer.base_presenter.BaseInfoPostPresenter;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;

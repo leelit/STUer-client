@@ -7,7 +7,7 @@ import android.view.View;
 import com.leelit.stuer.MainActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.base_fragments.BaseListFragment;
+import com.leelit.stuer.base_view.BaseListFragment;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.module_sell.presenter.MySellPresenter;
 import com.leelit.stuer.module_sell.viewinterface.IMySellView;

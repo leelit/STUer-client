@@ -4,7 +4,7 @@ import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.base_presenter.IPresenter;
 import com.leelit.stuer.base_presenter.IMyBaseInfoPresenter;
-import com.leelit.stuer.base_fragments.viewinterface.IMyBaseInfoView;
+import com.leelit.stuer.base_view.viewinterface.IMyBaseInfoView;
 import com.leelit.stuer.module_baseinfo.carpool.model.CarpoolModel;
 
 import java.util.ArrayList;

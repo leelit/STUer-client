@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.base_fragments.BaseListFragment;
+import com.leelit.stuer.base_view.BaseListFragment;
 import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.utils.ProgressDialogUtils;

@@ -1,4 +1,4 @@
-package com.leelit.stuer.module_sell.viewinterface;
+package com.leelit.stuer.base_view.viewinterface;
 
 /**
  * Created by Leelit on 2016/3/16.

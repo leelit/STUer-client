@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.leelit.stuer.base_adapters.BaseListAdapter;
-import com.leelit.stuer.base_fragments.BaseListFragment;
+import com.leelit.stuer.base_view.BaseListFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

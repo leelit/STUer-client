@@ -3,7 +3,7 @@ package com.leelit.stuer.module_baseinfo.carpool.presenter;
 import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.base_presenter.IPresenter;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoView;
+import com.leelit.stuer.base_view.viewinterface.IBaseInfoView;
 import com.leelit.stuer.module_baseinfo.carpool.model.CarpoolModel;
 
 import java.util.List;

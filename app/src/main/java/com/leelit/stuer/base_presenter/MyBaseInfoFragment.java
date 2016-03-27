@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
-import com.leelit.stuer.base_fragments.BaseListFragment;
-import com.leelit.stuer.base_fragments.viewinterface.IMyBaseInfoView;
+import com.leelit.stuer.base_view.BaseListFragment;
+import com.leelit.stuer.base_view.viewinterface.IMyBaseInfoView;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;

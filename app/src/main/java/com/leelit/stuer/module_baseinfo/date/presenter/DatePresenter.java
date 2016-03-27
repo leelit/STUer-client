@@ -3,7 +3,7 @@ package com.leelit.stuer.module_baseinfo.date.presenter;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.base_presenter.IPresenter;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoView;
+import com.leelit.stuer.base_view.viewinterface.IBaseInfoView;
 import com.leelit.stuer.module_baseinfo.date.model.DateModel;
 
 import java.util.List;

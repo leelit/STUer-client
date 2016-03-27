@@ -32,11 +32,11 @@
             android:label="@string/title_activity_stu" >
         </activity>
         <activity
-            android:name=".module_sell.PicPostActivity"
+            android:name=".base_view.PicPostActivity"
             android:label="@string/title_activity_post_message" >
         </activity>
         <activity
-            android:name=".base_fragments.BaseInfoPostActivity"
+            android:name=".base_view.BaseInfoPostActivity"
             android:label="@string/title_activity_post_message" >
         </activity>
         <activity
@@ -44,7 +44,7 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".module_sell.PhotoActivity"
+            android:name=".base_view.PhotoActivity"
             android:label="@string/title_activity_photo"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
         </activity>

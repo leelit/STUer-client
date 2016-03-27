@@ -1,4 +1,4 @@
-package com.leelit.stuer.base_fragments.viewinterface;
+package com.leelit.stuer.base_view.viewinterface;
 
 import com.leelit.stuer.bean.BaseInfo;
 

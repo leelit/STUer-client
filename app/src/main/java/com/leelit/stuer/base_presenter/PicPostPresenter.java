@@ -1,9 +1,8 @@
-package com.leelit.stuer.module_sell.presenter;
+package com.leelit.stuer.base_presenter;
 
+import com.leelit.stuer.base_view.viewinterface.IPicPostView;
 import com.leelit.stuer.bean.SellInfo;
-import com.leelit.stuer.base_presenter.IPresenter;
 import com.leelit.stuer.bean.TreeholeInfo;
-import com.leelit.stuer.module_sell.viewinterface.IPicPostView;
 import com.leelit.stuer.module_sell.model.SellModel;
 import com.leelit.stuer.module_treehole.TreeholeModel;
 

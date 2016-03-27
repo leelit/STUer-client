@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leelit.stuer.R;
-import com.leelit.stuer.module_sell.PhotoActivity;
+import com.leelit.stuer.base_view.PhotoActivity;
 import com.leelit.stuer.utils.ScreenUtils;
 import com.leelit.stuer.utils.SupportModelUtils;
 import com.leelit.stuer.utils.TimeUtils;

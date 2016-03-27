@@ -4,7 +4,7 @@ import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.module_baseinfo.carpool.model.CarpoolModel;
 import com.leelit.stuer.module_baseinfo.date.model.DateModel;
-import com.leelit.stuer.base_fragments.viewinterface.IBaseInfoPostView;
+import com.leelit.stuer.base_view.viewinterface.IBaseInfoPostView;
 
 import okhttp3.ResponseBody;
 import rx.Subscriber;
