@@ -71,4 +71,19 @@ public class TreeholeDao {
         return result;
     }
 
+    public static TreeholeComment getComment(String uniquecode) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+        Cursor cursor = db.query("treehole", null, "uniquecode = ?", new String[]{uniquecode}, null, null, null);
+        TreeholeComment comment = new TreeholeComment();
+        cursor.moveToFirst();
+        comment.setDatetime(cursor.getString(cursor.getColumnIndex(keys[0])));
+        comment.setState(cursor.getString(cursor.getColumnIndex(keys[1])));
+        comment.setPicAddress(cursor.getString(cursor.getColumnIndex(keys[2])));
+        comment.setUniquecode(cursor.getString(cursor.getColumnIndex(keys[3])));
+        comment.setLike(TRUE == cursor.getInt(cursor.getColumnIndex(keys[4])));
+        comment.setUnlike(TRUE == cursor.getInt(cursor.getColumnIndex(keys[5])));
+        cursor.close();
+        return comment;
+    }
+
 }

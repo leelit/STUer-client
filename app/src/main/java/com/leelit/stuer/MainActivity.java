@@ -29,6 +29,7 @@ import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
 import com.leelit.stuer.base_view.PicPostActivity;
 import com.leelit.stuer.module_stu.StuFragment;
+import com.leelit.stuer.module_treehole.CommentActivity;
 import com.leelit.stuer.module_treehole.TreeholeFragment;
 import com.leelit.stuer.utils.SPUtils;
 
@@ -355,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_settings) {
-
+            startActivity(new Intent(MainActivity.this, CommentActivity.class));
             return true;
         }
 

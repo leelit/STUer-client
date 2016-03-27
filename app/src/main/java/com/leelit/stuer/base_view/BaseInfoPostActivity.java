@@ -200,31 +200,22 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
     }
 
     private void postCarpoolingInfo() {
-        if (commonPostCheckNotOk()) {
-            return;
-        }
         mPresenter.doCarpoolPost((CarpoolingInfo) host);
     }
 
     private void postDateInfo() {
-        if (commonPostCheckNotOk()) {
-            return;
-        }
         ((DatingInfo) host).setDescription(mEtDescription.getText().toString());
         mPresenter.doDatePost((DatingInfo) host);
     }
 
 
-    private boolean commonPostCheckNotOk() {
+    private boolean noSetDateAndTime() {
         if (TextUtils.isEmpty(host.getDate())) {
             Toast.makeText(BaseInfoPostActivity.this, "未设置日期", Toast.LENGTH_SHORT).show();
             return true;
         }
         if (TextUtils.isEmpty(host.getTime())) {
             Toast.makeText(BaseInfoPostActivity.this, "未设置时间", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (!host.completedAllInfo()) {
             return true;
         }
         return false;
@@ -322,11 +313,14 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (noSetDateAndTime()) {
+                return true;
+            }
             String timing = host.getDate() + " " + host.getTime();
             Date postDate = TimeUtils.stringToDate(timing, "yyyy/MM/dd HH:mm");
             Date currentDate = TimeUtils.stringToDate(TimeUtils.getCurrentTime(), "yyyy-MM-dd HH:mm:ss");
             if (postDate.before(currentDate)) {
-                Toast.makeText(BaseInfoPostActivity.this, "发布过期时间不合法，请重新选择时间", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaseInfoPostActivity.this, "发布已过期的无效时间，请重新选择时间", Toast.LENGTH_SHORT).show();
                 return true;
             }
 

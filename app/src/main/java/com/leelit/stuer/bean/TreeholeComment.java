@@ -34,6 +34,6 @@ public class TreeholeComment extends TreeholeInfo {
                 ", uniquecode='" + uniquecode + '\'' +
                 ", like=" + like +
                 ", unlike=" + unlike +
-                "} " + super.toString();
+                "} ";
     }
 }

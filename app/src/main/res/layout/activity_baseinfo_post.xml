@@ -18,6 +18,29 @@
             android:padding="20dp">
 
             <LinearLayout
+                android:id="@+id/spinner_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="类型: "
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="18sp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_date_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dateType"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/spinner_route_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,28 +86,6 @@
                     android:entries="@array/temporaryCount"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/spinner_type_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="类型: "
-                    android:textColor="?attr/colorAccent"
-                    android:textSize="18sp"/>
-
-                <Spinner
-                    android:id="@+id/spinner_date_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/dateType"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/spinner_description_layout"

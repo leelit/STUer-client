@@ -27,11 +27,15 @@ public class TreeholeDaoTest extends TestCase {
             info.setPicAddress("empty");
             treeholeInfos.add(info);
         }
-        treeholeDao.save(treeholeInfos);
+        TreeholeDao.save(treeholeInfos);
     }
 
     public void testGetAll() throws Exception {
         TreeholeDao treeholeDao = new TreeholeDao();
-        Log.e("tag", treeholeDao.getAll().toString());
+        Log.e("tag", TreeholeDao.getAll().toString());
+    }
+
+    public void testGetComment() throws Exception {
+        Log.e("tag", TreeholeDao.getComment("1319861953").toString());
     }
 }
