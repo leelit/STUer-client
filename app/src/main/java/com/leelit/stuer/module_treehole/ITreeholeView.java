@@ -1,6 +1,6 @@
 package com.leelit.stuer.module_treehole;
 
-import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface ITreeholeView {
 
     void netError();
 
-    void showDataFromDb(List<TreeholeComment> infos);
+    void showDataFromDb(List<TreeholeLocalInfo> infos);
 
     void showLoadingDbProgressDialog();
 

@@ -6,7 +6,7 @@ import android.view.View;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.base_view.BaseListFragment;
-import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 
@@ -55,7 +55,7 @@ public class TreeholeFragment extends BaseListFragment implements ITreeholeView 
     }
 
     @Override
-    public void showDataFromDb(List<TreeholeComment> infos) {
+    public void showDataFromDb(List<TreeholeLocalInfo> infos) {
         mList.clear();
         mList.addAll(infos);
         mAdapter.notifyDataSetChanged();

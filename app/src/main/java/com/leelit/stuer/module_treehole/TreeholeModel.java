@@ -1,6 +1,7 @@
 package com.leelit.stuer.module_treehole;
 
 import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.dao.TreeholeDao;
 import com.leelit.stuer.utils.SupportModelUtils;
@@ -68,11 +69,11 @@ public class TreeholeModel {
         SupportModelUtils.toSubscribe(observable, subscriber);
     }
 
-    public void loadFromDb(Subscriber<List<TreeholeComment>> subscriber) {
-        Observable<List<TreeholeComment>> observable = Observable.create(new Observable.OnSubscribe<List<TreeholeComment>>() {
+    public void loadFromDb(Subscriber<List<TreeholeLocalInfo>> subscriber) {
+        Observable<List<TreeholeLocalInfo>> observable = Observable.create(new Observable.OnSubscribe<List<TreeholeLocalInfo>>() {
             @Override
-            public void call(Subscriber<? super List<TreeholeComment>> subscriber) {
-                List<TreeholeComment> list = TreeholeDao.getAll();
+            public void call(Subscriber<? super List<TreeholeLocalInfo>> subscriber) {
+                List<TreeholeLocalInfo> list = TreeholeDao.getAll();
                 subscriber.onNext(list);
             }
 
@@ -141,5 +142,13 @@ public class TreeholeModel {
                         }
                     }
                 });
+    }
+
+    public void sendComment(TreeholeComment.Comment comment, Subscriber<ResponseBody> subscriber) {
+        SupportModelUtils.toSubscribe(mService.sendComment(comment), subscriber);
+    }
+
+    public void doLoadingComments(String uniquecode, Subscriber<TreeholeComment> subscriber) {
+        SupportModelUtils.toSubscribe(mService.loadComments(uniquecode), subscriber);
     }
 }

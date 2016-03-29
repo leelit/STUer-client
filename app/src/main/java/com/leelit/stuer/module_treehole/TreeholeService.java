@@ -1,5 +1,6 @@
 package com.leelit.stuer.module_treehole;
 
+import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeInfo;
 
 import java.util.List;
@@ -34,4 +35,10 @@ public interface TreeholeService {
 
     @GET("unlike")
     Observable<ResponseBody> doUnlikeJob(@Query("uniquecode") String uniquecode, @Query("imei") String imei, @Query("isunlike") String isUnlike);
+
+    @POST("comment")
+    Observable<ResponseBody> sendComment(@Body TreeholeComment.Comment comment);
+
+    @GET("comment")
+    Observable<TreeholeComment> loadComments(@Query("uniquecode") String uniquecode);
 }

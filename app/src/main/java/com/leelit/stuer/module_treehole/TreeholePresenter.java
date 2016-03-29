@@ -1,7 +1,7 @@
 package com.leelit.stuer.module_treehole;
 
 import com.leelit.stuer.base_presenter.IPresenter;
-import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class TreeholePresenter implements IPresenter {
     private ITreeholeView mView;
     private TreeholeModel mModel = new TreeholeModel();
     private Subscriber<List<TreeholeInfo>> mSubscriber1;
-    private Subscriber<List<TreeholeComment>> mSubscriber2;
+    private Subscriber<List<TreeholeLocalInfo>> mSubscriber2;
 
     public TreeholePresenter(ITreeholeView view) {
         mView = view;
@@ -58,7 +58,7 @@ public class TreeholePresenter implements IPresenter {
 
     public void doLoadDataFromDb() {
         mView.showLoadingDbProgressDialog();
-        mSubscriber2 = new Subscriber<List<TreeholeComment>>() {
+        mSubscriber2 = new Subscriber<List<TreeholeLocalInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -70,14 +70,14 @@ public class TreeholePresenter implements IPresenter {
             }
 
             @Override
-            public void onNext(List<TreeholeComment> treeholeComments) {
+            public void onNext(List<TreeholeLocalInfo> treeholeLocalInfos) {
                 mView.dismissLoadingDbProgressDialog();
-                if (treeholeComments.isEmpty()) {
+                if (treeholeLocalInfos.isEmpty()) {
                     mView.showNoDataInDb();
                     return;
                 }
-                Collections.reverse(treeholeComments);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
-                mView.showDataFromDb(treeholeComments);
+                Collections.reverse(treeholeLocalInfos);  // 原本时间顺序后 1 2 3 4 ， loadFromDb后展示为 4 3 2 1
+                mView.showDataFromDb(treeholeLocalInfos);
             }
         };
         mModel.loadFromDb(mSubscriber2);

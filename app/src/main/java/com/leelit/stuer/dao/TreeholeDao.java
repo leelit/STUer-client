@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 
 import java.util.ArrayList;
@@ -48,14 +48,14 @@ public class TreeholeDao {
         return str;
     }
 
-    public static List<TreeholeComment> getAll() {
-        List<TreeholeComment> result = new ArrayList<>();
+    public static List<TreeholeLocalInfo> getAll() {
+        List<TreeholeLocalInfo> result = new ArrayList<>();
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         db.beginTransaction();
         Cursor cursor = db.query("treehole", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                TreeholeComment comment = new TreeholeComment();
+                TreeholeLocalInfo comment = new TreeholeLocalInfo();
                 comment.setDatetime(cursor.getString(cursor.getColumnIndex(keys[0])));
                 comment.setState(cursor.getString(cursor.getColumnIndex(keys[1])));
                 comment.setPicAddress(cursor.getString(cursor.getColumnIndex(keys[2])));
@@ -71,10 +71,10 @@ public class TreeholeDao {
         return result;
     }
 
-    public static TreeholeComment getComment(String uniquecode) {
+    public static TreeholeLocalInfo getComment(String uniquecode) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         Cursor cursor = db.query("treehole", null, "uniquecode = ?", new String[]{uniquecode}, null, null, null);
-        TreeholeComment comment = new TreeholeComment();
+        TreeholeLocalInfo comment = new TreeholeLocalInfo();
         cursor.moveToFirst();
         comment.setDatetime(cursor.getString(cursor.getColumnIndex(keys[0])));
         comment.setState(cursor.getString(cursor.getColumnIndex(keys[1])));

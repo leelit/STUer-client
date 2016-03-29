@@ -4,14 +4,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leelit.stuer.R;
 import com.leelit.stuer.bean.TreeholeComment;
+import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.dao.TreeholeDao;
+import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,6 +41,12 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     LinearLayout mLikeLayout;
     @InjectView(R.id.unlikeLayout)
     LinearLayout mUnlikeLayout;
+    @InjectView(R.id.text)
+    EditText mText;
+    @InjectView(R.id.send)
+    ImageView mSend;
+    @InjectView(R.id.comments)
+    TextView mComments;
 
 
     private boolean isLike;
@@ -43,7 +54,7 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     private boolean mOriginalIsLike;
     private boolean mOriginalIsUnlike;
 
-    private TreeholeComment mTreeholeComment;
+    private TreeholeLocalInfo mTreeholeLocalInfo;
     private CommentPresenter mPresenter = new CommentPresenter(this);
 
     @Override
@@ -52,14 +63,30 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         setContentView(R.layout.activity_comment);
         ButterKnife.inject(this);
         initToolBar();
-        mTreeholeComment = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
+        mTreeholeLocalInfo = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
         initTreeholeView();
         initLikeAndUnlike();
+        initSend();
+        mPresenter.doLoadingComments(mTreeholeLocalInfo.getUniquecode());
+    }
+
+    private void initSend() {
+        mSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comment = mText.getEditableText().toString();
+                if (TextUtils.isEmpty(comment)) {
+                    Toast.makeText(CommentActivity.this, "请输入", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mPresenter.doSendComment(mTreeholeLocalInfo.getUniquecode(), comment);
+            }
+        });
     }
 
     private void initLikeAndUnlike() {
-        isLike = mTreeholeComment.isLike();
-        isUnlike = mTreeholeComment.isUnlike();
+        isLike = mTreeholeLocalInfo.isLike();
+        isUnlike = mTreeholeLocalInfo.isUnlike();
         mOriginalIsLike = isLike;
         mOriginalIsUnlike = isUnlike;
         if (isLike) {
@@ -105,9 +132,9 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     }
 
     private void initTreeholeView() {
-        mTreeholeView.setTime(mTreeholeComment.getDatetime());
-        mTreeholeView.setState(mTreeholeComment.getState());
-        mTreeholeView.setPicture(mTreeholeComment.getPicAddress());
+        mTreeholeView.setTime(mTreeholeLocalInfo.getDatetime());
+        mTreeholeView.setState(mTreeholeLocalInfo.getState());
+        mTreeholeView.setPicture(mTreeholeLocalInfo.getPicAddress());
     }
 
     private void initToolBar() {
@@ -127,10 +154,44 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         super.onDestroy();
         // 不能用户每次瞎点都网络请求，只在退出时才去进行
         if (isLike != mOriginalIsLike) {
-            mPresenter.doLikeJob(mTreeholeComment.getUniquecode(), isLike);
+            mPresenter.doLikeJob(mTreeholeLocalInfo.getUniquecode(), isLike);
         }
         if (isUnlike != mOriginalIsUnlike) {
-            mPresenter.doUnlikeJob(mTreeholeComment.getUniquecode(), isUnlike);
+            mPresenter.doUnlikeJob(mTreeholeLocalInfo.getUniquecode(), isUnlike);
         }
+    }
+
+    @Override
+    public void sendingCommentProgressDialog() {
+        ProgressDialogUtils.show(this, "发送中...");
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        ProgressDialogUtils.dismiss();
+    }
+
+    @Override
+    public void succeededInSending() {
+        mText.getText().clear();
+        Toast.makeText(CommentActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void netError() {
+        Toast.makeText(CommentActivity.this, getString(R.string.toast_net_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadingCommentProgressDialog() {
+        ProgressDialogUtils.show(this, "加载中...");
+    }
+
+    @Override
+    public void refreshView(TreeholeComment comment) {
+        mLikeCount.setText(String.valueOf(comment.getLikeCount()));
+        mUnlikeCount.setText(String.valueOf(comment.getUnlikeCount()));
+        mComments.setVisibility(View.VISIBLE);
+        mComments.setText(comment.getComments().toString());
     }
 }

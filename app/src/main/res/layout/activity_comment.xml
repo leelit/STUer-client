@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -29,8 +29,10 @@
         </com.leelit.stuer.module_treehole.TreeholeView>
 
         <LinearLayout
+            android:id="@+id/commentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/treeholeView"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -106,15 +108,19 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/commentDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/commentTitle"
             android:layout_marginTop="5dp"
             android:background="#b9bdb8">
         </View>
 
         <TextView
+            android:id="@+id/comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/commentDivider"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
             android:text="当前没有评论"
@@ -126,6 +132,31 @@
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/module_treehole_input_dialog"
+                android:hint="评论..."
+                android:padding="6dp"/>
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/treehole_comment_send"
+                android:clickable="true"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
