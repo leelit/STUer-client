@@ -16,11 +16,11 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="4dp">
 
         <com.leelit.stuer.module_treehole.TreeholeView
             android:id="@+id/treeholeView"
@@ -32,8 +32,7 @@
             android:id="@+id/commentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/treeholeView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -111,16 +110,14 @@
             android:id="@+id/commentDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/commentTitle"
             android:layout_marginTop="5dp"
             android:background="#b9bdb8">
         </View>
 
         <TextView
-            android:id="@+id/comments"
+            android:id="@+id/nocomment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/commentDivider"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
             android:text="当前没有评论"
@@ -129,14 +126,15 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal">
 
             <EditText
@@ -149,14 +147,14 @@
                 android:padding="6dp"/>
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/treehole_comment_send"
                 android:clickable="true"/>
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

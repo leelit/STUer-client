@@ -2,6 +2,7 @@ package com.leelit.stuer.module_treehole;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -17,6 +18,9 @@ import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.dao.TreeholeDao;
 import com.leelit.stuer.utils.ProgressDialogUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,8 +49,8 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     EditText mText;
     @InjectView(R.id.send)
     ImageView mSend;
-    @InjectView(R.id.comments)
-    TextView mComments;
+    @InjectView(R.id.nocomment)
+    TextView mNoComment;
 
 
     private boolean isLike;
@@ -57,6 +61,9 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     private TreeholeLocalInfo mTreeholeLocalInfo;
     private CommentPresenter mPresenter = new CommentPresenter(this);
 
+    private List<TreeholeComment.Comment> mList = new ArrayList<>();
+    private CommentAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +72,20 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         initToolBar();
         mTreeholeLocalInfo = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
         initTreeholeView();
+        initRecyclerView();
         initLikeAndUnlike();
         initSend();
+        loadingComments();
+    }
+
+    private void loadingComments() {
         mPresenter.doLoadingComments(mTreeholeLocalInfo.getUniquecode());
+    }
+
+    private void initRecyclerView() {
+        mAdapter = new CommentAdapter(mList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void initSend() {
@@ -91,11 +109,9 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         mOriginalIsUnlike = isUnlike;
         if (isLike) {
             mLikePic.setImageResource(R.drawable.module_treehole_like_true);
-            mLikeCount.setText("1"); // 以防网络出错
         }
         if (isUnlike) {
             mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_true);
-            mUnlikeCount.setText("1");
         }
 
         mLikeLayout.setOnClickListener(new View.OnClickListener() {
@@ -149,17 +165,6 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 不能用户每次瞎点都网络请求，只在退出时才去进行
-        if (isLike != mOriginalIsLike) {
-            mPresenter.doLikeJob(mTreeholeLocalInfo.getUniquecode(), isLike);
-        }
-        if (isUnlike != mOriginalIsUnlike) {
-            mPresenter.doUnlikeJob(mTreeholeLocalInfo.getUniquecode(), isUnlike);
-        }
-    }
 
     @Override
     public void sendingCommentProgressDialog() {
@@ -175,6 +180,7 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     public void succeededInSending() {
         mText.getText().clear();
         Toast.makeText(CommentActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+        loadingComments();
     }
 
     @Override
@@ -188,10 +194,34 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
     }
 
     @Override
-    public void refreshView(TreeholeComment comment) {
+    public void refreshLikeAndUnlike(TreeholeComment comment) {
         mLikeCount.setText(String.valueOf(comment.getLikeCount()));
         mUnlikeCount.setText(String.valueOf(comment.getUnlikeCount()));
-        mComments.setVisibility(View.VISIBLE);
-        mComments.setText(comment.getComments().toString());
+    }
+
+    @Override
+    public void noComment() {
+        mNoComment.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showComments(List<TreeholeComment.Comment> comments) {
+        mNoComment.setVisibility(View.GONE);
+        mList.clear();
+        mList.addAll(comments);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 不能用户每次瞎点都网络请求，只在退出时才去进行
+        if (isLike != mOriginalIsLike) {
+            mPresenter.doLikeJob(mTreeholeLocalInfo.getUniquecode(), isLike);
+        }
+        if (isUnlike != mOriginalIsUnlike) {
+            mPresenter.doUnlikeJob(mTreeholeLocalInfo.getUniquecode(), isUnlike);
+        }
+        mPresenter.doClear();
     }
 }

@@ -1,11 +1,13 @@
 package com.leelit.stuer.module_treehole;
 
-import android.util.Log;
-
 import com.leelit.stuer.LoginActivity;
+import com.leelit.stuer.base_presenter.IPresenter;
 import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.SPUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import rx.Subscriber;
@@ -13,11 +15,13 @@ import rx.Subscriber;
 /**
  * Created by Leelit on 2016/3/27.
  */
-public class CommentPresenter {
+public class CommentPresenter implements IPresenter{
 
     private TreeholeModel mModel = new TreeholeModel();
 
     private ICommentView mView;
+    private Subscriber<ResponseBody> mSubscriber1;
+    private Subscriber<TreeholeComment> mSubscriber2;
 
     public CommentPresenter(ICommentView view) {
         mView = view;
@@ -38,7 +42,7 @@ public class CommentPresenter {
         comment.setComment(commentText);
         comment.setImei(AppInfoUtils.getImei());
         mView.sendingCommentProgressDialog();
-        mModel.sendComment(comment, new Subscriber<ResponseBody>() {
+        mSubscriber1 = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -55,12 +59,13 @@ public class CommentPresenter {
                 mView.dismissProgressDialog();
                 mView.succeededInSending();
             }
-        });
+        };
+        mModel.sendComment(comment, mSubscriber1);
     }
 
     public void doLoadingComments(String uniquecode) {
         mView.loadingCommentProgressDialog();
-        mModel.doLoadingComments(uniquecode, new Subscriber<TreeholeComment>() {
+        mSubscriber2 = new Subscriber<TreeholeComment>() {
             @Override
             public void onCompleted() {
 
@@ -70,14 +75,32 @@ public class CommentPresenter {
             public void onError(Throwable e) {
                 mView.dismissProgressDialog();
                 mView.netError();
-                Log.e("tag", e.toString());
             }
 
             @Override
             public void onNext(TreeholeComment comment) {
                 mView.dismissProgressDialog();
-                mView.refreshView(comment);
+                mView.refreshLikeAndUnlike(comment);
+                if (comment.getComments().isEmpty()) {
+                    mView.noComment();
+                } else {
+                    List<TreeholeComment.Comment> comments = comment.getComments();
+                    Collections.reverse(comments);
+                    mView.showComments(comments);
+                }
             }
-        });
+        };
+        mModel.doLoadingComments(uniquecode, mSubscriber2);
+    }
+
+    @Override
+    public void doClear() {
+        if (mSubscriber1 != null) {
+            mSubscriber1.unsubscribe();
+        }
+        if (mSubscriber2 != null) {
+            mSubscriber2.unsubscribe();
+        }
+        mView = null;
     }
 }
