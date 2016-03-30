@@ -21,17 +21,18 @@ import android.widget.Toast;
 import com.leelit.stuer.base_view.BaseInfoFragment;
 import com.leelit.stuer.base_view.BaseInfoPostActivity;
 import com.leelit.stuer.base_view.BaseListFragment;
+import com.leelit.stuer.base_view.PicPostActivity;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.constant.TabConstant;
 import com.leelit.stuer.module_baseinfo.carpool.CarpoolFragment;
 import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
-import com.leelit.stuer.base_view.PicPostActivity;
 import com.leelit.stuer.module_stu.StuFragment;
 import com.leelit.stuer.module_treehole.CommentActivity;
 import com.leelit.stuer.module_treehole.TreeholeFragment;
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this,true);
 
         if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -195,36 +197,40 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchFragment(MenuItem menuItem) {
         String title = menuItem.getTitle().toString();
-        mToolbar.setTitle(title);
         if (title.equals(getString(R.string.carpool))) {
             if (currentFragment instanceof CarpoolFragment) {
                 return;
             } else {
                 carpoolInit();
+                mToolbar.setTitle(title);
             }
         } else if (title.equals(getString(R.string.date))) {
             if (currentFragment instanceof DateFragment) {
                 return;
             } else {
                 dateInit();
+                mToolbar.setTitle(title);
             }
         } else if (title.equals(getString(R.string.stu))) {
             if (currentFragment instanceof StuFragment) {
                 return;
             } else {
                 stuInit();
+                mToolbar.setTitle(title);
             }
         } else if (title.equals(getString(R.string.sell))) {
             if (currentFragment instanceof SellFragment) {
                 return;
             } else {
                 sellInit();
+                mToolbar.setTitle(title);
             }
         } else if (title.equals(getString(R.string.treehole))) {
             if (currentFragment instanceof TreeholeFragment) {
                 return;
             } else {
                 treeholeInit();
+                mToolbar.setTitle(title);
             }
         }
         showFragment(currentFragment);

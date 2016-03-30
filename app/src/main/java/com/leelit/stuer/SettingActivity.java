@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.leelit.stuer.utils.SettingUtils;
+import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,6 +25,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this);
         initToolbar();
         getFragmentManager().beginTransaction().replace(R.id.content, new MySettingFragment()).commit();
         originalNoOfflineSellSetting = SettingUtils.noOfflineSell();

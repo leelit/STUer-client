@@ -33,6 +33,7 @@ import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.TimeUtils;
+import com.leelit.stuer.utils.UiUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -79,6 +80,8 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baseinfo_post);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this);
+
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 
         initToolbar("发布");

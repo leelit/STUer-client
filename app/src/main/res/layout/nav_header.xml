@@ -20,7 +20,7 @@
         android:layout_below="@id/nav_header_iv"
         android:layout_centerInParent="true"
         android:text="有志  有识  有恒  有为"
-        android:textColor="#b9bdb8"
-        android:textSize="20sp"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
 </RelativeLayout>

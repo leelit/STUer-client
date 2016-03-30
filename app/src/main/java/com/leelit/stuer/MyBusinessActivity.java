@@ -11,6 +11,7 @@ import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.module_baseinfo.carpool.MyCarpoolFragment;
 import com.leelit.stuer.module_baseinfo.date.MyDateFragment;
 import com.leelit.stuer.module_sell.MySellFragment;
+import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,6 +31,7 @@ public class MyBusinessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mybusiness);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this);
 
         mOrderActivityConstant = getIntent().getIntExtra(MyBusinessConstant.TAG, 1);
 

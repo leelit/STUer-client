@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,6 +39,7 @@ public class StuWebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stu);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this);
 
         webViewProgressSetting();
         initToolBar();

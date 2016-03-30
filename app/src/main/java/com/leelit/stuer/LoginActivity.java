@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+        UiUtils.setTranslucentStatusBar(this);
         initSP();
         initToolbar("填写个人信息");
     }

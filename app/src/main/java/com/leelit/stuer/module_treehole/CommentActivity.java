@@ -18,6 +18,7 @@ import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.dao.TreeholeDao;
 import com.leelit.stuer.utils.ProgressDialogUtils;
+import com.leelit.stuer.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,8 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         ButterKnife.inject(this);
-        initToolBar();
+        UiUtils.setTranslucentStatusBar(this);
+        UiUtils.initBaseToolBar(this, mToolbar, "评论");
         mTreeholeLocalInfo = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
         initTreeholeView();
         initRecyclerView();
