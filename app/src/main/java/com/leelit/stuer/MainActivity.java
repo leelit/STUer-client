@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        UiUtils.setTranslucentStatusBar(this,true);
+        UiUtils.setTranslucentStatusBar(this, mNavigationView);
 
         if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
             startActivity(new Intent(this, LoginActivity.class));
