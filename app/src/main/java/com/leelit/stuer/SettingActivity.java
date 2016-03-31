@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.SettingUtils;
 import com.leelit.stuer.utils.UiUtils;
 
@@ -62,6 +63,7 @@ public class SettingActivity extends AppCompatActivity {
     public static class MySettingFragment extends PreferenceFragment {
 
         private CheckBoxPreference mNoOfflineSell;
+        private CheckBoxPreference mAutoCheckUpdate;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,15 @@ public class SettingActivity extends AppCompatActivity {
             // Preference Fragment只是一次性的动作，并不会持久化你的选择，需要自己处理
             mNoOfflineSell = (CheckBoxPreference) findPreference(SettingUtils.NO_OFFLINE_SELL);
             mNoOfflineSell.setChecked(SettingUtils.noOfflineSell());
+
+            // 注意两个Util的不同，第一个SPUtils是为了处理第二个SettingUtils首次为选中
+            final String SP_TEXT = "SP_FIRST_AUTO_UPDATE";
+            if (!SPUtils.getBoolean(SP_TEXT)) {
+                SettingUtils.save(SettingUtils.AUTO_CHECK_UPDATE, true);
+                SPUtils.save(SP_TEXT, true);
+            }
+            mAutoCheckUpdate = (CheckBoxPreference) findPreference(SettingUtils.AUTO_CHECK_UPDATE);
+            mAutoCheckUpdate.setChecked(SettingUtils.autoCheckUpdate());
 
         }
 

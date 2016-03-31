@@ -15,7 +15,7 @@ import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.bean.CarpoolingInfo;
-import com.leelit.stuer.utils.ContactUtils;
+import com.leelit.stuer.utils.DialogUtils;
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class MyCarpoolAdapter extends BaseListAdapter<MyCarpoolAdapter.ViewHolde
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialog = ContactUtils.createContactDialog(mContext, info.getTel(), info.getShortTel(), info.getWechat());
+                AlertDialog dialog = DialogUtils.createContactDialog(mContext, info.getTel(), info.getShortTel(), info.getWechat());
                 dialog.show();
             }
         });

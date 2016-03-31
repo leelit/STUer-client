@@ -12,7 +12,7 @@ import android.widget.Toast;
 /**
  * Created by Leelit on 2016/3/18.
  */
-public class ContactUtils {
+public class DialogUtils {
     public static AlertDialog createContactDialog(final Context context, final String tel, final String shorttel, final String wechat) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final String[] items = {"拨打长号", "拨打短号", "发送短信", "复制微信号"};
@@ -46,5 +46,19 @@ public class ContactUtils {
                 dialog.dismiss();
             }
         }).create();
+    }
+
+    public static void showUpdateDialog(final Context context, final String newVersionUrl) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("检测到有新的版本")
+                .setMessage("是否下载？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 跳转到浏览器进行下载任务
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newVersionUrl)));
+                    }
+                }).show();
     }
 }

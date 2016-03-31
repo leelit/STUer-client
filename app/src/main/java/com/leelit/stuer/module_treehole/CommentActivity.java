@@ -18,6 +18,7 @@ import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.dao.TreeholeDao;
 import com.leelit.stuer.utils.ProgressDialogUtils;
+import com.leelit.stuer.utils.SharedAnimation;
 import com.leelit.stuer.utils.UiUtils;
 
 import java.util.ArrayList;
@@ -123,10 +124,12 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
                     mLikePic.setImageResource(R.drawable.module_treehole_like_normal);
                     int count = Integer.parseInt(mLikeCount.getText().toString()) - 1;
                     mLikeCount.setText(String.valueOf(count));
+                    SharedAnimation.postScaleAnimation(v);
                 } else {
                     mLikePic.setImageResource(R.drawable.module_treehole_like_true);
                     int count = Integer.parseInt(mLikeCount.getText().toString()) + 1;
                     mLikeCount.setText(String.valueOf(count));
+                    SharedAnimation.postScaleAnimation(v);
                 }
                 isLike = !isLike;
             }
@@ -139,10 +142,12 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
                     mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_normal);
                     int count = Integer.parseInt(mUnlikeCount.getText().toString()) - 1;
                     mUnlikeCount.setText(String.valueOf(count));
+                    SharedAnimation.postScaleAnimation(v);
                 } else {
                     mUnlikePic.setImageResource(R.drawable.module_treehole_unlike_true);
                     int count = Integer.parseInt(mUnlikeCount.getText().toString()) + 1;
                     mUnlikeCount.setText(String.valueOf(count));
+                    SharedAnimation.postScaleAnimation(v);
                 }
                 isUnlike = !isUnlike;
             }

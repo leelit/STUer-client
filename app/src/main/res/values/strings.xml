@@ -38,5 +38,9 @@
     <string name="setting">设置</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="contributor">contributors: </string>
+    <string name="reference">powered by awesome open source projects: </string>
 
 </resources>

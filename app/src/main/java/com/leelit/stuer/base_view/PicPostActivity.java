@@ -264,7 +264,7 @@ public class PicPostActivity extends AppCompatActivity implements IPicPostView {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_send) {
             if (mFragmentIndex == FragmentIndex.SELL) {
                 sellPost();
             } else {

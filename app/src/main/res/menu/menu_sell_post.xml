@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.leelit.stuer.sell.SellPostActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_send"
         android:icon="@drawable/ic_action_send"
         android:orderInCategory="100"
         android:title="发送"

@@ -8,7 +8,7 @@ import com.leelit.stuer.base_view.BaseListFragment;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.module_sell.presenter.SellPresenter;
 import com.leelit.stuer.module_sell.viewinterface.ISellView;
-import com.leelit.stuer.utils.ContactUtils;
+import com.leelit.stuer.utils.DialogUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import java.util.ArrayList;
@@ -119,7 +119,7 @@ public class SellFragment extends BaseListFragment implements ISellView {
 
     @Override
     public void showContactDialog(String tel, String shortel, String wechat) {
-        ContactUtils.createContactDialog(getContext(), tel, shortel, wechat).show();
+        DialogUtils.createContactDialog(getContext(), tel, shortel, wechat).show();
     }
 
     @Override

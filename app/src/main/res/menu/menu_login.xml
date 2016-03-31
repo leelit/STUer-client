@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.leelit.stuer.LoginActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_save"
         android:icon="@drawable/ic_action_save"
         android:orderInCategory="100"
         android:title="保存"

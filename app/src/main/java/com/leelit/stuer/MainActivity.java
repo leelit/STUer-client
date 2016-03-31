@@ -29,15 +29,16 @@ import com.leelit.stuer.module_baseinfo.carpool.CarpoolFragment;
 import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
 import com.leelit.stuer.module_stu.StuFragment;
-import com.leelit.stuer.module_treehole.CommentActivity;
 import com.leelit.stuer.module_treehole.TreeholeFragment;
+import com.leelit.stuer.utils.DialogUtils;
 import com.leelit.stuer.utils.SPUtils;
+import com.leelit.stuer.utils.SettingUtils;
 import com.leelit.stuer.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IUpdateView {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private long mToolbarClickLastTime = System.currentTimeMillis();
     private long mBackClickLastTime = System.currentTimeMillis();
 
+    private UpdatePresenter mUpdatePresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +71,18 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this, mNavigationView);
 
+        if (SettingUtils.autoCheckUpdate()) {
+            mUpdatePresenter = new UpdatePresenter(this);
+            mUpdatePresenter.checkNewVersion();
+        }
+
         if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;  // must return here
         }
 
-        initDrawerAndToolbar();
+        initToolbar();
         initNavigationView();
         initFab();
         initFragment();
@@ -153,26 +161,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initDrawerAndToolbar() {
+    private void initToolbar() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.hello_world, R.string.hello_world);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.nav_setting) {
-                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                    startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
-                    return false;
-                }
-
-                mDrawerLayout.closeDrawers();
-                switchFragment(menuItem);
-                return false;
-            }
-        });
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +185,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.nav_setting) {
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
+                    return false;
+                }
+                if (menuItem.getItemId() == R.id.nav_about) {
+                    Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                    return false;
+                }
+                switchFragment(menuItem);
+                mDrawerLayout.closeDrawers();
+                return false;
             }
         });
     }
@@ -361,11 +373,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, CommentActivity.class));
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -386,4 +393,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void showCheckUpdateProgressDialog() {
+
+    }
+
+    @Override
+    public void dismissCheckUpdateProgressDialog() {
+        // no show
+    }
+
+    @Override
+    public void netError() {
+        // no show
+    }
+
+    @Override
+    public void doAfterNewVersionExist(String newVersionUrl) {
+        DialogUtils.showUpdateDialog(this, newVersionUrl);
+    }
+
+    @Override
+    public void noNewVersion() {
+        // no show
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mUpdatePresenter != null) {
+            mUpdatePresenter.doClear();
+        }
+    }
 }

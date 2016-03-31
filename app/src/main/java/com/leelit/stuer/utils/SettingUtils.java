@@ -21,5 +21,14 @@ public class SettingUtils {
         return sharedPreferences.getBoolean(NO_OFFLINE_SELL, false);
     }
 
-    ;
+    public static final String AUTO_CHECK_UPDATE = "auto_check_update";
+
+    public static boolean autoCheckUpdate() {
+        return sharedPreferences.getBoolean(AUTO_CHECK_UPDATE, false);
+    }
+
+    public static void save(String s, boolean b) {
+        editor.putBoolean(s, b);
+        editor.commit();
+    }
 }

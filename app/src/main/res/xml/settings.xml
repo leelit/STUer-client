@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <PreferenceCategory android:title="个人信息">
         <PreferenceScreen
-            android:title="重新填写">
+            android:summary="重新填写">
 
             <intent
                 android:targetClass="com.leelit.stuer.LoginActivity"
@@ -17,6 +16,12 @@
         <CheckBoxPreference
             android:key="no_offline_sell"
             android:summary="不显示已下架的转让信息"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="更新">
+        <CheckBoxPreference
+            android:key="auto_check_update"
+            android:summary="自动检查更新，提醒下载"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
