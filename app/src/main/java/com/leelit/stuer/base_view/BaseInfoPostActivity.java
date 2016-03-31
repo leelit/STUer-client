@@ -81,6 +81,9 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
         setContentView(R.layout.activity_baseinfo_post);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
 
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, 1);
 

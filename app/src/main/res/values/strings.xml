@@ -13,7 +13,7 @@
     <string name="function">功能</string>
     <string name="stu">校内</string>
 
-    <string name="mine">我的</string>
+    <string name="mine">我的拼车</string>
     <string name="title_activity_carpooling">CarpoolingActivity</string>
     <string name="post_title">发布</string>
     <string name="title_activity_mine">MineActivity</string>

@@ -40,6 +40,9 @@ public class StuWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stu);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
 
         webViewProgressSetting();
         initToolBar();

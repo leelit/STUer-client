@@ -75,6 +75,9 @@ public class CommentActivity extends AppCompatActivity implements ICommentView {
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
         UiUtils.initBaseToolBar(this, mToolbar, "评论");
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
         mTreeholeLocalInfo = TreeholeDao.getComment(getIntent().getStringExtra("uniquecode"));
         initTreeholeView();
         initRecyclerView();

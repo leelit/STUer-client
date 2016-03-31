@@ -35,8 +35,10 @@ public class TreeholePresenter implements IPresenter {
 
             @Override
             public void onError(Throwable e) {
-                mView.stopRefreshing();
-                mView.netError();
+                if (mView != null) {
+                    mView.stopRefreshing();
+                    mView.netError();
+                }
             }
 
             @Override

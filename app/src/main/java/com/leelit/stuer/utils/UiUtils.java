@@ -3,11 +3,13 @@ package com.leelit.stuer.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.leelit.stuer.MainActivity;
 import com.leelit.stuer.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -45,7 +48,7 @@ public class UiUtils {
 
     /**
      * snippet from https://github.com/niorgai/StatusBarCompat
-     *
+     * <p/>
      * 直接使用会引起NavigationView上面空白一部分，需要将其margin - statusBarHeight
      */
     @TargetApi(19)
@@ -105,5 +108,16 @@ public class UiUtils {
                 activity.finish();
             }
         });
+    }
+
+    public static boolean isNightMode(AppCompatActivity activity) {
+        int uiMode = activity.getResources().getConfiguration().uiMode;
+        int dayNightUiMode = uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (MainActivity.mNightMode && dayNightUiMode != Configuration.UI_MODE_NIGHT_YES) {
+            activity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            activity.recreate();
+            return true;
+        }
+        return false;
     }
 }

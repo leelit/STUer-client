@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -63,6 +64,15 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     private long mBackClickLastTime = System.currentTimeMillis();
 
     private UpdatePresenter mUpdatePresenter;
+
+    /**
+     * 夜间模式：
+     * 1、暂时不能实现持久化，因为recreate会产生比较多棘手的小问题
+     * 2、recreate后，rxjava会调用subscriber.onError，所以首页几个fragment的presenter需要加入mView != null的判断
+     * 3、切换日/夜间模式之前需要switchFragment(getString(R.string.stu));
+     *    因为recreate之后，不知道为什么还会去加载原来的fragment一次，导致如果是SellFragment时一直会有那个加载的ProgressDialog
+     */
+    public static boolean mNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,15 +210,28 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
                     startActivity(intent);
                     return false;
                 }
-                switchFragment(menuItem);
+                if (menuItem.getItemId() == R.id.nav_daynight) {
+                    if (!mNightMode) {
+                        switchFragment(getString(R.string.stu));
+                        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        recreate();
+                        mNightMode = true;
+                    } else {
+                        switchFragment(getString(R.string.stu));
+                        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        recreate();
+                        mNightMode = false;
+                    }
+                    return false;
+                }
+                switchFragment(menuItem.getTitle().toString());
                 mDrawerLayout.closeDrawers();
                 return false;
             }
         });
     }
 
-    private void switchFragment(MenuItem menuItem) {
-        String title = menuItem.getTitle().toString();
+    private void switchFragment(String title) {
         if (title.equals(getString(R.string.carpool))) {
             if (currentFragment instanceof CarpoolFragment) {
                 return;
@@ -267,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setVisible(true);
         mMainMenuItem.setIcon(R.drawable.ic_menu_sell_my);
+        mMainMenuItem.setTitle("我的转让");
         currentFragment = new SellFragment();
         mTabLayout.setVisibility(View.GONE);
     }
@@ -275,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setVisible(true);
         mMainMenuItem.setIcon(R.drawable.ic_nav_date);
+        mMainMenuItem.setTitle("我的约");
         currentFragment = new DateFragment();
         mTabLayout.setVisibility(View.VISIBLE);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -318,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         mFabBtn.setVisibility(View.VISIBLE);
         mMainMenuItem.setVisible(true);
         mMainMenuItem.setIcon(R.drawable.ic_nav_car);
+        mMainMenuItem.setTitle("我的拼车");
         currentFragment = new CarpoolFragment();
         mTabLayout.setVisibility(View.GONE);
     }

@@ -75,6 +75,9 @@ public class PicPostActivity extends AppCompatActivity implements IPicPostView {
         setContentView(R.layout.activity_sell_post);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
 
         mFragmentIndex = getIntent().getIntExtra(FragmentIndex.TAG, FragmentIndex.SELL);
 

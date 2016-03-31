@@ -32,16 +32,19 @@ public class MyBusinessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mybusiness);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
 
         mOrderActivityConstant = getIntent().getIntExtra(MyBusinessConstant.TAG, 1);
 
         if (mOrderActivityConstant == MyBusinessConstant.CARPOOL) {
             mToolbar.setTitle(getString(R.string.mine_title_1));
             mFragment = new MyCarpoolFragment();
-        }else if (mOrderActivityConstant == MyBusinessConstant.DATE) {
+        } else if (mOrderActivityConstant == MyBusinessConstant.DATE) {
             mToolbar.setTitle(getString(R.string.mine_title_2));
             mFragment = new MyDateFragment();
-        }else if (mOrderActivityConstant == MyBusinessConstant.SELL) {
+        } else if (mOrderActivityConstant == MyBusinessConstant.SELL) {
             mToolbar.setTitle("我的转让");
             mFragment = new MySellFragment();
         }

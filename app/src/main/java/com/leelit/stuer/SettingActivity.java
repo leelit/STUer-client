@@ -27,6 +27,9 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
         initToolbar();
         getFragmentManager().beginTransaction().replace(R.id.content, new MySettingFragment()).commit();
         originalNoOfflineSellSetting = SettingUtils.noOfflineSell();

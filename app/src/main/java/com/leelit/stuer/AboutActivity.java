@@ -60,6 +60,9 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
         UiUtils.initBaseToolBar(this, mToolbar, "关于");
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
         for (Map.Entry<String, String> entry : referenceMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
