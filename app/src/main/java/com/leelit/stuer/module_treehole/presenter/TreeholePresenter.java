@@ -1,8 +1,10 @@
-package com.leelit.stuer.module_treehole;
+package com.leelit.stuer.module_treehole.presenter;
 
 import com.leelit.stuer.base_presenter.IPresenter;
 import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
+import com.leelit.stuer.module_treehole.model.TreeholeModel;
+import com.leelit.stuer.module_treehole.viewinterface.ITreeholeView;
 
 import java.util.ArrayList;
 import java.util.Collections;

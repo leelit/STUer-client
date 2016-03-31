@@ -1,4 +1,4 @@
-package com.leelit.stuer.module_treehole;
+package com.leelit.stuer.module_treehole.model;
 
 import com.leelit.stuer.bean.TreeholeComment;
 import com.leelit.stuer.bean.TreeholeLocalInfo;

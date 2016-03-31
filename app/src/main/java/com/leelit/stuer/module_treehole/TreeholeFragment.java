@@ -8,6 +8,8 @@ import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.base_view.BaseListFragment;
 import com.leelit.stuer.bean.TreeholeLocalInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
+import com.leelit.stuer.module_treehole.presenter.TreeholePresenter;
+import com.leelit.stuer.module_treehole.viewinterface.ITreeholeView;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import java.util.ArrayList;

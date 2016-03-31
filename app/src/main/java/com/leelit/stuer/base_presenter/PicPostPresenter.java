@@ -4,7 +4,7 @@ import com.leelit.stuer.base_view.viewinterface.IPicPostView;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.module_sell.model.SellModel;
-import com.leelit.stuer.module_treehole.TreeholeModel;
+import com.leelit.stuer.module_treehole.model.TreeholeModel;
 
 import java.io.File;
 
