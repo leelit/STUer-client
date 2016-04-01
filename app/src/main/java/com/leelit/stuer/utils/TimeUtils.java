@@ -35,6 +35,7 @@ public class TimeUtils {
     }
 
     public static String compareNowWithBefore(String datetime) {
+        String noSecondDatetime = new StringBuilder(datetime).delete(datetime.length() - 3, datetime.length()).toString();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Map<String, String> detail = getDetailTime(datetime);
@@ -43,7 +44,7 @@ public class TimeUtils {
             long timeGap = now.getTime() - date.getTime();
             long dayGap = timeGap / DAY_MS;
             if (dayGap >= 30) {
-                return new StringBuilder(datetime).delete(datetime.length() - 3, datetime.length()).toString();
+                return noSecondDatetime;
             } else if (dayGap > 2) {
                 return new StringBuilder().append(detail.get("month")).append("-").append(detail.get("day")).append(" ").append(detail.get("hour")).append(":").append(detail.get("minute")).toString();
             } else if (dayGap == 2) {
@@ -58,12 +59,14 @@ public class TimeUtils {
             long minGap = ((timeGap / MIN_MS) - dayGap * 24 * 60 - hourGap * 60);
             if (minGap > 0) {
                 return minGap + "分钟前";
-            } else {
+            } else if (minGap == 0) {
                 return "刚刚";
+            } else {
+                return noSecondDatetime;
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            return datetime;
+            return noSecondDatetime;
         }
     }
 

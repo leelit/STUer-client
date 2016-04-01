@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="recycler_text_right_to_icon">20dp</dimen>
+    <dimen name="spinner_height">18dp</dimen>
+    <dimen name="login_edittext_margin">10dp</dimen>
 </resources>

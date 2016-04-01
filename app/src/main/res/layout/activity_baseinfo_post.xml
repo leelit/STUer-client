@@ -36,7 +36,7 @@
                 <Spinner
                     android:id="@+id/spinner_date_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/spinner_height"
                     android:entries="@array/dateType"/>
             </LinearLayout>
 
@@ -59,7 +59,7 @@
                 <Spinner
                     android:id="@+id/spinner_route"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/spinner_height"
                     android:entries="@array/route"/>
             </LinearLayout>
 
@@ -82,7 +82,7 @@
                 <Spinner
                     android:id="@+id/spinner_temporary_count"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/spinner_height"
                     android:entries="@array/temporaryCount"/>
             </LinearLayout>
 

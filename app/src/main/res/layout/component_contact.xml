@@ -7,30 +7,55 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_post_info">
 
-    <EditText
-        android:id="@+id/et_name"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="昵称"/>
+        android:layout_marginTop="@dimen/login_edittext_margin">
 
-    <EditText
-        android:id="@+id/et_tel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:digits="0123456789"
-        android:hint="长号"/>
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="昵称"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/et_shortTel"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="0123456789无"
-        android:hint="短号，无则填无"/>
+        android:layout_marginTop="@dimen/login_edittext_margin">
 
-    <EditText
-        android:id="@+id/et_wechat"
+        <EditText
+            android:id="@+id/et_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789"
+            android:hint="手机长号"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="0123456789abcdefghijklmnopqrstuvwxyz-_无"
-        android:hint="微信号，无则填无"/>
+        android:layout_marginTop="@dimen/login_edittext_margin">
+
+        <EditText
+            android:id="@+id/et_shortTel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789无"
+            android:hint="短号，无则填无"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_edittext_margin">
+
+        <EditText
+            android:id="@+id/et_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyz-_无"
+            android:hint="微信号，无则填无"/>
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>
