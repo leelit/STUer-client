@@ -67,12 +67,11 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
 
     /**
      * 夜间模式：
-     * 1、暂时不能实现持久化，因为recreate会产生比较多棘手的小问题
-     * 2、recreate后，rxjava会调用subscriber.onError，所以首页几个fragment的presenter需要加入mView != null的判断
-     * 3、切换日/夜间模式之前需要switchFragment(getString(R.string.stu));
-     *    因为recreate之后，不知道为什么还会去加载原来的fragment一次，导致如果是SellFragment时一直会有那个加载的ProgressDialog
+     * 1、recreate后，rxjava会调用subscriber.onError，所以首页几个fragment的presenter需要加入mView != null的判断
+     * 2、切换日/夜间模式之前需要switchFragment(getString(R.string.stu));
+     * 因为recreate之后，不知道为什么还会去加载原来的fragment一次，导致如果是SellFragment时一直会有那个加载的ProgressDialog
      */
-    public static boolean mNightMode;
+    public static final String CURRENT_NIGHT_MODE = "current_night_mode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this, mNavigationView);
+        if (UiUtils.isNightMode(this)) {
+            return;
+        }
 
         if (SettingUtils.autoCheckUpdate()) {
             mUpdatePresenter = new UpdatePresenter(this);
@@ -172,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
 
 
     private void initToolbar() {
+        mToolbar.setTitle(getString(R.string.carpool));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -211,16 +214,16 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
                     return false;
                 }
                 if (menuItem.getItemId() == R.id.nav_daynight) {
-                    if (!mNightMode) {
+                    if (!SPUtils.getBoolean(CURRENT_NIGHT_MODE)) {
                         switchFragment(getString(R.string.stu));
                         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         recreate();
-                        mNightMode = true;
+                        SPUtils.save(CURRENT_NIGHT_MODE, true);
                     } else {
                         switchFragment(getString(R.string.stu));
                         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         recreate();
-                        mNightMode = false;
+                        SPUtils.save(CURRENT_NIGHT_MODE, false);
                     }
                     return false;
                 }
@@ -359,7 +362,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        if (mDrawerToggle != null) {
+            mDrawerToggle.syncState();
+        }
     }
 
     @Override

@@ -113,7 +113,7 @@ public class UiUtils {
     public static boolean isNightMode(AppCompatActivity activity) {
         int uiMode = activity.getResources().getConfiguration().uiMode;
         int dayNightUiMode = uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (MainActivity.mNightMode && dayNightUiMode != Configuration.UI_MODE_NIGHT_YES) {
+        if (SPUtils.getBoolean(MainActivity.CURRENT_NIGHT_MODE) && dayNightUiMode != Configuration.UI_MODE_NIGHT_YES) {
             activity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             activity.recreate();
             return true;

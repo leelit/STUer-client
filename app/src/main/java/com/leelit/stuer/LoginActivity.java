@@ -40,10 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         UiUtils.setTranslucentStatusBar(this);
-        if (UiUtils.isNightMode(this)) {
+        initSP(); // 放在下面debug时虽然会执行到，但就是不显示...
+        if (UiUtils.isNightMode(this)){
             return;
         }
-        initSP();
+
         initToolbar("填写个人信息");
     }
 
