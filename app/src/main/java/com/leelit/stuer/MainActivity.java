@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
             mUpdatePresenter.checkNewVersion();
         }
 
+        // 首次进入跳转到LoginActivity
         if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 双击Toolbar滚回顶部
                 long currentTimeMillis = System.currentTimeMillis();
                 if (currentTimeMillis - mToolbarClickLastTime >= 2000) {
                     mToolbarClickLastTime = System.currentTimeMillis();
@@ -370,7 +372,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
     }
 
     @Override
@@ -381,6 +385,10 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         return true;
     }
 
+    /**
+     * 跳转到MyBusinessActivity
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -413,6 +421,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
         } else {
+            // 双击退出
             long currentTime = System.currentTimeMillis();
             long timeGap = currentTime - mBackClickLastTime;
             if (timeGap >= 2000) {
@@ -426,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
 
     @Override
     public void showCheckUpdateProgressDialog() {
-
+        // no show
     }
 
     @Override
