@@ -87,8 +87,10 @@ public class PicPostActivity extends AppCompatActivity implements IPicPostView {
         initUploadImageUri();
 
         if (mFragmentIndex == FragmentIndex.SELL) {
+            mToolbar.setTitle("发布转让信息");
             initSellInfoBean();
         }else if (mFragmentIndex == FragmentIndex.TREEHOLE) {
+            mToolbar.setTitle("发布树洞");
             initTreeholeBean();
         }
     }

@@ -10,7 +10,7 @@ import rx.schedulers.Schedulers;
  */
 public class SupportModelUtils {
 
-    public static final String HOST = "http://192.168.191.1:8080/STUer/";
+    public static final String HOST = "http://172.18.54.5:8080/STUer/";
 
 
     /**

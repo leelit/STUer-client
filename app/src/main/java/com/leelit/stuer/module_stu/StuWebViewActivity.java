@@ -11,7 +11,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.leelit.stuer.R;
@@ -25,9 +25,9 @@ public class StuWebViewActivity extends AppCompatActivity {
     @InjectView(R.id.webView)
     WebView mWebView;
     @InjectView(R.id.btn_back)
-    Button mBtnBack;
-    @InjectView(R.id.btn_ahead)
-    Button mBtnAhead;
+    ImageView mBtnBack;
+    @InjectView(R.id.btn_forward)
+    ImageView mBtnForward;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.progressBar)
@@ -76,7 +76,7 @@ public class StuWebViewActivity extends AppCompatActivity {
             }
         });
 
-        mBtnAhead.setOnClickListener(new View.OnClickListener() {
+        mBtnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mWebView.goForward();

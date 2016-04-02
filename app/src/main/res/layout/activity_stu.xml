@@ -39,27 +39,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-        <Button
-            android:id="@+id/btn_back"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="?attr/colorPrimary"
-            android:text="back"
-            android:textColor="#FFFFFF"/>
+            android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_ahead"
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/stu_back"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="?attr/colorPrimary"
-            android:text="forward"
-            android:textColor="#FFFFFF"/>
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/btn_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/stu_forward"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
