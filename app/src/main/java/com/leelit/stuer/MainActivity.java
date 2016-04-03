@@ -1,7 +1,12 @@
 package com.leelit.stuer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,9 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.leelit.stuer.base_view.BaseInfoFragment;
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.tabLayout)
     TabLayout mTabLayout;
+    @InjectView(R.id.content)
+    LinearLayout mContent;
 
     private MenuItem mMainMenuItem;
 
@@ -64,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     private long mBackClickLastTime = System.currentTimeMillis();
 
     private UpdatePresenter mUpdatePresenter;
+
+    private NetChangedReceiver mNetChangedReceiver = new NetChangedReceiver();
 
     /**
      * 夜间模式：
@@ -94,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
             finish();
             return;  // must return here
         }
+
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(mNetChangedReceiver, intentFilter);
 
         initToolbar();
         initNavigationView();
@@ -464,6 +478,29 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         super.onDestroy();
         if (mUpdatePresenter != null) {
             mUpdatePresenter.doClear();
+        }
+        unregisterReceiver(mNetChangedReceiver);
+    }
+
+    private class NetChangedReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
+                // 有网络
+                if (mContent.getChildAt(0).getId() == R.id.no_net_layout) {
+                    mContent.removeViewAt(0);
+                }
+            } else {
+                // 无网络
+                // 防止多次添加这个View
+                if (!(mContent.getChildAt(0).getId() == R.id.no_net_layout)) {
+                    LinearLayout netErrorLayout = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.no_net_layout, mContent, false);
+                    mContent.addView(netErrorLayout, 0);
+                }
+            }
         }
     }
 }
