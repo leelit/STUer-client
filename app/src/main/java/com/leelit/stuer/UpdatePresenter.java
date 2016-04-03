@@ -1,7 +1,8 @@
 package com.leelit.stuer;
 
 import com.leelit.stuer.base_presenter.IPresenter;
-import com.leelit.stuer.utils.SupportModelUtils;
+import com.leelit.stuer.constant.NetConstant;
+import com.leelit.stuer.utils.AppInfoUtils;
 
 import java.io.IOException;
 
@@ -38,17 +39,22 @@ public class UpdatePresenter implements IPresenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 mView.dismissCheckUpdateProgressDialog();
+                String latestVersionAndInfo = "";
                 String latestVersion = MyApplication.VERSION;
+                String info = "";
                 try {
-                    latestVersion = responseBody.string(); // 得到最新的版本
+                    latestVersionAndInfo = responseBody.string(); // 得到最新的版本
+                    // ..-version-info
+                    latestVersion = latestVersionAndInfo.split("-")[1];
+                    info = latestVersionAndInfo.split("-")[2];
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 if (latestVersion.equals(MyApplication.VERSION)) {
                     mView.noNewVersion();
                 } else {
-                    String newVersionUrl = SupportModelUtils.HOST + latestVersion + ".txt";
-                    mView.doAfterNewVersionExist(newVersionUrl);
+                    String newVersionUrl = NetConstant.HOST + AppInfoUtils.getAppName() + "_" + latestVersion + ".apk";
+                    mView.doAfterNewVersionExist(newVersionUrl, info);
                 }
             }
         };

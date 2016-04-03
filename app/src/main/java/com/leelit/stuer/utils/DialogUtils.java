@@ -48,12 +48,12 @@ public class DialogUtils {
         }).create();
     }
 
-    public static void showUpdateDialog(final Context context, final String newVersionUrl) {
+    public static void showUpdateDialog(final Context context, final String newVersionUrl, String info) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("检测到有新的版本")
-                .setMessage("是否下载？")
+                .setMessage(info)
                 .setNegativeButton("取消", null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton("下载", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 跳转到浏览器进行下载任务

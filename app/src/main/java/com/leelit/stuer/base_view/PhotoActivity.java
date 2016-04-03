@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.leelit.stuer.R;
+import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.utils.ImageUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -34,6 +35,8 @@ public class PhotoActivity extends AppCompatActivity {
 
     PhotoViewAttacher mAttacher;
 
+    public static final String IMAGE_HOST = NetConstant.IMAGE_HOST;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,7 @@ public class PhotoActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         final String picName = getIntent().getStringExtra("picName");
         RequestCreator requestCreator = Picasso.with(this)
-                .load("http://192.168.191.1:8080/STUer/picture/" + picName + ".jpg");
+                .load(IMAGE_HOST + picName + ".jpg");
         requestCreator.into(mImageView);
         requestCreator.fetch(new Callback() {
             @Override

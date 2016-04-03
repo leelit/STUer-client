@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_view.PhotoActivity;
 import com.leelit.stuer.utils.ScreenUtils;
-import com.leelit.stuer.utils.SupportModelUtils;
 import com.leelit.stuer.utils.TimeUtils;
 import com.squareup.picasso.Picasso;
 
@@ -74,7 +73,7 @@ public class TreeholeView extends RelativeLayout {
         mPhoto.setVisibility(View.VISIBLE);
         mPhoto.setClickable(true);
         Picasso.with(mContext)
-                .load(SupportModelUtils.HOST + "picture/" + picAddress + ".jpg")
+                .load(PhotoActivity.IMAGE_HOST + picAddress + ".jpg")
                 .resize(ScreenUtils.dp2px(75f), ScreenUtils.dp2px(75f))
                 .centerCrop()
                 .into(mPhoto);

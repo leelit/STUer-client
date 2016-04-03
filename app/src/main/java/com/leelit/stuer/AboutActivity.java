@@ -111,8 +111,8 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
         if (id == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "分享一个挺实用的汕大校园客户端，http://www.weibo.com/leelit");
-            startActivity(Intent.createChooser(intent, getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, "分享一个挺实用的汕大校园客户端，http://www.weibo.com/stuerandroid");
+            startActivity(Intent.createChooser(intent, "分享"));
             return true;
         }
         if (id == R.id.action_update) {
@@ -139,17 +139,13 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
     }
 
     @Override
-    public void doAfterNewVersionExist(String newVersionUrl) {
-        showDialog(newVersionUrl);
+    public void doAfterNewVersionExist(String newVersionUrl, String info) {
+        DialogUtils.showUpdateDialog(this, newVersionUrl,info);
     }
 
     @Override
     public void noNewVersion() {
         Toast.makeText(AboutActivity.this, "当前已是最新版本", Toast.LENGTH_SHORT).show();
-    }
-
-    private void showDialog(final String newVersionUrl) {
-        DialogUtils.showUpdateDialog(this, newVersionUrl);
     }
 
     @Override

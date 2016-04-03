@@ -387,6 +387,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
 
     /**
      * 跳转到MyBusinessActivity
+     *
      * @return
      */
     @Override
@@ -449,8 +450,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
     }
 
     @Override
-    public void doAfterNewVersionExist(String newVersionUrl) {
-        DialogUtils.showUpdateDialog(this, newVersionUrl);
+    public void doAfterNewVersionExist(String newVersionUrl, String info) {
+        DialogUtils.showUpdateDialog(this, newVersionUrl,info);
     }
 
     @Override

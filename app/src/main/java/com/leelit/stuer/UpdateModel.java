@@ -1,5 +1,6 @@
 package com.leelit.stuer;
 
+import com.leelit.stuer.constant.NetConstant;
 import com.leelit.stuer.utils.SupportModelUtils;
 
 import okhttp3.ResponseBody;
@@ -13,7 +14,7 @@ import rx.Subscriber;
  */
 public class UpdateModel {
 
-    private static final String BASE_URL = SupportModelUtils.HOST;
+    public static final String BASE_URL = NetConstant.HOST;
 
     private UpdateService mService = new Retrofit.Builder()
             .baseUrl(BASE_URL)

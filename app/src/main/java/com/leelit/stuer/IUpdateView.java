@@ -10,7 +10,7 @@ public interface IUpdateView {
 
     void netError();
 
-    void doAfterNewVersionExist(String newVersionUrl);
+    void doAfterNewVersionExist(String newVersionUrl,String info);
 
     void noNewVersion();
 }
