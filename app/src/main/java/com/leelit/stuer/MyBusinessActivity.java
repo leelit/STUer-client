@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.module_baseinfo.carpool.MyCarpoolFragment;
@@ -20,8 +19,6 @@ public class MyBusinessActivity extends AppCompatActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.content)
-    FrameLayout mContent;
 
     private int mOrderActivityConstant;
     private Fragment mFragment;

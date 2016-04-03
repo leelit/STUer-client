@@ -493,15 +493,16 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         public void onReceive(Context context, Intent intent) {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            View netErrorChild = mContent.getChildAt(0);
             if (networkInfo != null && networkInfo.isAvailable()) {
                 // 有网络
-                if (mContent.getChildAt(0).getId() == R.id.no_net_layout) {
+                if (netErrorChild != null && netErrorChild.getId() == R.id.no_net_layout) {
                     mContent.removeViewAt(0);
                 }
             } else {
                 // 无网络
                 // 防止多次添加这个View
-                if (!(mContent.getChildAt(0).getId() == R.id.no_net_layout)) {
+                if (netErrorChild != null && !(netErrorChild.getId() == R.id.no_net_layout)) {
                     LinearLayout netErrorLayout = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.no_net_layout, mContent, false);
                     mContent.addView(netErrorLayout, 0);
                 }
