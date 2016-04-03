@@ -89,11 +89,19 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        // 状态栏
         UiUtils.setTranslucentStatusBar(this, mNavigationView);
+
+        // 注册网络变化广播，必须放在夜间模式前，否则recreate时回调onDestroy时unregister出错
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(mNetChangedReceiver, intentFilter);
+
+        // 夜间模式
         if (UiUtils.isNightMode(this)) {
             return;
         }
 
+        // 检查更新
         if (SettingUtils.autoCheckUpdate()) {
             mUpdatePresenter = new UpdatePresenter(this);
             mUpdatePresenter.checkNewVersion();
@@ -105,9 +113,6 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
             finish();
             return;  // must return here
         }
-
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(mNetChangedReceiver, intentFilter);
 
         initToolbar();
         initNavigationView();
@@ -465,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
 
     @Override
     public void doAfterNewVersionExist(String newVersionUrl, String info) {
-        DialogUtils.showUpdateDialog(this, newVersionUrl,info);
+        DialogUtils.showUpdateDialog(this, newVersionUrl, info);
     }
 
     @Override

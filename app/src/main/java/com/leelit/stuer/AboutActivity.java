@@ -31,6 +31,11 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
     LinearLayout mContributor;
     @InjectView(R.id.reference)
     LinearLayout mReference;
+    @InjectView(R.id.open_source)
+    LinearLayout mOpenSource;
+
+    private static final String SOURCE_ADDRESS = "https://github.com/leelit/STUer-client";
+
 
     private UpdatePresenter mPresenter = new UpdatePresenter(this);
 
@@ -53,6 +58,7 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
         contributorMap.put("Back End: 12jxli", "http://weibo.com/leelit");
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,18 +72,20 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
         for (Map.Entry<String, String> entry : referenceMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            TextView textView = createReferenceTextView(key, value);
+            TextView textView = createUrlTextView(key, value);
             mReference.addView(textView);
         }
         for (Map.Entry<String, String> entry : contributorMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            TextView textView = createReferenceTextView(key, value);
+            TextView textView = createUrlTextView(key, value);
             mContributor.addView(textView);
         }
+        TextView textView = createUrlTextView(SOURCE_ADDRESS, SOURCE_ADDRESS);
+        mOpenSource.addView(textView);
     }
 
-    private TextView createReferenceTextView(String key, final String value) {
+    private TextView createUrlTextView(String key, final String value) {
         TextView textView = new TextView(this);
         textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         textView.setText(key);
@@ -125,7 +133,7 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
 
     @Override
     public void showCheckUpdateProgressDialog() {
-        ProgressDialogUtils.show(this,"检查更新中...");
+        ProgressDialogUtils.show(this, "检查更新中...");
     }
 
     @Override
@@ -140,7 +148,7 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
 
     @Override
     public void doAfterNewVersionExist(String newVersionUrl, String info) {
-        DialogUtils.showUpdateDialog(this, newVersionUrl,info);
+        DialogUtils.showUpdateDialog(this, newVersionUrl, info);
     }
 
     @Override

@@ -42,5 +42,8 @@
 
     <string name="contributor">contributors: </string>
     <string name="reference">powered by awesome open source projects: </string>
+    <string name="my_open_source">项目开源地址：</string>
+    <string name="copyright">©2016 stuer.applinzi.com</string>
+    <string name="copyright_1">All Rights Reserved</string>
 
 </resources>
