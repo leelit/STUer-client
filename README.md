@@ -7,4 +7,17 @@ STUer的后台使用Severlet + JDBC + MySql的组合进行开发，没有使用�
 # ScreenShot
 
 ![](https://github.com/leelit/STUer-client/blob/master/art/stuer.gif)
-![](https://github.com/leelit/STUer-client/blob/master/art/stuer.png)
+
+
+# 实践
+
+- 网络请求：retrofit2 + gson
+- 异步处理：RxJava + RxAndroid
+- 图片处理：PhotoView + picasso
+- 文字缓存：Sqlite
+- 沉浸式状态栏：SystemBarTint + StatusBarCompat
+- 一些系统新特性：夜间模式，5.x控件
+...
+
+#LICENSE
+[MIT](https://github.com/leelit/STUer-client/blob/master/LICENSE)
