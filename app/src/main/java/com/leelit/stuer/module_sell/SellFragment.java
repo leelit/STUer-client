@@ -40,11 +40,6 @@ public class SellFragment extends BaseListFragment implements ISellView {
     }
 
 
-    public void notifyItem(int position) {
-        mList.get(position).setStatus("off");
-        mAdapter.notifyItemChanged(position);
-    }
-
     @Override
     public void showNoDataFromNet() {
         toast("没有新的数据，请稍后再来...");

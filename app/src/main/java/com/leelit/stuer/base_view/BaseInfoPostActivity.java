@@ -29,11 +29,14 @@ import com.leelit.stuer.bean.CarpoolingInfo;
 import com.leelit.stuer.bean.DatingInfo;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
+import com.leelit.stuer.events.PostSuccessfullyEvent;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.TimeUtils;
 import com.leelit.stuer.utils.UiUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -289,7 +292,7 @@ public class BaseInfoPostActivity extends AppCompatActivity implements IBaseInfo
 
     @Override
     public void doAfterPostSuccessfully() {
-        setResult(RESULT_OK);
+        EventBus.getDefault().post(new PostSuccessfullyEvent());
 
         Intent intent = new Intent(BaseInfoPostActivity.this, MyBusinessActivity.class);
         if (mFragmentIndex == FragmentIndex.CARPOOL) {

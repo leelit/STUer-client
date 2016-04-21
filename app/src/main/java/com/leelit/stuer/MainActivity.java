@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +32,9 @@ import com.leelit.stuer.base_view.PicPostActivity;
 import com.leelit.stuer.constant.FragmentIndex;
 import com.leelit.stuer.constant.MyBusinessConstant;
 import com.leelit.stuer.constant.TabConstant;
+import com.leelit.stuer.events.DelBaseInfoEvent;
+import com.leelit.stuer.events.NoShowOfflineEvent;
+import com.leelit.stuer.events.PostSuccessfullyEvent;
 import com.leelit.stuer.module_baseinfo.carpool.CarpoolFragment;
 import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
@@ -42,6 +44,9 @@ import com.leelit.stuer.utils.DialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.SettingUtils;
 import com.leelit.stuer.utils.UiUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -89,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        // 事件总线
+        EventBus.getDefault().register(this);
+
         // 状态栏
         UiUtils.setTranslucentStatusBar(this, mNavigationView);
 
@@ -148,48 +157,28 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
                     intent = new Intent(MainActivity.this, PicPostActivity.class);
                     intent.putExtra(FragmentIndex.TAG, FragmentIndex.TREEHOLE);
                 }
-                startActivityForResult(intent, MODULE_ALL_POST_INFO_REQUEST);
+                startActivity(intent);
             }
         });
     }
 
-    public static final int MODULE_ALL_POST_INFO_REQUEST = 1; // 成功“发送”消息后所有模块刷新
-    public static final int MODULE_BASEINFO_JOIN_DELETE_REQUEST = 2; // BaseInfo成功加入或者删除后刷新
-    public static final int MODULE_SELL_RELOAD_DB = 3; // Sell设置“下架商品不可见”重新加载数据库
-    public static final int MODULE_SELL_OFFLINE_ITEM = 4; // 商家下架商品，返回时自己下架的要局部刷新
+    @Subscribe
+    public void postSuccessfully(PostSuccessfullyEvent event) {
+        currentFragment.autoRefresh();
+    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e("tag", requestCode + " : " + resultCode);
-
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case MODULE_ALL_POST_INFO_REQUEST:
-                    currentFragment.autoRefresh();
-                    break;
-
-                case MODULE_BASEINFO_JOIN_DELETE_REQUEST:
-                    if (currentFragment instanceof BaseInfoFragment) {
-                        currentFragment.autoRefresh();
-                    }
-                    break;
-
-                case MODULE_SELL_RELOAD_DB:
-                    if (currentFragment instanceof SellFragment) {
-                        ((SellFragment) currentFragment).loadDataFromDb();
-                    }
-                    break;
-                case MODULE_SELL_OFFLINE_ITEM:
-                    if (currentFragment instanceof SellFragment) {
-                        for (int i : data.getIntegerArrayListExtra("positions")) {
-                            ((SellFragment) currentFragment).notifyItem(i);
-                        }
-                    }
-                    break;
-            }
+    @Subscribe
+    public void deleteBaseInfo(DelBaseInfoEvent event) {
+        if (currentFragment instanceof BaseInfoFragment) {
+            currentFragment.autoRefresh();
         }
+    }
 
+    @Subscribe
+    public void reloadSellDb(NoShowOfflineEvent event) {
+        if (currentFragment instanceof SellFragment) {
+            ((SellFragment) currentFragment).loadDataFromDb();
+        }
     }
 
 
@@ -226,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if (menuItem.getItemId() == R.id.nav_setting) {
                     Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                    startActivityForResult(intent, MODULE_SELL_RELOAD_DB);
+                    startActivity(intent);
                     return false;
                 }
                 if (menuItem.getItemId() == R.id.nav_about) {
@@ -419,15 +408,15 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         if (id == R.id.action_mine) {
             if (currentFragment instanceof CarpoolFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
-                startActivityForResult(intent, MODULE_BASEINFO_JOIN_DELETE_REQUEST);
+                startActivity(intent);
             } else if (currentFragment instanceof DateFragment) {
                 Intent intent = new Intent(MainActivity.this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.DATE);
-                startActivityForResult(intent, MODULE_BASEINFO_JOIN_DELETE_REQUEST);
+                startActivity(intent);
             } else if (currentFragment instanceof SellFragment) {
                 Intent intent = new Intent(this, MyBusinessActivity.class);
                 intent.putExtra(MyBusinessConstant.TAG, MyBusinessConstant.SELL);
-                startActivityForResult(intent, MODULE_SELL_OFFLINE_ITEM);
+                startActivity(intent);
             }
             return true;
         }
@@ -484,6 +473,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         if (mUpdatePresenter != null) {
             mUpdatePresenter.doClear();
         }
+        EventBus.getDefault().unregister(this);
         unregisterReceiver(mNetChangedReceiver);
     }
 

@@ -1,6 +1,5 @@
-package com.leelit.stuer.base_presenter;
+package com.leelit.stuer.base_view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leelit.stuer.R;
-import com.leelit.stuer.base_view.BaseListFragment;
+import com.leelit.stuer.base_presenter.IMyBaseInfoPresenter;
 import com.leelit.stuer.base_view.viewinterface.IMyBaseInfoView;
 import com.leelit.stuer.bean.BaseInfo;
+import com.leelit.stuer.events.DelBaseInfoEvent;
 import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,7 +129,7 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
     @Override
     public void doAfterDeleteOrderSuccessfully(int position) {
         mAdapter.removeData(position);
-        getActivity().setResult(Activity.RESULT_OK);
+        EventBus.getDefault().post(new DelBaseInfoEvent());
     }
 
     @Override

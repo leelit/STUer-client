@@ -2,7 +2,7 @@ package com.leelit.stuer.module_baseinfo.date;
 
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.base_presenter.IMyBaseInfoPresenter;
-import com.leelit.stuer.base_presenter.MyBaseInfoFragment;
+import com.leelit.stuer.base_view.MyBaseInfoFragment;
 import com.leelit.stuer.module_baseinfo.date.presenter.MyDatePresenter;
 
 /**

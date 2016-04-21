@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.leelit.stuer.events.NoShowOfflineEvent;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.SettingUtils;
 import com.leelit.stuer.utils.UiUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -44,9 +47,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private void checkResult() {
         if (originalNoOfflineSellSetting != SettingUtils.noOfflineSell()) {
-            setResult(RESULT_OK);
-        } else {
-            setResult(RESULT_CANCELED);
+            EventBus.getDefault().post(new NoShowOfflineEvent());
         }
     }
 

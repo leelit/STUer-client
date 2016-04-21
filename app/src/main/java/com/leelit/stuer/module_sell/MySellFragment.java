@@ -1,10 +1,7 @@
 package com.leelit.stuer.module_sell;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 
-import com.leelit.stuer.MainActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_adapters.BaseListAdapter;
 import com.leelit.stuer.base_view.BaseListFragment;
@@ -58,10 +55,6 @@ public class MySellFragment extends BaseListFragment implements IMySellView {
 
     @Override
     public void doAfterOfflineSell(int position) {
-        mUpdate.add(position);
-        Intent intent = new Intent(getContext(), MainActivity.class); // 返回时SellFragment时局部刷新商家下架的
-        intent.putIntegerArrayListExtra("positions", mUpdate);
-        getActivity().setResult(Activity.RESULT_OK, intent);
         mAdapter.notifyItemChanged(position); // 局部刷新MySellFrament
     }
 

@@ -25,6 +25,7 @@ import com.leelit.stuer.R;
 import com.leelit.stuer.bean.SellInfo;
 import com.leelit.stuer.bean.TreeholeInfo;
 import com.leelit.stuer.constant.FragmentIndex;
+import com.leelit.stuer.events.PostSuccessfullyEvent;
 import com.leelit.stuer.module_sell.Utils;
 import com.leelit.stuer.base_presenter.PicPostPresenter;
 import com.leelit.stuer.base_view.viewinterface.IPicPostView;
@@ -34,6 +35,8 @@ import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.ScreenUtils;
 import com.leelit.stuer.utils.UiUtils;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -319,7 +322,7 @@ public class PicPostActivity extends AppCompatActivity implements IPicPostView {
 
     @Override
     public void doAfterPostSuccessfully() {
-        setResult(RESULT_OK);
+        EventBus.getDefault().post(new PostSuccessfullyEvent());
 
         Toast.makeText(this, "发送成功", Toast.LENGTH_SHORT).show();
         finish();
