@@ -51,6 +51,7 @@ public class AboutActivity extends AppCompatActivity implements IUpdateView {
         referenceMap.put("picasso", "https://github.com/square/picasso");
         referenceMap.put("photoview", "https://github.com/chrisbanes/PhotoView");
         referenceMap.put("systembartint", "https://github.com/jgilfelt/SystemBarTint");
+        referenceMap.put("EventBus", "https://github.com/greenrobot/EventBus");
     }
 
     {

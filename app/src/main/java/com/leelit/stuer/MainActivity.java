@@ -40,10 +40,12 @@ import com.leelit.stuer.module_baseinfo.date.DateFragment;
 import com.leelit.stuer.module_sell.SellFragment;
 import com.leelit.stuer.module_stu.StuFragment;
 import com.leelit.stuer.module_treehole.TreeholeFragment;
+import com.leelit.stuer.utils.AppInfoUtils;
 import com.leelit.stuer.utils.DialogUtils;
 import com.leelit.stuer.utils.SPUtils;
 import com.leelit.stuer.utils.SettingUtils;
 import com.leelit.stuer.utils.UiUtils;
+import com.tencent.android.tpush.XGPushManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,15 +97,26 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+        // 注册网络变化广播，必须放在夜间模式前，否则recreate时回调onDestroy时unregister出错
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(mNetChangedReceiver, intentFilter);
+
+        // 首次进入跳转到LoginActivity
+        if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;  // must return here
+        }
+
+        // XingePush
+        Context context = getApplicationContext();
+        XGPushManager.registerPush(context, AppInfoUtils.getImei());
+
         // 事件总线
         EventBus.getDefault().register(this);
 
         // 状态栏
         UiUtils.setTranslucentStatusBar(this, mNavigationView);
-
-        // 注册网络变化广播，必须放在夜间模式前，否则recreate时回调onDestroy时unregister出错
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(mNetChangedReceiver, intentFilter);
 
         // 夜间模式
         if (UiUtils.isNightMode(this)) {
@@ -114,13 +127,6 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         if (SettingUtils.autoCheckUpdate()) {
             mUpdatePresenter = new UpdatePresenter(this);
             mUpdatePresenter.checkNewVersion();
-        }
-
-        // 首次进入跳转到LoginActivity
-        if (!SPUtils.getBoolean(LoginActivity.IS_REGISTER)) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;  // must return here
         }
 
         initToolbar();
@@ -473,8 +479,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateView {
         if (mUpdatePresenter != null) {
             mUpdatePresenter.doClear();
         }
-        EventBus.getDefault().unregister(this);
         unregisterReceiver(mNetChangedReceiver);
+        EventBus.getDefault().unregister(this);
     }
 
     private class NetChangedReceiver extends BroadcastReceiver {

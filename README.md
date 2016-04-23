@@ -5,7 +5,7 @@ Servlet + JDBC + MySql的组合进行开发，没有使用什么框架，部署�
 
 项目所使用的所有图片资源，基本来源于：[http://iconfont.cn/](http://iconfont.cn/)
 
-由于用户数量较小，所以服务器将不再续费...
+**由于用户数量较小，所以服务器将不再续费...**
 
 # ScreenShot
 
@@ -21,6 +21,11 @@ Servlet + JDBC + MySql的组合进行开发，没有使用什么框架，部署�
 - 一些系统新特性：夜间模式，5.x控件
 - 项目组织：功能模块与公用基类放在顶级包，每个功能模块下用MVP组织，简单逻辑放在V
 - ...
+
+##v1.1.0
+
+- 事件总线：EventBus
+- 推送：腾讯信鸽
 
 #LICENSE
 [MIT](https://github.com/leelit/STUer-client/blob/master/LICENSE)

@@ -23,6 +23,10 @@ public class MyBusinessActivity extends AppCompatActivity {
     private int mOrderActivityConstant;
     private Fragment mFragment;
 
+    public static boolean needPush = false;
+    public static String uniquecode = "";
+    public static String type = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,11 @@ public class MyBusinessActivity extends AppCompatActivity {
             return;
         }
 
+        needPush = getIntent().getBooleanExtra("need_push", false);
+        if (needPush) {
+            uniquecode = getIntent().getStringExtra("unique_code");
+            type = getIntent().getStringExtra("type");
+        }
         mOrderActivityConstant = getIntent().getIntExtra(MyBusinessConstant.TAG, 1);
 
         if (mOrderActivityConstant == MyBusinessConstant.CARPOOL) {

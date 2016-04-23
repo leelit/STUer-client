@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leelit.stuer.MyBusinessActivity;
 import com.leelit.stuer.R;
 import com.leelit.stuer.base_presenter.IMyBaseInfoPresenter;
 import com.leelit.stuer.base_view.viewinterface.IMyBaseInfoView;
 import com.leelit.stuer.bean.BaseInfo;
 import com.leelit.stuer.events.DelBaseInfoEvent;
 import com.leelit.stuer.utils.AppInfoUtils;
+import com.leelit.stuer.utils.MyPushUtils;
 import com.leelit.stuer.utils.ProgressDialogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -104,6 +106,10 @@ public abstract class MyBaseInfoFragment extends BaseListFragment implements IMy
         mList.clear();
         mList.addAll(lists);
         mAdapter.notifyDataSetChanged();
+        if (MyBusinessActivity.needPush) {
+            MyPushUtils.doPush(mList);
+            MyBusinessActivity.needPush = false;
+        }
     }
 
     @Override
